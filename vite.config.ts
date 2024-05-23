@@ -1,7 +1,8 @@
-import { defineConfig } from 'vite'
+import {defineConfig} from 'vite'
 import typescript from '@rollup/plugin-typescript'
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 import * as path from 'path'
+import babel from 'vite-plugin-babel'
 
 export default defineConfig(({ mode }) => {
   const name = 'canvas-editor'
@@ -15,7 +16,7 @@ export default defineConfig(({ mode }) => {
         {
           ...typescript({
             tsconfig: './tsconfig.json',
-            include: ['./src/editor/**']
+            include: ['./src/**']
           }),
           apply: 'build',
           declaration: true,
@@ -27,19 +28,22 @@ export default defineConfig(({ mode }) => {
         lib: {
           name,
           fileName: name,
-          entry: path.resolve(__dirname, 'src/editor/index.ts')
+          formats: ['umd'],
+          // entry: path.resolve(__dirname, 'src/editor/index.ts')
+          entry: path.resolve(__dirname, 'src/main.ts')
         },
         rollupOptions: {
           output: {
-            sourcemap: true
+            sourcemap: false
           }
         }
       }
     }
   }
   return {
-    base: `/${name}/`,
+    base: `./`,
     server: {
+      port: 3001,
       host: '0.0.0.0'
     }
   }

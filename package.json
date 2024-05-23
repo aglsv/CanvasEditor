@@ -32,8 +32,8 @@
   "engines": {
     "node": ">=16.9.1"
   },
-  "type": "module",
   "scripts": {
+    "wpbuild": "webpack --config webpack.prod.js",
     "dev": "vite",
     "lib": "npm run lint && tsc && vite build --mode lib",
     "build": "npm run lint && tsc && vite build --mode app",
@@ -49,23 +49,43 @@
     "release": "node scripts/release.js"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.5",
+    "@babel/preset-env": "^7.24.5",
     "@rollup/plugin-typescript": "^10.0.1",
     "@types/node": "16.18.96",
     "@types/prismjs": "^1.26.0",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-loader": "^8.2.5",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "css-loader": "^6.7.1",
     "cypress": "13.6.0",
     "cypress-file-upload": "^5.0.8",
     "eslint": "7.32.0",
+    "postcss-loader": "^7.0.1",
+    "sass-loader": "^13.0.2",
     "simple-git-hooks": "^2.8.1",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.3.1",
     "typescript": "4.9.5",
+    "url-loader": "^4.1.1",
     "vite": "^2.4.2",
+    "vite-plugin-babel": "^1.2.0",
     "vite-plugin-css-injected-by-js": "^2.1.1",
     "vitepress": "1.0.0-beta.6",
-    "vue": "^3.2.45"
+    "vue": "^3.2.45",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "prismjs": "^1.27.0"
+    "clean-webpack-plugin": "^4.0.0",
+    "jspdf": "^2.5.1",
+    "prismjs": "^1.27.0",
+    "terser-webpack-plugin": "^5.3.10",
+    "webpack-merge": "^5.10.0"
   },
   "simple-git-hooks": {
     "pre-commit": "npm run lint && npm run type:check",

@@ -18,8 +18,8 @@ import {
   TableBorder,
   TdBorder
 } from '..'
-import { LaTexParticle } from '../core/draw/particle/latex/LaTexParticle'
-import { NON_BREAKING_SPACE, ZERO } from '../dataset/constant/Common'
+import {LaTexParticle} from '../core/draw/particle/latex/LaTexParticle'
+import {NON_BREAKING_SPACE, ZERO} from '../dataset/constant/Common'
 import {
   CONTROL_STYLE_ATTR,
   EDITOR_ELEMENT_CONTEXT_ATTR,
@@ -35,19 +35,19 @@ import {
   listTypeElementMapping,
   ulStyleMapping
 } from '../dataset/constant/List'
-import { START_LINE_BREAK_REG } from '../dataset/constant/Regular'
+import {START_LINE_BREAK_REG} from '../dataset/constant/Regular'
 import {
   titleNodeNameMapping,
   titleOrderNumberMapping,
   titleSizeMapping
 } from '../dataset/constant/Title'
-import { ControlComponent, ControlType } from '../dataset/enum/Control'
-import { UlStyle } from '../dataset/enum/List'
-import { DeepRequired } from '../interface/Common'
-import { IControlSelect } from '../interface/Control'
-import { IRowElement } from '../interface/Row'
-import { ITd } from '../interface/table/Td'
-import { ITr } from '../interface/table/Tr'
+import {ControlComponent, ControlType} from '../dataset/enum/Control'
+import {UlStyle} from '../dataset/enum/List'
+import {DeepRequired} from '../interface/Common'
+import {IControlSelect} from '../interface/Control'
+import {IRowElement} from '../interface/Row'
+import {ITd} from '../interface/table/Td'
+import {ITr} from '../interface/table/Tr'
 
 export function unzipElementList(elementList: IElement[]): IElement[] {
   const result: IElement[] = []
@@ -55,7 +55,7 @@ export function unzipElementList(elementList: IElement[]): IElement[] {
     const valueItem = elementList[v]
     const textList = splitText(valueItem.value)
     for (let d = 0; d < textList.length; d++) {
-      result.push({ ...valueItem, value: textList[d] })
+      result.push({...valueItem, value: textList[d]})
     }
   }
   return result
@@ -70,7 +70,7 @@ export function formatElementList(
   elementList: IElement[],
   options: IFormatElementListOption
 ) {
-  const { isHandleFirstElement, editorOptions } = <IFormatElementListOption>{
+  const {isHandleFirstElement, editorOptions} = <IFormatElementListOption>{
     isHandleFirstElement: true,
     ...options
   }
@@ -150,7 +150,7 @@ export function formatElementList(
       const tableId = getUUID()
       el.id = tableId
       if (el.trList) {
-        const { defaultTrMinHeight } = editorOptions.table
+        const {defaultTrMinHeight} = editorOptions.table
         for (let t = 0; t < el.trList.length; t++) {
           const tr = el.trList[t]
           const trId = getUUID()
@@ -220,7 +220,7 @@ export function formatElementList(
         i++
         continue
       }
-      const { prefix, postfix, value, placeholder, code, type, valueSets } =
+      const {prefix, postfix, value, placeholder, code, type, valueSets} =
         el.control
       const {
         editorOptions: {
@@ -274,7 +274,7 @@ export function formatElementList(
             const valueStyleList = valueList.reduce(
               (pre, cur) =>
                 pre.concat(
-                  cur.value.split('').map(v => ({ ...cur, value: v }))
+                  cur.value.split('').map(v => ({...cur, value: v}))
                 ),
               [] as IElement[]
             )
@@ -321,7 +321,7 @@ export function formatElementList(
             const valueStyleList = valueList.reduce(
               (pre, cur) =>
                 pre.concat(
-                  cur.value.split('').map(v => ({ ...cur, value: v }))
+                  cur.value.split('').map(v => ({...cur, value: v}))
                 ),
               [] as IElement[]
             )
@@ -439,7 +439,7 @@ export function formatElementList(
       elementList.splice(i, 1)
       const valueList = splitText(el.value)
       for (let v = 0; v < valueList.length; v++) {
-        elementList.splice(i + v, 0, { ...el, value: valueList[v] })
+        elementList.splice(i + v, 0, {...el, value: valueList[v]})
       }
       el = elementList[i]
     }
@@ -450,7 +450,7 @@ export function formatElementList(
       el.id = getUUID()
     }
     if (el.type === ElementType.LATEX) {
-      const { svg, width, height } = LaTexParticle.convertLaTextToSVG(el.value)
+      const {svg, width, height} = LaTexParticle.convertLaTextToSVG(el.value)
       el.width = el.width || width
       el.height = el.height || height
       el.laTexSVG = svg
@@ -756,9 +756,9 @@ export function getAnchorElement(
   const anchorNextElement = elementList[anchorIndex + 1]
   // 非列表元素 && 当前元素是换行符 && 下一个元素不是换行符 则以下一个元素作为参考元素
   return !anchorElement.listId &&
-    anchorElement.value === ZERO &&
-    anchorNextElement &&
-    anchorNextElement.value !== ZERO
+  anchorElement.value === ZERO &&
+  anchorNextElement &&
+  anchorNextElement.value !== ZERO
     ? anchorNextElement
     : anchorElement
 }
@@ -775,7 +775,7 @@ export function formatElementContext(
 ) {
   const copyElement = getAnchorElement(sourceElementList, anchorIndex)
   if (!copyElement) return
-  const { isBreakWhenWrap = false } = options || {}
+  const {isBreakWhenWrap = false} = options || {}
   // 是否已经换行
   let isBreakWarped = false
   for (let e = 0; e < formatElementList.length; e++) {
@@ -1028,6 +1028,11 @@ export function createDomFromElementList(
         const childDom = buildDom(zipElementList(element.control?.value || []))
         controlElement.innerHTML = childDom.innerHTML
         clipboardDom.append(controlElement)
+      } else if (element.type === ElementType.PAGE_BREAK) {
+        console.log(element, 'pageBack')
+        const pageBack = convertElementToDom(element, options)
+        pageBack.setAttribute('data-pageBack', 'true')
+        clipboardDom.append(pageBack)
       } else if (
         !element.type ||
         element.type === ElementType.LATEX ||
@@ -1055,6 +1060,7 @@ export function createDomFromElementList(
     }
     return clipboardDom
   }
+
   return buildDom(zipElementList(elementList))
 }
 
@@ -1112,6 +1118,7 @@ export function getElementListByHTML(
   options: IGetElementListByHTMLOption
 ): IElement[] {
   const elementList: IElement[] = []
+
   function findTextNode(dom: Element | Node) {
     if (dom.nodeType === 3) {
       const element = convertTextNodeToElement(dom)
@@ -1124,9 +1131,17 @@ export function getElementListByHTML(
         const node = childNodes[n]
         // br元素与display:block元素需换行
         if (node.nodeName === 'BR') {
-          elementList.push({
-            value: '\n'
-          })
+          // 判断是否是分页符
+          if ((dom as HTMLElement).getAttribute('data-pageBack')) {
+            elementList.push({
+              type: ElementType.PAGE_BREAK,
+              value: '\n',
+            })
+          } else {
+            elementList.push({
+              value: '\n',
+            })
+          }
         } else if (node.nodeName === 'A') {
           const aElement = node as HTMLLinkElement
           const value = aElement.innerText
@@ -1193,7 +1208,7 @@ export function getElementListByHTML(
             type: ElementType.SEPARATOR
           })
         } else if (node.nodeName === 'IMG') {
-          const { src, width, height } = node as HTMLImageElement
+          const {src, width, height} = node as HTMLImageElement
           if (src && width && height) {
             elementList.push({
               width,
@@ -1289,6 +1304,7 @@ export function getElementListByHTML(
       }
     }
   }
+
   // 追加dom
   const clipboardDom = document.createElement('div')
   clipboardDom.innerHTML = htmlText
@@ -1370,6 +1386,7 @@ export function getTextFromElementList(elementList: IElement[]) {
     }
     return text
   }
+
   return buildText(zipElementList(elementList))
 }
 

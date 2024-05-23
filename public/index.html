@@ -415,24 +415,41 @@
     </div>
   </div>
 </div>
-<script type="module" src="/src/main.ts">
-  import canvasEditorFun from '/src/main.ts'
+<script src="./canvas-editor.umd.js"></script>
+<script>
+  const canvasEditorFun = window.canvasEditorFun
 
+  /**
+   * 通过文件url打开
+   * @param url
+   */
   const openFile = (url) => {
     canvasEditorFun.initEditorByFile(url)
   }
+
+  /**
+   * 通过CE格式数据打开
+   * @param data
+   */
   const openCEData = (data) => {
     canvasEditorFun.initEditorByData(data)
   }
+  /**
+   * 获取CE格式数据
+   * @return {IEditorResult}
+   */
   const getCEData = () => {
-    return canvasEditorFun.saveCEData()
+    let data = canvasEditorFun.saveCEData()
+    // todo 调用方法保存数据
+    return data
   }
-  const saveFile = ()=>{
-    let html = canvasEditorFun.getHTML()
-    return html
+  /**
+   * 保存pdf文件
+   * @return {IEditorHTML}
+   */
+  const savePdf = ()=>{
+    canvasEditorFun.savePDF()
   }
-  openFile('')
-
 </script>
 </body>
 

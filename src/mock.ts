@@ -469,10 +469,10 @@ export const commentList: IComment[] = [
 
 export const options: IEditorOption = {
   margins: [100, 120, 100, 120],
-  watermark: {
-    data: 'CANVAS-EDITOR',
-    size: 120
-  },
+  // watermark: {
+  //   data: 'CANVAS-EDITOR',
+  //   size: 120
+  // },
   pageNumber: {
     format: '第{pageNo}页/共{pageCount}页'
   },

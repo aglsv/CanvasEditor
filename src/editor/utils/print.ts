@@ -1,4 +1,4 @@
-import { PaperDirection } from '../dataset/enum/Editor'
+import {PaperDirection} from '../dataset/enum/Editor'
 
 export interface IPrintImageBase64Option {
   width: number

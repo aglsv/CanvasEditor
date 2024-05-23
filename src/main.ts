@@ -1,4 +1,4 @@
-import { commentList, data, options } from './mock'
+import {commentList, options} from './mock'
 import './style.css'
 import prism from 'prismjs'
 import Editor, {
@@ -19,52 +19,70 @@ import Editor, {
   RowFlex,
   TextDecorationStyle,
   TitleLevel,
-  splitText
+  splitText, IEditorData, IEditorResult
 } from './editor'
-import { Dialog } from './components/dialog/Dialog'
-import { formatPrismToken } from './utils/prism'
-import { Signature } from './components/signature/Signature'
-import { debounce, nextTick, scrollIntoView } from './utils'
+import {Dialog} from './components/dialog/Dialog'
+import {formatPrismToken} from './utils/prism'
+import {Signature} from './components/signature/Signature'
+import {debounce, nextTick, scrollIntoView} from './utils'
+import fetchHtmlContent from './getElement'
 
-window.onload = function () {
-  const isApple =
-    typeof navigator !== 'undefined' && /Mac OS X/.test(navigator.userAgent)
+let instance: Editor
+
+const isApple =
+  typeof navigator !== 'undefined' && /Mac OS X/.test(navigator.userAgent)
+
+const container = document.querySelector<HTMLDivElement>('.editor')!
+
+async function initEditorByFile(url: string) {
+
+  // 0.获取数据信息
+
+  const mockData: IEditorData | IElement[] = {
+    header: [],
+    main: [],
+    footer: []
+  }
 
   // 1. 初始化编辑器
-  const container = document.querySelector<HTMLDivElement>('.editor')!
-  const instance = new Editor(
+  instance = new Editor(
     container,
-    {
-      header: [
-        {
-          value: '第一人民医院',
-          size: 32,
-          rowFlex: RowFlex.CENTER
-        },
-        {
-          value: '\n门诊病历',
-          size: 18,
-          rowFlex: RowFlex.CENTER
-        },
-        {
-          value: '\n',
-          type: ElementType.SEPARATOR
-        }
-      ],
-      main: <IElement[]>data,
-      footer: [
-        {
-          value: 'canvas-editor',
-          size: 12
-        }
-      ]
-    },
+    mockData,
     options
   )
+  // @ts-ignore
+  Window.editor = instance
   console.log('实例: ', instance)
   // cypress使用
-  Reflect.set(window, 'editor', instance)
+  // Reflect.set(window, 'editor', instance)
 
+
+  const htmlInfo = await fetchHtmlContent(url ?? '')
+  instance.command.executeSetHTML({
+    header: htmlInfo.header,
+    main: htmlInfo.main,
+    footer: htmlInfo.footer
+  })
+
+  initTool()
+}
+
+function initEditorByData(CEData: IEditorResult) {
+  instance = new Editor(
+    container,
+    CEData.data,
+    {...options, ...CEData}
+  )
+  // @ts-ignore
+  Window.editor = instance
+  console.log('实例: ', instance)
+  // cypress使用
+  // Reflect.set(window, 'editor', instance)
+
+  initTool()
+}
+
+function initTool() {
   // 菜单弹窗销毁
   window.addEventListener(
     'click',
@@ -374,16 +392,19 @@ window.onload = function () {
   }
   let colIndex = 0
   let rowIndex = 0
+
   // 移除所有格选择
   function removeAllTableCellSelect() {
     tableCellList.forEach(tr => {
       tr.forEach(td => td.classList.remove('active'))
     })
   }
+
   // 设置标题内容
   function setTableTitle(payload: string) {
     tableTitle.innerText = payload
   }
+
   // 恢复初始状态
   function recoveryTable() {
     // 还原选择样式、标题、选择行列
@@ -394,6 +415,7 @@ window.onload = function () {
     // 隐藏panel
     tablePanelContainer.style.display = 'none'
   }
+
   tableDom.onclick = function () {
     console.log('table')
     tablePanelContainer!.style.display = 'block'
@@ -402,7 +424,7 @@ window.onload = function () {
     const celSize = 16
     const rowMarginTop = 10
     const celMarginRight = 6
-    const { offsetX, offsetY } = evt
+    const {offsetX, offsetY} = evt
     // 移除所有选择
     removeAllTableCellSelect()
     colIndex = Math.ceil(offsetX / (celSize + celMarginRight)) || 1
@@ -677,10 +699,10 @@ window.onload = function () {
                   type,
                   value: value
                     ? [
-                        {
-                          value
-                        }
-                      ]
+                      {
+                        value
+                      }
+                    ]
                     : null,
                   placeholder
                 }
@@ -1029,15 +1051,17 @@ window.onload = function () {
   searchDom.title = `搜索与替换(${isApple ? '⌘' : 'Ctrl'}+F)`
   const searchResultDom =
     searchCollapseDom.querySelector<HTMLLabelElement>('.search-result')!
+
   function setSearchResult() {
     const result = instance.command.getSearchNavigateInfo()
     if (result) {
-      const { index, count } = result
+      const {index, count} = result
       searchResultDom.innerText = `${index}/${count}`
     } else {
       searchResultDom.innerText = ''
     }
   }
+
   searchDom.onclick = function () {
     console.log('search')
     searchCollapseDom.style.display = 'block'
@@ -1095,6 +1119,23 @@ window.onload = function () {
     console.log('print')
     instance.command.executePrint()
   }
+
+
+  // 5.3 生成pdf
+  // document.querySelector<HTMLDivElement>('.menu-item__export-pdf')!.onclick = function () {
+  //   console.log('export-pdf')
+  //   const editorValue = instance.command.getValue()
+  //   const pdfInstance = new Pdf(editorValue.data, {
+  //     editorVersion: editorValue.version,
+  //     editorOptions: {...options,...editorValue},
+  //     documentProperties: {
+  //       author: 'canvas-editor'
+  //     }
+  //   })
+  //   const uri = pdfInstance.render()
+  //   console.log(uri)
+  //   window.open(uri, '_blank')
+  // }
 
   // 6. 目录显隐 | 页面模式 | 纸张缩放 | 纸张大小 | 纸张方向 | 页边距 | 全屏 | 设置
   const editorOptionDom =
@@ -1158,6 +1199,7 @@ window.onload = function () {
       appendCatalog(catalogMainDom, catalog)
     }
   }
+
   let isCatalogShow = true
   const catalogDom = document.querySelector<HTMLElement>('.catalog')!
   const catalogModeDom =
@@ -1317,6 +1359,7 @@ window.onload = function () {
   document.addEventListener('fullscreenchange', () => {
     fullscreenDom.classList.toggle('exist')
   })
+
   function toggleFullscreen() {
     console.log('fullscreen')
     if (!document.fullscreenElement) {
@@ -1355,7 +1398,7 @@ window.onload = function () {
     // 模式选择循环
     modeIndex === modeList.length - 1 ? (modeIndex = 0) : modeIndex++
     // 设置模式
-    const { name, mode } = modeList[modeIndex]
+    const {name, mode} = modeList[modeIndex]
     modeElement.innerText = name
     instance.command.executeMode(mode)
     // 设置菜单栏权限视觉反馈
@@ -1371,6 +1414,7 @@ window.onload = function () {
 
   // 模拟批注
   const commentDom = document.querySelector<HTMLDivElement>('.comment')!
+
   async function updateComment() {
     const groupIds = await instance.command.getGroupIds()
     for (const comment of commentList) {
@@ -1424,6 +1468,7 @@ window.onload = function () {
       }
     }
   }
+
   // 8. 内部事件监听
   instance.listener.rangeStyleChange = function (payload) {
     // 控件类型
@@ -1701,7 +1746,8 @@ window.onload = function () {
             commentList.push({
               id: groupId,
               content: value,
-              userName: 'Hufe',
+              // todo 批注姓名
+              userName: '',
               rangeText: command.getRangeText(),
               createdDate: new Date().toLocaleString()
             })
@@ -1719,7 +1765,7 @@ window.onload = function () {
         new Signature({
           onConfirm(payload) {
             if (!payload) return
-            const { value, width, height } = payload
+            const {value, width, height} = payload
             if (!value || !width || !height) return
             command.executeInsertElementList([
               {
@@ -1795,3 +1841,28 @@ window.onload = function () {
     }
   ])
 }
+
+function getHTML() {
+  return instance.command.getHTML()
+}
+
+function saveCEData() {
+  return instance.command.getValue()
+}
+
+function savePDF() {
+  console.log('print')
+  instance.command.executeGeneratePDF()
+  // instance.command.executePrint()
+}
+
+const canvasEditorFun = {
+  initEditorByFile,
+  getHTML,
+  saveCEData,
+  initEditorByData,
+  savePDF
+}
+// @ts-ignore
+window.canvasEditorFun = canvasEditorFun
+export default canvasEditorFun

@@ -85,6 +85,8 @@ import { I18n } from '../i18n/I18n'
 import { Position } from '../position/Position'
 import { RangeManager } from '../range/RangeManager'
 import { WorkerManager } from '../worker/WorkerManager'
+import { getPdf, img2PDF } from '../../utils/pdf'
+import * as timers from 'node:timers'
 
 export class CommandAdapt {
   private draw: Draw
@@ -1969,6 +1971,31 @@ export class CommandAdapt {
     if (scale !== 1) {
       this.draw.setPageScale(scale)
     }
+  }
+
+  public async generatePDF(){
+    const { scale, printPixelRatio, paperDirection } = this.options
+    if (scale !== 1) {
+      this.draw.setPageScale(1)
+    }
+    console.log(printPixelRatio)
+    const width = this.draw.getOriginalWidth()
+    const height = this.draw.getOriginalHeight()
+    const base64List = await this.draw.getDataURL({
+      pixelRatio: 1,
+      mode: EditorMode.PRINT
+    })
+    console.time('img2pdf')
+    getPdf({
+      width,
+      height,
+    })
+    // img2PDF(base64List,{
+    //   width,
+    //   height,
+    //   direction: paperDirection
+    // })
+    console.timeEnd('img2pdf')
   }
 
   public replaceImageElement(payload: string) {
