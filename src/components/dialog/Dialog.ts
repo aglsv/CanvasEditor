@@ -44,7 +44,7 @@ export class Dialog {
     this._render()
   }
 
-  private _render() {
+  protected _render() {
     const { title, data, onClose, onCancel, onConfirm } = this.options
     // 渲染遮罩层
     const mask = document.createElement('div')

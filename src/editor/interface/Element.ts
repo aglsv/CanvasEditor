@@ -92,6 +92,7 @@ export interface ISeparator {
 export interface IControlElement {
   control?: IControl
   controlId?: string
+  controlFormId?: string
   controlComponent?: ControlComponent
 }
 

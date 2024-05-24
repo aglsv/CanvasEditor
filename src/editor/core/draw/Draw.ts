@@ -804,7 +804,7 @@ export class Draw {
       isSubmitHistory: false
     })
     await this.imageObserver.allSettled()
-    const dataUrlList = this.pageList.map(c => c.toDataURL())
+    const dataUrlList = this.pageList.map(c => c.toDataURL('image/jpeg',1))
     // 还原
     if (pixelRatio) {
       this.setPagePixelRatio(null)

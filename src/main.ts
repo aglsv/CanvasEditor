@@ -1,5 +1,6 @@
-import {commentList, options} from './mock'
-import './style.css'
+import { commentList, formDialogData, options } from './mock'
+import './style/style.css'
+import './style/control.sass'
 import prism from 'prismjs'
 import Editor, {
   BlockType,
@@ -10,6 +11,8 @@ import Editor, {
   ElementType,
   IBlock,
   ICatalogItem,
+  IEditorData,
+  IEditorResult,
   IElement,
   KeyMap,
   ListStyle,
@@ -17,17 +20,19 @@ import Editor, {
   PageMode,
   PaperDirection,
   RowFlex,
+  splitText,
   TextDecorationStyle,
-  TitleLevel,
-  splitText, IEditorData, IEditorResult
+  TitleLevel
 } from './editor'
-import {Dialog} from './components/dialog/Dialog'
-import {formatPrismToken} from './utils/prism'
-import {Signature} from './components/signature/Signature'
-import {debounce, nextTick, scrollIntoView} from './utils'
+import { Dialog } from './components/dialog/Dialog'
+import { formatPrismToken } from './utils/prism'
+import { Signature } from './components/signature/Signature'
+import { debounce, nextTick, scrollIntoView } from './utils'
 import fetchHtmlContent from './getElement'
+import { FormDialog } from './components/formDialog/FormDialog'
+import floatingToolbarPlugin from './plugins/floatingToolbar'
 
-let instance: Editor
+export let instance: Editor
 
 const isApple =
   typeof navigator !== 'undefined' && /Mac OS X/.test(navigator.userAgent)
@@ -95,6 +100,8 @@ function initTool() {
       capture: true
     }
   )
+
+  instance.use(floatingToolbarPlugin)
 
   // 2. | 撤销 | 重做 | 格式刷 | 清除格式 |
   const undoDom = document.querySelector<HTMLDivElement>('.menu-item__undo')!
@@ -834,6 +841,38 @@ function initTool() {
                 }
               }
             ])
+          }
+        })
+        break
+      case ControlType.FORM:
+        new Dialog({
+          title: '表单控件',
+          data: formDialogData,
+          onConfirm: payload => {
+            const elementList: IElement[] = []
+            payload.forEach(p => {
+              console.log(p)
+              const value = p.value
+              elementList.push({
+                type: ElementType.CONTROL,
+                value: '',
+                control: {
+                  type,
+                  value: value
+                    ? [
+                      {
+                        value
+                      }
+                    ]
+                    : null,
+                  placeholder: '请输入'
+                }
+              })
+            })
+            // const valueSets = payload.find(p => p.name === 'select')?.value
+            // if (!valueSets) return
+            // const value = payload.find(p => p.name === 'code')?.value
+            instance.command.executeInsertElementList(elementList)
           }
         })
         break

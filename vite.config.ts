@@ -2,7 +2,6 @@ import {defineConfig} from 'vite'
 import typescript from '@rollup/plugin-typescript'
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 import * as path from 'path'
-import babel from 'vite-plugin-babel'
 
 export default defineConfig(({ mode }) => {
   const name = 'canvas-editor'

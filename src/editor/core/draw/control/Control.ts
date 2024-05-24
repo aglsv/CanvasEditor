@@ -38,11 +38,15 @@ import { ControlSearch } from './interactive/ControlSearch'
 import { ControlBorder } from './richtext/Border'
 import { SelectControl } from './select/SelectControl'
 import { TextControl } from './text/TextControl'
+import { FormControl } from './form/FormControl'
+import { Dialog, IDialogConfirm } from '../../../../components/dialog/Dialog'
+import { formDialogData } from '../../../../mock'
 
 interface IMoveCursorResult {
   newIndex: number
   newElement: IElement
 }
+
 export class Control {
   private controlBorder: ControlBorder
   private draw: Draw
@@ -125,7 +129,7 @@ export class Control {
   // 是否属于控件可以捕获事件的选区
   public getIsRangeCanCaptureEvent(): boolean {
     if (!this.activeControl) return false
-    const { startIndex, endIndex } = this.getRange()
+    const {startIndex, endIndex} = this.getRange()
     if (!~startIndex && !~endIndex) return false
     const elementList = this.getElementList()
     const startElement = elementList[startIndex]
@@ -151,7 +155,7 @@ export class Control {
   // 判断选区是否在后缀处
   public getIsRangeInPostfix(): boolean {
     if (!this.activeControl) return false
-    const { startIndex, endIndex } = this.getRange()
+    const {startIndex, endIndex} = this.getRange()
     if (startIndex !== endIndex) return false
     const elementList = this.getElementList()
     const element = elementList[startIndex]
@@ -160,7 +164,7 @@ export class Control {
 
   // 判断选区是否在控件内
   public getIsRangeWithinControl(): boolean {
-    const { startIndex, endIndex } = this.getRange()
+    const {startIndex, endIndex} = this.getRange()
     if (!~startIndex && !~endIndex) return false
     const elementList = this.getElementList()
     const startElement = elementList[startIndex]
@@ -189,7 +193,7 @@ export class Control {
 
   public getPosition(): IElementPosition | null {
     const positionList = this.draw.getPosition().getPositionList()
-    const { endIndex } = this.range.getRange()
+    const {endIndex} = this.range.getRange()
     return positionList[endIndex] || null
   }
 
@@ -240,27 +244,61 @@ export class Control {
       this.activeControl = new CheckboxControl(element, this)
     } else if (control.type === ControlType.RADIO) {
       this.activeControl = new RadioControl(element, this)
+    } else if (control.type === ControlType.FORM) {
+      this.activeControl = new FormControl(element, this)
     }
+
     // 激活控件回调
     nextTick(() => {
-      const controlChangeListener = this.listener.controlChange
-      const isSubscribeControlChange =
-        this.eventBus.isSubscribe('controlChange')
-      if (!controlChangeListener && !isSubscribeControlChange) return
-      let payload: IControl
-      const value = this.activeControl?.getValue()
-      if (value && value.length) {
-        payload = zipElementList(value)[0].control!
+      if (control.type !== ControlType.FORM) {
+        const controlChangeListener = this.listener.controlChange
+        const isSubscribeControlChange =
+          this.eventBus.isSubscribe('controlChange')
+        if (!controlChangeListener && !isSubscribeControlChange) return
+        let payload: IControl
+        const value = this.activeControl?.getValue()
+        if (value && value.length) {
+          payload = zipElementList(value)[0].control!
+        } else {
+          payload = pickElementAttr(deepClone(element)).control!
+        }
+        if (controlChangeListener) {
+          controlChangeListener(payload)
+        }
+        if (isSubscribeControlChange) {
+          this.eventBus.emit('controlChange', payload)
+        }
       } else {
-        payload = pickElementAttr(deepClone(element)).control!
-      }
-      if (controlChangeListener) {
-        controlChangeListener(payload)
-      }
-      if (isSubscribeControlChange) {
-        this.eventBus.emit('controlChange', payload)
+        // todo 对比新旧数据，回填
+        // let oldPayload: IDialogConfirm[] = []
+        // const formDialogData = this.activeControl?.getValue()
+        // // 如果是表单，弹出表单控件
+        // new Dialog({
+        //   title: '表单控件',
+        //   data: formDialogData,
+        //   onConfirm: payload => {
+        //     // 对比oldPayload和payload,找到不同项
+        //     this.differences(oldPayload,payload)
+        //   }
+        // })
       }
     })
+  }
+
+  /**
+   * 对比表单信息，找到不同项
+   * @param oldPayload
+   * @param payload
+   * @private
+   */
+  private differences(oldPayload:IDialogConfirm[], payload:IDialogConfirm[]) {
+    return oldPayload.reduce((diff:IDialogConfirm[], oldItem) => {
+      const newItem = payload.find((item) => item.name === oldItem.name)
+      if (!newItem || newItem.value !== oldItem.value) {
+        diff.push({ ...oldItem })
+      }
+      return diff
+    }, [])
   }
 
   public destroyControl() {
@@ -286,7 +324,7 @@ export class Control {
   }
 
   public repaintControl(options: IRepaintControlOption = {}) {
-    const { curIndex, isCompute = true, isSubmitHistory = true } = options
+    const {curIndex, isCompute = true, isSubmitHistory = true} = options
     // 重新渲染
     if (curIndex === undefined) {
       this.range.clearRange()
@@ -321,7 +359,7 @@ export class Control {
   }
 
   public moveCursor(position: IControlInitOption): IMoveCursorResult {
-    const { index, trIndex, tdIndex, tdValueIndex } = position
+    const {index, trIndex, tdIndex, tdValueIndex} = position
     let elementList = this.draw.getOriginalElementList()
     let element: IElement
     const newIndex = position.isTable ? tdValueIndex! : index
@@ -395,7 +433,7 @@ export class Control {
   ): number | null {
     const elementList = context.elementList || this.getElementList()
     const startElement = elementList[startIndex]
-    const { deletable = true } = startElement.control!
+    const {deletable = true} = startElement.control!
     if (!deletable) return null
     let leftIndex = -1
     let rightIndex = -1
@@ -512,7 +550,7 @@ export class Control {
   public getValueByConceptId(
     payload: IGetControlValueOption
   ): IGetControlValueResult {
-    const { conceptId } = payload
+    const {conceptId} = payload
     const result: IGetControlValueResult = []
     const getValue = (elementList: IElement[], zone: EditorZone) => {
       let i = 0
@@ -531,7 +569,7 @@ export class Control {
           }
         }
         if (element?.control?.conceptId !== conceptId) continue
-        const { type, code, valueSets } = element.control!
+        const {type, code, valueSets} = element.control!
         let j = i
         let textControlValue = ''
         while (j < elementList.length) {
@@ -589,7 +627,7 @@ export class Control {
         elementList: this.draw.getFooterElementList()
       }
     ]
-    for (const { zone, elementList } of data) {
+    for (const {zone, elementList} of data) {
       getValue(elementList, zone)
     }
     return result
@@ -599,7 +637,7 @@ export class Control {
     const isReadonly = this.draw.isReadonly()
     if (isReadonly) return
     let isExistSet = false
-    const { conceptId, value } = payload
+    const {conceptId, value} = payload
     // 设置值
     const setValue = (elementList: IElement[]) => {
       let i = 0
@@ -619,7 +657,7 @@ export class Control {
         }
         if (element?.control?.conceptId !== conceptId) continue
         isExistSet = true
-        const { type } = element.control!
+        const {type} = element.control!
         // 当前控件结束索引
         let currentEndIndex = i
         while (currentEndIndex < elementList.length) {
@@ -640,7 +678,7 @@ export class Control {
           isIgnoreDisabledRule: true
         }
         if (type === ControlType.TEXT) {
-          const formatValue = [{ value }]
+          const formatValue = [{value}]
           formatElementList(formatValue, {
             isHandleFirstElement: false,
             editorOptions: this.options
@@ -696,7 +734,7 @@ export class Control {
   public setExtensionByConceptId(payload: ISetControlExtensionOption) {
     const isReadonly = this.draw.isReadonly()
     if (isReadonly) return
-    const { conceptId, extension } = payload
+    const {conceptId, extension} = payload
     const setExtension = (elementList: IElement[]) => {
       let i = 0
       while (i < elementList.length) {
@@ -738,7 +776,7 @@ export class Control {
   public setPropertiesByConceptId(payload: ISetControlProperties) {
     const isReadonly = this.draw.isReadonly()
     if (isReadonly) return
-    const { conceptId, properties } = payload
+    const {conceptId, properties} = payload
     let isExistUpdate = false
     const pageComponentData: IEditorData = {
       header: this.draw.getHeaderElementList(),

@@ -15,15 +15,19 @@ export function getPdf(option: { width: number, height: number }) {
     compress: true
   })
   const canvasContainer = document.querySelectorAll('canvas')
+  const imgSrcList:string[] = []
   canvasContainer.forEach((canvas: HTMLCanvasElement, index) => {
     const img = canvas.toDataURL('image/jpeg', 1)
+    imgSrcList.push(img)
     if (index > 0) {
       doc.addPage()
       // doc.setPage(index + 1)
     }
-    console.log(img)
+    console.time('getPDF' + index)
     doc.addImage(img, 'JPEG', 0, 0, option.width, option.height)
+    console.timeEnd('getPDF' + index)
   })
+  console.log(imgSrcList)
   // doc.html(canvasContainer)
   const url = doc.output('bloburl')
   // console.log(doc.output('bloburi'))
@@ -32,9 +36,6 @@ export function getPdf(option: { width: number, height: number }) {
 
 export function img2PDF(base64List: string[], options: IPrintImageBase64Option) {
   console.log('start docPDF')
-  // const canvasContainer: HTMLCanvasElement = document.querySelector('.ce-page-container canvas')!
-  // doc.addImage(canvasDom, 'JPEG', 0, 0, canvasDom.width, canvasDom.height)
-  // doc.write(`${style.outerHTML}${container.innerHTML}`)
   const docPDF = new jsPDF({
     orientation: 'p',
     unit: 'px',
@@ -48,8 +49,10 @@ export function img2PDF(base64List: string[], options: IPrintImageBase64Option) 
       docPDF.addPage()
       // docPDF.setPage(index + 1)
     }
+    console.time('img2PDF' + index)
     docPDF.addImage(img, 'JPEG', 0, 0, options.width, options.height)
-
+    console.timeEnd('img2PDF' + index)
   })
+  console.log(base64List)
   window.open(docPDF.output('bloburi'), '_blank')
 }

@@ -30,6 +30,10 @@ export interface IControlRadio {
   radio?: IRadio
 }
 
+export interface IControlForm {
+
+}
+
 export interface IControlHighlightRule {
   keyword: string
   alpha?: number
@@ -74,7 +78,8 @@ export type IControl = IControlBasic &
   Partial<IControlSelect> &
   Partial<IControlCheckbox> &
   Partial<IControlRadio> &
-  Partial<IControlStyle>
+  Partial<IControlStyle> &
+  Partial<IControlForm>
 
 export interface IControlOption {
   placeholderColor?: string

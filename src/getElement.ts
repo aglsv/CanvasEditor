@@ -4,7 +4,7 @@
  * @date 2024/5/21.
  */
 
-import htmlJSON from '../mock/html.json'
+// import htmlJSON from '../mock/html.json'
 
 interface HtmlInfo {
   header: string,
@@ -20,7 +20,8 @@ async function fetchHtmlContent(url: string): Promise<HtmlInfo> {
   try {
     let htmlContent = ''
     if (url === '') {
-      htmlContent = JSON.parse(htmlJSON)
+      // htmlContent = JSON.parse(htmlJSON)
+      htmlContent = ''
     } else {
       const response = await fetch(url)
       if (!response.ok) {
