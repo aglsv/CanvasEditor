@@ -1,4 +1,4 @@
-import { commentList, formDialogData, options } from './mock'
+import { commentList, formDialogData, mockData, options } from './mock'
 import './style/style.css'
 import './style/control.sass'
 import prism from 'prismjs'
@@ -29,7 +29,6 @@ import { formatPrismToken } from './utils/prism'
 import { Signature } from './components/signature/Signature'
 import { debounce, nextTick, scrollIntoView } from './utils'
 import fetchHtmlContent from './getElement'
-import { FormDialog } from './components/formDialog/FormDialog'
 import floatingToolbarPlugin from './plugins/floatingToolbar'
 
 export let instance: Editor
@@ -75,7 +74,7 @@ async function initEditorByFile(url: string) {
 function initEditorByData(CEData: IEditorResult) {
   instance = new Editor(
     container,
-    CEData.data,
+    mockData,
     {...options, ...CEData}
   )
   // @ts-ignore
@@ -1905,3 +1904,4 @@ const canvasEditorFun = {
 // @ts-ignore
 window.canvasEditorFun = canvasEditorFun
 export default canvasEditorFun
+initEditorByData()

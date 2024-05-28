@@ -2,6 +2,12 @@ import { ImageDisplay } from '../../../dataset/enum/Common'
 import { ControlComponent } from '../../../dataset/enum/Control'
 import { ElementType } from '../../../dataset/enum/Element'
 import { CanvasEvent } from '../CanvasEvent'
+import { toggleToolbarByOther } from '../../../../plugins/floatingToolbar'
+
+const eventPosition = {
+  x: 0,
+  y: 0
+}
 
 export function mousemove(evt: MouseEvent, host: CanvasEvent) {
   const draw = host.getDraw()
@@ -10,11 +16,11 @@ export function mousemove(evt: MouseEvent, host: CanvasEvent) {
     // 是否允许拖拽到选区
     const x = evt.offsetX
     const y = evt.offsetY
-    const { startIndex, endIndex } = host.cacheRange!
+    const {startIndex, endIndex} = host.cacheRange!
     const positionList = host.cachePositionList!
     for (let p = startIndex + 1; p <= endIndex; p++) {
       const {
-        coordinate: { leftTop, rightBottom }
+        coordinate: {leftTop, rightBottom}
       } = positionList[p]
       if (
         x >= leftTop[0] &&
@@ -42,74 +48,116 @@ export function mousemove(evt: MouseEvent, host: CanvasEvent) {
     host.isAllowDrop = true
     return
   }
-  if (!host.isAllowSelection || !host.mouseDownStartPosition) return
-  const target = evt.target as HTMLDivElement
-  const pageIndex = target.dataset.index
-  // 设置pageNo
-  if (pageIndex) {
-    draw.setPageNo(Number(pageIndex))
-  }
-  // 结束位置
-  const position = draw.getPosition()
-  const positionResult = position.getPositionByXY({
-    x: evt.offsetX,
-    y: evt.offsetY
-  })
-  if (!~positionResult.index) return
-  const { index, isTable, tdValueIndex, tdIndex, trIndex, tableId } =
-    positionResult
-  const {
-    index: startIndex,
-    isTable: startIsTable,
-    tdIndex: startTdIndex,
-    trIndex: startTrIndex,
-    tableId: startTableId
-  } = host.mouseDownStartPosition
-  const endIndex = isTable ? tdValueIndex! : index
-  // 判断是否是表格跨行/列
-  const rangeManager = draw.getRange()
-  if (
-    isTable &&
-    startIsTable &&
-    (tdIndex !== startTdIndex || trIndex !== startTrIndex)
-  ) {
-    rangeManager.setRange(
-      endIndex,
-      endIndex,
-      tableId,
-      startTdIndex,
-      tdIndex,
-      startTrIndex,
-      trIndex
-    )
-  } else {
-    let end = ~endIndex ? endIndex : 0
-    // 开始或结束位置存在表格，但是非相同表格则忽略选区设置
-    if ((startIsTable || isTable) && startTableId !== tableId) return
-    // 开始位置
-    let start = startIndex
-    if (start > end) {
-      // prettier-ignore
-      [start, end] = [end, start]
+  if (host.isAllowSelection && host.mouseDownStartPosition) {
+    const target = evt.target as HTMLDivElement
+    const pageIndex = target.dataset.index
+    // 设置pageNo
+    if (pageIndex) {
+      draw.setPageNo(Number(pageIndex))
     }
-    if (start === end) return
-    // 背景文本禁止选区
-    const elementList = draw.getElementList()
-    const startElement = elementList[start + 1]
-    const endElement = elementList[end]
+    // 结束位置
+    const position = draw.getPosition()
+    const positionResult = position.getPositionByXY({
+      x: evt.offsetX,
+      y: evt.offsetY
+    })
+    if (!~positionResult.index) return
+    const {index, isTable, tdValueIndex, tdIndex, trIndex, tableId} =
+      positionResult
+    const {
+      index: startIndex,
+      isTable: startIsTable,
+      tdIndex: startTdIndex,
+      trIndex: startTrIndex,
+      tableId: startTableId
+    } = host.mouseDownStartPosition
+    const endIndex = isTable ? tdValueIndex! : index
+    // 判断是否是表格跨行/列
+    const rangeManager = draw.getRange()
     if (
-      startElement?.controlComponent === ControlComponent.PLACEHOLDER &&
-      endElement?.controlComponent === ControlComponent.PLACEHOLDER &&
-      startElement.controlId === endElement.controlId
+      isTable &&
+      startIsTable &&
+      (tdIndex !== startTdIndex || trIndex !== startTrIndex)
     ) {
+      rangeManager.setRange(
+        endIndex,
+        endIndex,
+        tableId,
+        startTdIndex,
+        tdIndex,
+        startTrIndex,
+        trIndex
+      )
+    } else {
+      let end = ~endIndex ? endIndex : 0
+      // 开始或结束位置存在表格，但是非相同表格则忽略选区设置
+      if ((startIsTable || isTable) && startTableId !== tableId) return
+      // 开始位置
+      let start = startIndex
+      if (start > end) {
+        // prettier-ignore
+        [start, end] = [end, start]
+      }
+      if (start === end) return
+      // 背景文本禁止选区
+      const elementList = draw.getElementList()
+      const startElement = elementList[start + 1]
+      const endElement = elementList[end]
+      if (
+        startElement?.controlComponent === ControlComponent.PLACEHOLDER &&
+        endElement?.controlComponent === ControlComponent.PLACEHOLDER &&
+        startElement.controlId === endElement.controlId
+      ) {
+        return
+      }
+      rangeManager.setRange(start, end)
+    }
+    // 绘制
+    draw.render({
+      isSubmitHistory: false,
+      isSetCursor: false,
+      isCompute: false
+    })
+  }
+  // 移动到控件上时显示悬浮工具栏
+  else {
+    const target = evt.target as HTMLDivElement
+    const pageIndex = target.dataset.index
+    // 设置pageNo
+    if (pageIndex) {
+      draw.setPageNo(Number(pageIndex))
+    }
+    // host.isAllowSelection = true
+    const position = draw.getPosition()
+    const positionResult = position.adjustPositionContext({
+      x: evt.offsetX,
+      y: evt.offsetY
+    })
+    if (!positionResult) return
+    const {
+      index,
+      isControl,
+      isTable,
+      tdValueIndex
+    } = positionResult
+    if (!isControl) {
+      eventPosition.x = 0
+      eventPosition.y = 0
+      // toggleToolbarByOther(false)
       return
     }
-    rangeManager.setRange(start, end)
+    const elementList = draw.getElementList()
+    position.getPositionList()
+    const curIndex = isTable ? tdValueIndex! : index
+    const curElement = elementList[curIndex]
+    if (curElement.control && curElement.control.type === 'form') {
+      eventPosition.x = evt.offsetX
+      eventPosition.y = evt.offsetY
+      // toggleToolbarByOther(true, {...eventPosition})
+    }else{
+      // toggleToolbarByOther(false)
+      eventPosition.x = 0
+      eventPosition.y = 0
+    }
   }
-  // 绘制
-  draw.render({
-    isSubmitHistory: false,
-    isSetCursor: false,
-    isCompute: false
-  })
 }

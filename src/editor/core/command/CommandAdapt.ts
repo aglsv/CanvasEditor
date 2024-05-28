@@ -1345,20 +1345,39 @@ export class CommandAdapt {
     this.tableTool.render()
   }
 
+  /**
+   * 取消合并单元格操作。
+   * 该操作仅在编辑器非只读模式且当前处于表格环境中时执行。
+   * 先判断当前单元格是否为合并单元格（即rowspan和colspan大于1），如果是，则将其分解为多个单一单元格，
+   * 并重新渲染表格。
+   */
   public cancelMergeTableCell() {
+    // 判断编辑器是否为只读状态，是则直接返回
     const isReadonly = this.draw.isReadonly()
     if (isReadonly) return
+
+    // 获取当前光标位置的上下文信息，判断是否在表格中
     const positionContext = this.position.getPositionContext()
     if (!positionContext.isTable) return
+
+    // 解构当前位置的表格索引信息
     const { index, tdIndex, trIndex } = positionContext
+
+    // 获取原始元素列表，并根据索引获取当前元素（表格）
     const originalElementList = this.draw.getOriginalElementList()
     const element = originalElementList[index!]
+
+    // 获取当前行和单元格对象
     const curTrList = element.trList!
     const curTr = curTrList[trIndex!]!
     const curTd = curTr.tdList[tdIndex!]
+
+    // 如果当前单元格不是合并单元格（即rowspan和colspan都为1），则直接返回
     if (curTd.rowspan === 1 && curTd.colspan === 1) return
+
     const colspan = curTd.colspan
-    // 设置跨列
+
+    // 分解跨列的单元格
     if (curTd.colspan > 1) {
       for (let c = 1; c < curTd.colspan; c++) {
         const tdId = getUUID()
@@ -1379,7 +1398,8 @@ export class CommandAdapt {
       }
       curTd.colspan = 1
     }
-    // 设置跨行
+
+    // 分解跨行的单元格
     if (curTd.rowspan > 1) {
       for (let r = 1; r < curTd.rowspan; r++) {
         const tr = curTrList[trIndex! + r]
@@ -1403,7 +1423,8 @@ export class CommandAdapt {
       }
       curTd.rowspan = 1
     }
-    // 重新渲染
+
+    // 重新设置光标范围并渲染编辑器内容
     const curIndex = curTd.value.length - 1
     this.range.setRange(curIndex, curIndex)
     this.draw.render()
@@ -2447,6 +2468,13 @@ export class CommandAdapt {
       Reflect.set(this.options, key, value)
     })
     this.forceUpdate()
+  }
+
+  public editForm(){
+    console.log('修改表单')
+    // 获取活动控件
+    const activeControl = this.draw.getControl().getActiveControl()
+    console.log(activeControl)
   }
 
   public getControlList(): IElement[] {

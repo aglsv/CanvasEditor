@@ -5,10 +5,13 @@ import './style/index.scss'
 import { ToolbarType } from './enum'
 import { IToolbarRegister } from './interface'
 import { PLUGIN_PREFIX } from './constant'
+import { IElementFillRect } from '../../editor/interface/Element'
 
 let toolbarContainer: HTMLDivElement | null = null
 
+let CEditor: Editor
 
+let isInside = false
 // function createPickerToolbar(
 //   container: HTMLDivElement,
 //   toolbarType: ToolbarType,
@@ -109,7 +112,9 @@ const toolbarRegisterList: IToolbarRegister[] = [
   {
     key: ToolbarType.EDITOR_VALUE,
     callback(editor) {
-      console.log(editor, '编辑功能')
+      // 获取当前活动控件
+      editor.command.executeEditForm()
+      toggleToolbarVisible(toolbarContainer!, false)
     }
   },
   // {
@@ -156,6 +161,11 @@ function createToolbar(editor: Editor): HTMLDivElement {
   return toolbarContainer
 }
 
+/**
+ * 控制工具栏显隐
+ * @param toolbar
+ * @param visible
+ */
 function toggleToolbarVisible(toolbar: HTMLDivElement, visible: boolean) {
   visible ? toolbar.classList.remove('hide') : toolbar.classList.add('hide')
 }
@@ -167,10 +177,19 @@ function toggleToolbarItemActive(toolbarItem: HTMLDivElement, active: boolean) {
 }
 
 export default function floatingToolbarPlugin(editor: Editor) {
+  CEditor = editor
   // 创建工具栏
   toolbarContainer = createToolbar(editor)
   const editorContainer = editor.command.getContainer()
   editorContainer.append(toolbarContainer)
+
+  // 监听工具栏移入移出
+  toolbarContainer.onmouseenter = () => {
+    isInside = true
+  }
+  toolbarContainer.onmouseleave = () => {
+    isInside = false
+  }
 
   // 监听选区样式变化
   editor.eventBus.on('rangeStyleChange', rangeStyle => {
@@ -179,15 +198,7 @@ export default function floatingToolbarPlugin(editor: Editor) {
       toggleToolbarVisible(toolbarContainer, false)
       return
     }
-    const context = editor.command.getRangeContext()
-    if (!context || context.isCollapsed || !context.rangeRects[0]) {
-      toggleToolbarVisible(toolbarContainer, false)
-      return
-    }
-    // 定位
-    const position = context.rangeRects[0]
-    toolbarContainer.style.left = `${position.x}px`
-    toolbarContainer.style.top = `${position.y + position.height}px`
+    // setPositionByRange()
     // 样式回显
     const boldDom = toolbarContainer.querySelector<HTMLDivElement>(
       `.${PLUGIN_PREFIX}-bold`
@@ -213,15 +224,44 @@ export default function floatingToolbarPlugin(editor: Editor) {
     if (strikeoutDom) {
       toggleToolbarItemActive(strikeoutDom, rangeStyle.strikeout)
     }
-    toggleToolbarVisible(toolbarContainer, true)
+    // toggleToolbarVisible(toolbarContainer, true)
   })
 }
+
+// 用于存储setTimeout返回的定时器ID
+let toggleToolbarTimeoutId: NodeJS.Timeout | null = null
 
 /**
  * 外部控制工具栏显隐
  */
-export function toggleToolbarByOther(visible: boolean) {
-  if (toolbarContainer) {
-    toggleToolbarVisible(toolbarContainer, visible)
+export function toggleToolbarByOther(visible: boolean, position?: { x: number, y: number }) {
+  if (toggleToolbarTimeoutId) {
+    clearTimeout(toggleToolbarTimeoutId)
+  }
+  // toggleToolbarTimeoutId = setTimeout(() => {
+    if (toolbarContainer) {
+      if (position && !isInside) {
+        toolbarContainer.style.left = `${position.x}px`
+        toolbarContainer.style.top = `${position.y + 10}px`
+      }
+      toggleToolbarVisible(toolbarContainer, visible)
+    }
+  // }, 500)
+}
+
+/**
+ * 根据光标设置浮动窗口位置
+ */
+function setPositionByRange(position?: IElementFillRect) {
+  if (CEditor && toolbarContainer) {
+    const context = CEditor.command.getRangeContext()
+    if (!context || context.isCollapsed || !context.rangeRects[0]) {
+      toggleToolbarVisible(toolbarContainer, false)
+      return
+    }
+    // 定位
+    position = position ? position : context.rangeRects[0]
+    toolbarContainer.style.left = `${position.x}px`
+    toolbarContainer.style.top = `${position.y + position.height}px`
   }
 }

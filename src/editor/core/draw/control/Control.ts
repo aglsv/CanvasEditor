@@ -40,7 +40,8 @@ import { SelectControl } from './select/SelectControl'
 import { TextControl } from './text/TextControl'
 import { FormControl } from './form/FormControl'
 import { Dialog, IDialogConfirm } from '../../../../components/dialog/Dialog'
-import { formDialogData } from '../../../../mock'
+import { EDITOR_PREFIX } from '../../../dataset/constant/Editor'
+import { toggleToolbarByOther } from '../../../../plugins/floatingToolbar'
 
 interface IMoveCursorResult {
   newIndex: number
@@ -57,6 +58,7 @@ export class Control {
   private options: DeepRequired<IEditorOption>
   private controlOptions: IControlOption
   private activeControl: IControlInstance | null
+  private shadowBoxList: HTMLDivElement[] = []
 
   constructor(draw: Draw) {
     this.controlBorder = new ControlBorder(draw)
@@ -191,6 +193,43 @@ export class Control {
     return this.draw.getElementList()
   }
 
+  /**
+   * 获取控件元素列表
+   */
+  public getControlElementList(): { controlElementList: IElement[], controlPositionList: IElementPosition[] } {
+    const {startIndex} = this.range.getRange()
+    const elementList = this.getElementList()
+    const positionList = this.draw.getPosition().getPositionList()
+
+    const controlId = this.activeControl?.getElement().controlId
+    //   根据控件id查找对应的元素列表
+    const controlElementList: IElement[] = []
+    const controlPositionList = []
+
+    // 通过startIndex在elementList中向左向右找，并返回最有一个匹配控件id的选项
+    for (let i = startIndex; i >= 0; i--) {
+      const element = elementList[i]
+      if (element.controlId === controlId) {
+        controlElementList.unshift(element)
+        controlPositionList.unshift(positionList[i])
+      } else {
+        break
+      }
+    }
+    // 向右找
+
+    for (let i = startIndex + 1; i < elementList.length; i++) {
+      const element = elementList[i]
+      if (element.controlId === controlId) {
+        controlElementList.push(element)
+        controlPositionList.push(positionList[i])
+      } else {
+        break
+      }
+    }
+    return {controlElementList, controlPositionList}
+  }
+
   public getPosition(): IElementPosition | null {
     const positionList = this.draw.getPosition().getPositionList()
     const {endIndex} = this.range.getRange()
@@ -268,7 +307,9 @@ export class Control {
         if (isSubscribeControlChange) {
           this.eventBus.emit('controlChange', payload)
         }
+        this.renderShadowBox()
       } else {
+        console.log('表单控件激活')
         // todo 对比新旧数据，回填
         // let oldPayload: IDialogConfirm[] = []
         // const formDialogData = this.activeControl?.getValue()
@@ -291,11 +332,11 @@ export class Control {
    * @param payload
    * @private
    */
-  private differences(oldPayload:IDialogConfirm[], payload:IDialogConfirm[]) {
-    return oldPayload.reduce((diff:IDialogConfirm[], oldItem) => {
+  private differences(oldPayload: IDialogConfirm[], payload: IDialogConfirm[]) {
+    return oldPayload.reduce((diff: IDialogConfirm[], oldItem) => {
       const newItem = payload.find((item) => item.name === oldItem.name)
       if (!newItem || newItem.value !== oldItem.value) {
-        diff.push({ ...oldItem })
+        diff.push({...oldItem})
       }
       return diff
     }, [])
@@ -307,6 +348,7 @@ export class Control {
         this.activeControl.destroy()
       }
       this.activeControl = null
+      this.destroyShadowBox()
       // 销毁控件回调
       nextTick(() => {
         const controlChangeListener = this.listener.controlChange
@@ -847,4 +889,74 @@ export class Control {
   public drawBorder(ctx: CanvasRenderingContext2D) {
     this.controlBorder.render(ctx)
   }
+
+  /**
+   * 绘制控件背景框
+   */
+  public renderShadowBox(): void {
+    // 获取控件尺寸信息
+    const controlId = this.activeControl?.getElement().controlId
+    if (!controlId) return
+    // console.log(controlId)
+    const {controlPositionList} = this.getControlElementList()
+    const rowList = this.draw.getRowList()
+
+    let rowNo = controlPositionList[0].rowNo
+    let width = 0
+    let height = 0
+    let x = controlPositionList[0].coordinate.leftTop[0]
+    let y = controlPositionList[0].coordinate.leftTop[1]
+    let rowHeight = rowList[rowNo].height
+    toggleToolbarByOther(true, {x, y: y-36-8})
+    controlPositionList.forEach((position: IElementPosition, index: number) => {
+      if (rowNo === position.rowNo) {
+        width += position.metrics.width
+        height = height = Math.max(position.metrics.height, height)
+      } else {
+        this.generateShadowBox(x, y, width, rowHeight)
+        rowNo = position.rowNo
+        width = position.metrics.width
+        height = position.metrics.height
+        rowHeight = rowList[rowNo].height
+        x = position.coordinate.leftTop[0]
+        y = position.coordinate.leftTop[1]
+      }
+      if (index === controlPositionList.length - 1) {
+        this.generateShadowBox(x, y, width, rowHeight)
+      }
+    })
+    // console.log(controlElementList, controlPositionList)
+  }
+
+  /**
+   * 销毁控件背景框
+   */
+  public destroyShadowBox(): void {
+    console.log('触发销毁')
+    // 删除所有的控件背景框
+    this.shadowBoxList.forEach((shadowBox) => {
+      shadowBox.remove()
+    })
+    this.shadowBoxList = []
+    toggleToolbarByOther(false)
+  }
+
+  /**
+   * 生成控件背景框
+   */
+  public generateShadowBox(x: number, y: number, width: number, height: number): void {
+    // todo 生成单个div控件背景框
+    const shadowBox = document.createElement('div')
+    shadowBox.classList.add(`${EDITOR_PREFIX}-control-shadowBox`)
+    // shadowBox.style.position = 'absolute'
+    shadowBox.style.left = `${x}px`
+    shadowBox.style.top = `${y}px`
+    shadowBox.style.width = `${width}px`
+    shadowBox.style.height = `${height}px`
+    const container = this.draw.getContainer()
+    container.append(shadowBox)
+    this.shadowBoxList.push(shadowBox)
+    console.log(x, y, width, height)
+  }
+
 }

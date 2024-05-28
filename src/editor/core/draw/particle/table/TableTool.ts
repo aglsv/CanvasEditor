@@ -57,22 +57,30 @@ export class TableTool {
     this.toolBorderContainer = null
   }
 
+  /**
+   * 渲染表格工具，包括行工具、列工具和边框拖拽工具。
+   * 如果当前光标不在表格内，则不执行任何操作。
+   */
   public render() {
-    const { isTable, index, trIndex, tdIndex } =
+    // 获取当前光标位置信息，判断是否在表格内
+    const {isTable, index, trIndex, tdIndex} =
       this.position.getPositionContext()
     if (!isTable) return
     // 销毁之前工具
     this.dispose()
-    // 渲染所需数据
-    const { scale } = this.options
+    // 获取相关配置和数据
+    const {scale} = this.options
     const elementList = this.draw.getOriginalElementList()
     const positionList = this.position.getOriginalPositionList()
     const element = elementList[index!]
+    console.log(element, '表格')
     const position = positionList[index!]
-    const { colgroup, trList } = element
+    const {colgroup, trList} = element
     const {
-      coordinate: { leftTop }
+      coordinate: {leftTop}
     } = position
+
+    // 计算高度、页间距、预前页高度、表格坐标、单元格信息
     const height = this.draw.getHeight()
     const pageGap = this.draw.getPageGap()
     const prePageHeight = this.draw.getPageNo() * (height + pageGap)
@@ -348,6 +356,6 @@ export class TableTool {
       this.anchorLine.style.left = `${startX + dx}px`
     }
     evt.preventDefault()
-    return { dx, dy }
+    return {dx, dy}
   }
 }

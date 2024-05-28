@@ -6,11 +6,11 @@
 import { IElement } from '../../../../interface/Element'
 import { Control } from '../Control'
 import { IControlContext, IControlInstance, IControlRuleOption } from '../../../../interface/Control'
-import { KeyMap } from '../../../../dataset/enum/KeyMap'
 import { ControlComponent } from '../../../../dataset/enum/Control'
 import { CONTROL_STYLE_ATTR, TEXTLIKE_ELEMENT_TYPE } from '../../../../dataset/constant/Element'
 import { omitObject, pickObject } from '../../../../utils'
 import { formatElementContext } from '../../../../utils/element'
+import { Dialog } from '../../../../../components/dialog/Dialog'
 
 export class FormControl implements IControlInstance{
   protected element: IElement
@@ -34,7 +34,6 @@ export class FormControl implements IControlInstance{
   }
 
   public keydown(evt: KeyboardEvent): number | null {
-    console.log(evt)
     return null
   }
 

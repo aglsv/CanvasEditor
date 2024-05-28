@@ -2081,6 +2081,7 @@ export class Draw {
       // 绘制选区
       if (!isPrintMode) {
         if (rangeRecord.width && rangeRecord.height) {
+          console.log(rangeRecord,ctx)
           const { x, y, width, height } = rangeRecord
           this.range.render(ctx, x, y, width, height)
         }

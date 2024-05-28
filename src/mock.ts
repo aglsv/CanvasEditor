@@ -1,6 +1,6 @@
 import {
   ControlType,
-  ElementType,
+  ElementType, IEditorData,
   IEditorOption,
   IElement,
   ListType,
@@ -503,12 +503,231 @@ export const formDialogData: IDialogData[] = [
     options: [
       {
         label: '男',
-        value: '1'
+        value: '男'
       },
       {
         label: '女',
-        value: '2'
+        value: '女'
       }
     ]
   }
 ]
+
+export const mockData:IEditorData | IElement[] = {
+  'header': [],
+  'main': [
+    {
+      'value': '',
+      'type': 'control',
+      'control': {
+        'type': 'text',
+        'value': [
+          {
+            'value': '测试用的文本'
+          }
+        ],
+        'placeholder': '请输入'
+      }
+    },
+    {
+      'value': '\n',
+      'color': '#000000'
+    },
+    {
+      'value': '',
+      'type': 'table',
+      'trList': [
+        {
+          'height': 42,
+          'tdList': [
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            }
+          ],
+          'minHeight': 42
+        },
+        {
+          'height': 42,
+          'tdList': [
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            }
+          ],
+          'minHeight': 42
+        },
+        {
+          'height': 42,
+          'tdList': [
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            }
+          ],
+          'minHeight': 42
+        },
+        {
+          'height': 42,
+          'tdList': [
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            },
+            {
+              'colspan': 1,
+              'rowspan': 1,
+              'value': []
+            }
+          ],
+          'minHeight': 42
+        }
+      ],
+      'width': 553.9999999999999,
+      'height': 168,
+      'colgroup': [
+        {
+          'width': 79.14285714285714
+        },
+        {
+          'width': 79.14285714285714
+        },
+        {
+          'width': 79.14285714285714
+        },
+        {
+          'width': 79.14285714285714
+        },
+        {
+          'width': 79.14285714285714
+        },
+        {
+          'width': 79.14285714285714
+        },
+        {
+          'width': 79.14285714285714
+        }
+      ]
+    }
+  ],
+  'footer': []
+}

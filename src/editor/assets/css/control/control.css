@@ -1,0 +1,5 @@
+.ce-control-shadowBox{
+  position: absolute;
+  background-color: rgba(182, 182, 182, 0.77);
+  pointer-events: none;
+}
