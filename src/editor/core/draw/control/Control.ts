@@ -679,7 +679,7 @@ export class Control {
     const isReadonly = this.draw.isReadonly()
     if (isReadonly) return
     let isExistSet = false
-    const {conceptId, value} = payload
+    const {controlId, value} = payload
     // 设置值
     const setValue = (elementList: IElement[]) => {
       let i = 0
@@ -697,7 +697,7 @@ export class Control {
             }
           }
         }
-        if (element?.control?.conceptId !== conceptId) continue
+        if (element?.controlId !== controlId) continue
         isExistSet = true
         const {type} = element.control!
         // 当前控件结束索引
@@ -907,13 +907,13 @@ export class Control {
     let x = controlPositionList[0].coordinate.leftTop[0]
     let y = controlPositionList[0].coordinate.leftTop[1]
     let rowHeight = rowList[rowNo].height
-    toggleToolbarByOther(true, {x, y: y-36-8})
+    toggleToolbarByOther(true, '',{x, y: y})
     controlPositionList.forEach((position: IElementPosition, index: number) => {
       if (rowNo === position.rowNo) {
         width += position.metrics.width
         height = height = Math.max(position.metrics.height, height)
       } else {
-        this.generateShadowBox(x, y, width, rowHeight)
+        this.generateShadowBox(x, y, width, rowHeight,controlId)
         rowNo = position.rowNo
         width = position.metrics.width
         height = position.metrics.height
@@ -922,7 +922,7 @@ export class Control {
         y = position.coordinate.leftTop[1]
       }
       if (index === controlPositionList.length - 1) {
-        this.generateShadowBox(x, y, width, rowHeight)
+        this.generateShadowBox(x, y, width, rowHeight,controlId)
       }
     })
     // console.log(controlElementList, controlPositionList)
@@ -944,7 +944,7 @@ export class Control {
   /**
    * 生成控件背景框
    */
-  public generateShadowBox(x: number, y: number, width: number, height: number): void {
+  public generateShadowBox(x: number, y: number, width: number, height: number,controlId): void {
     // todo 生成单个div控件背景框
     const shadowBox = document.createElement('div')
     shadowBox.classList.add(`${EDITOR_PREFIX}-control-shadowBox`)
@@ -953,6 +953,7 @@ export class Control {
     shadowBox.style.top = `${y}px`
     shadowBox.style.width = `${width}px`
     shadowBox.style.height = `${height}px`
+    shadowBox.setAttribute('data-controlId', controlId)
     const container = this.draw.getContainer()
     container.append(shadowBox)
     this.shadowBoxList.push(shadowBox)

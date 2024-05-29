@@ -12,6 +12,9 @@ let toolbarContainer: HTMLDivElement | null = null
 let CEditor: Editor
 
 let isInside = false
+
+let nowControlId = ''
+
 // function createPickerToolbar(
 //   container: HTMLDivElement,
 //   toolbarType: ToolbarType,
@@ -110,11 +113,11 @@ const toolbarRegisterList: IToolbarRegister[] = [
   //   }
   // },
   {
-    key: ToolbarType.EDITOR_VALUE,
+    key:ToolbarType.EDITOR_VALUE,
     callback(editor) {
       // 获取当前活动控件
       editor.command.executeEditForm()
-      toggleToolbarVisible(toolbarContainer!, false)
+      // toggleToolbarVisible(toolbarContainer!, false)
     }
   },
   // {
@@ -147,7 +150,7 @@ function createToolbar(editor: Editor): HTMLDivElement {
       divider.classList.add(`${PLUGIN_PREFIX}-divider`)
       toolbarContainer.append(divider)
     } else {
-      const {key, callback} = toolbar
+      const { key, callback } = toolbar
       const toolbarItem = document.createElement('div')
       toolbarItem.classList.add(`${PLUGIN_PREFIX}-${key}`)
       const icon = document.createElement('i')
@@ -229,23 +232,24 @@ export default function floatingToolbarPlugin(editor: Editor) {
 }
 
 // 用于存储setTimeout返回的定时器ID
-let toggleToolbarTimeoutId: NodeJS.Timeout | null = null
+const toggleToolbarTimeoutId: NodeJS.Timeout | null = null
 
 /**
  * 外部控制工具栏显隐
  */
-export function toggleToolbarByOther(visible: boolean, position?: { x: number, y: number }) {
+export function toggleToolbarByOther(visible: boolean, controlId = '', position?: { x: number, y: number }) {
+  nowControlId = controlId
   if (toggleToolbarTimeoutId) {
     clearTimeout(toggleToolbarTimeoutId)
   }
   // toggleToolbarTimeoutId = setTimeout(() => {
-    if (toolbarContainer) {
-      if (position && !isInside) {
-        toolbarContainer.style.left = `${position.x}px`
-        toolbarContainer.style.top = `${position.y + 10}px`
-      }
-      toggleToolbarVisible(toolbarContainer, visible)
+  if (toolbarContainer) {
+    if (position && !isInside) {
+      toolbarContainer.style.left = `${position.x}px`
+      toolbarContainer.style.top = `${position.y - 36 - 8}px`
     }
+    toggleToolbarVisible(toolbarContainer, visible)
+  }
   // }, 500)
 }
 

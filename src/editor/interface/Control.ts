@@ -136,7 +136,7 @@ export type IGetControlValueResult = (Omit<IControl, 'value'> & {
 })[]
 
 export interface ISetControlValueOption {
-  conceptId: string
+  controlId: string
   value: string
 }
 

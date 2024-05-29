@@ -5,6 +5,7 @@ import { DeepRequired } from '../../../../interface/Common'
 import { IEditorOption } from '../../../../interface/Editor'
 import { Position } from '../../../position/Position'
 import { Draw } from '../../Draw'
+import { toggleToolbarByOther } from '../../../../../plugins/floatingToolbar'
 
 interface IAnchorMouseDown {
   evt: MouseEvent
@@ -55,6 +56,7 @@ export class TableTool {
     this.toolRowContainer = null
     this.toolColContainer = null
     this.toolBorderContainer = null
+    toggleToolbarByOther(false)
   }
 
   /**
@@ -63,21 +65,21 @@ export class TableTool {
    */
   public render() {
     // 获取当前光标位置信息，判断是否在表格内
-    const {isTable, index, trIndex, tdIndex} =
+    const { isTable, index, trIndex, tdIndex } =
       this.position.getPositionContext()
     if (!isTable) return
     // 销毁之前工具
     this.dispose()
     // 获取相关配置和数据
-    const {scale} = this.options
+    const { scale } = this.options
     const elementList = this.draw.getOriginalElementList()
     const positionList = this.position.getOriginalPositionList()
     const element = elementList[index!]
     console.log(element, '表格')
     const position = positionList[index!]
-    const {colgroup, trList} = element
+    const { colgroup, trList } = element
     const {
-      coordinate: {leftTop}
+      coordinate:{ leftTop }
     } = position
 
     // 计算高度、页间距、预前页高度、表格坐标、单元格信息
@@ -89,6 +91,11 @@ export class TableTool {
     const td = element.trList![trIndex!].tdList[tdIndex!]
     const rowIndex = td.rowIndex
     const colIndex = td.colIndex
+    const tableId = element.id
+
+    // 渲染编辑工具
+    toggleToolbarByOther(true, tableId, { x:tableX - 50, y:tableY })
+
     // 渲染行工具
     const rowHeightList = trList!.map(tr => tr.height)
     const rowContainer = document.createElement('div')
@@ -109,8 +116,8 @@ export class TableTool {
         this._mousedown({
           evt,
           element,
-          index: r,
-          order: TableOrder.ROW
+          index:r,
+          order:TableOrder.ROW
         })
       }
       rowItem.append(rowItemAnchor)
@@ -142,8 +149,8 @@ export class TableTool {
         this._mousedown({
           evt,
           element,
-          index: c,
-          order: TableOrder.COL
+          index:c,
+          order:TableOrder.COL
         })
       }
       colItem.append(colItemAnchor)
@@ -180,8 +187,8 @@ export class TableTool {
           this._mousedown({
             evt,
             element,
-            index: td.rowIndex! + td.rowspan - 1,
-            order: TableOrder.ROW
+            index:td.rowIndex! + td.rowspan - 1,
+            order:TableOrder.ROW
           })
         }
         borderContainer.appendChild(rowBorder)
@@ -197,8 +204,8 @@ export class TableTool {
           this._mousedown({
             evt,
             element,
-            index: td.colIndex! + td.colspan - 1,
-            order: TableOrder.COL
+            index:td.colIndex! + td.colspan - 1,
+            order:TableOrder.COL
           })
         }
         borderContainer.appendChild(colBorder)
@@ -326,7 +333,7 @@ export class TableTool {
           }
         }
         if (isChangeSize) {
-          this.draw.render({ isSetCursor: false })
+          this.draw.render({ isSetCursor:false })
         }
         // 还原副作用
         anchorLine.remove()
@@ -335,7 +342,7 @@ export class TableTool {
         this.canvas.style.cursor = 'text'
       },
       {
-        once: true
+        once:true
       }
     )
     evt.preventDefault()
@@ -356,6 +363,6 @@ export class TableTool {
       this.anchorLine.style.left = `${startX + dx}px`
     }
     evt.preventDefault()
-    return {dx, dy}
+    return { dx, dy }
   }
 }
