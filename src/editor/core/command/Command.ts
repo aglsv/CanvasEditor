@@ -92,6 +92,7 @@ export class Command {
   public executeSetControlProperties: CommandAdapt['setControlProperties']
   public executeSetControlHighlight: CommandAdapt['setControlHighlight']
   public executeUpdateOptions: CommandAdapt['updateOptions']
+  public executeInsertTitle: CommandAdapt['insertTitle']
   public executeEditForm: CommandAdapt['editControlValue']
   public getCatalog: CommandAdapt['getCatalog']
   public getImage: CommandAdapt['getImage']
@@ -210,6 +211,7 @@ export class Command {
     this.executeLocationGroup = adapt.locationGroup.bind(adapt)
     this.executeSetZone = adapt.setZone.bind(adapt)
     this.executeUpdateOptions = adapt.updateOptions.bind(adapt)
+    this.executeInsertTitle = adapt.insertTitle.bind(adapt)
     // 控件
     this.executeEditForm = adapt.editControlValue.bind(adapt)
     // 获取
