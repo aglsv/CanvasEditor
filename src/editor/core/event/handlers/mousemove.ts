@@ -121,43 +121,43 @@ export function mousemove(evt: MouseEvent, host: CanvasEvent) {
   }
   // 移动到控件上时显示悬浮工具栏
   else {
-    const target = evt.target as HTMLDivElement
-    const pageIndex = target.dataset.index
-    // 设置pageNo
-    if (pageIndex) {
-      draw.setPageNo(Number(pageIndex))
-    }
-    // host.isAllowSelection = true
-    const position = draw.getPosition()
-    const positionResult = position.adjustPositionContext({
-      x: evt.offsetX,
-      y: evt.offsetY
-    })
-    if (!positionResult) return
-    const {
-      index,
-      isControl,
-      isTable,
-      tdValueIndex
-    } = positionResult
-    if (!isControl) {
-      eventPosition.x = 0
-      eventPosition.y = 0
-      // toggleToolbarByOther(false)
-      return
-    }
-    const elementList = draw.getElementList()
-    position.getPositionList()
-    const curIndex = isTable ? tdValueIndex! : index
-    const curElement = elementList[curIndex]
-    if (curElement.control && curElement.control.type === 'form') {
-      eventPosition.x = evt.offsetX
-      eventPosition.y = evt.offsetY
-      // toggleToolbarByOther(true, {...eventPosition})
-    }else{
-      // toggleToolbarByOther(false)
-      eventPosition.x = 0
-      eventPosition.y = 0
-    }
+    // const target = evt.target as HTMLDivElement
+    // const pageIndex = target.dataset.index
+    // // 设置pageNo
+    // if (pageIndex) {
+    //   draw.setPageNo(Number(pageIndex))
+    // }
+    // // host.isAllowSelection = true
+    // const position = draw.getPosition()
+    // const positionResult = position.adjustPositionContext({
+    //   x: evt.offsetX,
+    //   y: evt.offsetY
+    // })
+    // if (!positionResult) return
+    // const {
+    //   index,
+    //   isControl,
+    //   isTable,
+    //   tdValueIndex
+    // } = positionResult
+    // if (!isControl) {
+    //   eventPosition.x = 0
+    //   eventPosition.y = 0
+    //   // toggleToolbarByOther(false)
+    //   return
+    // }
+    // const elementList = draw.getElementList()
+    // position.getPositionList()
+    // const curIndex = isTable ? tdValueIndex! : index
+    // const curElement = elementList[curIndex]
+    // if (curElement.control && curElement.control.type === 'form') {
+    //   eventPosition.x = evt.offsetX
+    //   eventPosition.y = evt.offsetY
+    //   // toggleToolbarByOther(true, {...eventPosition})
+    // }else{
+    //   // toggleToolbarByOther(false)
+    //   eventPosition.x = 0
+    //   eventPosition.y = 0
+    // }
   }
 }

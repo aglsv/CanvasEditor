@@ -13,7 +13,9 @@ let CEditor: Editor
 
 let isInside = false
 
-let nowControlId = ''
+let nowtargetId = ''
+
+let nowTargetType = ''
 
 // function createPickerToolbar(
 //   container: HTMLDivElement,
@@ -115,8 +117,12 @@ const toolbarRegisterList: IToolbarRegister[] = [
   {
     key:ToolbarType.EDITOR_VALUE,
     callback(editor) {
-      // 获取当前活动控件
-      editor.command.executeEditForm()
+      // 编辑控件
+      if (nowTargetType === 'control')
+        editor.command.executeEditControl()
+      // 编辑表格
+      else
+        editor.command.executeEditTable(nowtargetId)
       // toggleToolbarVisible(toolbarContainer!, false)
     }
   },
@@ -237,8 +243,15 @@ const toggleToolbarTimeoutId: NodeJS.Timeout | null = null
 /**
  * 外部控制工具栏显隐
  */
-export function toggleToolbarByOther(visible: boolean, controlId = '', position?: { x: number, y: number }) {
-  nowControlId = controlId
+export function toggleToolbarByOther(visible: boolean, targetInfo: { id: string, type: string } = {
+  id:'',
+  type:''
+}, position?: {
+  x: number,
+  y: number
+}) {
+  nowtargetId = targetInfo.id
+  nowTargetType = targetInfo.type
   if (toggleToolbarTimeoutId) {
     clearTimeout(toggleToolbarTimeoutId)
   }

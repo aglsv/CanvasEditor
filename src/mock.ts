@@ -514,220 +514,265 @@ export const formDialogData: IDialogData[] = [
 ]
 
 export const mockData:IEditorData | IElement[] = {
-  'header': [],
-  'main': [
+  "header": [],
+  "main": [
     {
-      'value': '',
-      'type': 'control',
-      'control': {
-        'type': 'text',
-        'value': [
+      "value": "",
+      "type": "control",
+      "control": {
+        "type": "text",
+        "value": [
           {
-            'value': '测试用的文本'
+            "value": "测试用的文本",
+            "type": "text"
           }
         ],
-        'placeholder': '请输入'
+        "placeholder": "请输入"
       }
     },
     {
-      'value': '\n',
-      'color': '#000000'
+      "value": "\n",
+      "color": "#000000"
     },
     {
-      'value': '',
-      'type': 'table',
-      'trList': [
+      "value": "",
+      "type": "table",
+      "trList": [
         {
-          'height': 42,
-          'tdList': [
+          "height": 42,
+          "tdList": [
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": [
+                {
+                  "value": "1"
+                }
+              ]
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": [
+                {
+                  "value": "2"
+                }
+              ]
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": [
+                {
+                  "value": "3"
+                }
+              ]
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": [
+                {
+                  "value": "4"
+                }
+              ]
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             }
           ],
-          'minHeight': 42
+          "minHeight": 42
         },
         {
-          'height': 42,
-          'tdList': [
+          "height": 42,
+          "tdList": [
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": [
+                {
+                  "value": "22"
+                }
+              ]
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": [
+                {
+                  "value": "222"
+                }
+              ]
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": [
+                {
+                  "value": "23"
+                }
+              ]
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": [
+                {
+                  "value": "24"
+                }
+              ]
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             }
           ],
-          'minHeight': 42
+          "minHeight": 42
         },
         {
-          'height': 42,
-          'tdList': [
+          "height": 42,
+          "tdList": [
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": [
+                {
+                  "value": "44"
+                }
+              ]
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             }
           ],
-          'minHeight': 42
+          "minHeight": 42
         },
         {
-          'height': 42,
-          'tdList': [
+          "height": 42,
+          "tdList": [
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": []
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": [
+                {
+                  "value": "55"
+                }
+              ]
             },
             {
-              'colspan': 1,
-              'rowspan': 1,
-              'value': []
+              "colspan": 1,
+              "rowspan": 1,
+              "value": [
+                {
+                  "value": "66"
+                }
+              ]
             }
           ],
-          'minHeight': 42
+          "minHeight": 42
         }
       ],
-      'width': 553.9999999999999,
-      'height': 168,
-      'colgroup': [
+      "width": 553.9999999999999,
+      "height": 168,
+      "colgroup": [
         {
-          'width': 79.14285714285714
+          "width": 79.14285714285714
         },
         {
-          'width': 79.14285714285714
+          "width": 79.14285714285714
         },
         {
-          'width': 79.14285714285714
+          "width": 79.14285714285714
         },
         {
-          'width': 79.14285714285714
+          "width": 79.14285714285714
         },
         {
-          'width': 79.14285714285714
+          "width": 79.14285714285714
         },
         {
-          'width': 79.14285714285714
+          "width": 79.14285714285714
         },
         {
-          'width': 79.14285714285714
+          "width": 79.14285714285714
         }
       ]
     }
   ],
-  'footer': []
+  "footer": []
 }

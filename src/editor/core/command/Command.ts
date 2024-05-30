@@ -93,7 +93,8 @@ export class Command {
   public executeSetControlHighlight: CommandAdapt['setControlHighlight']
   public executeUpdateOptions: CommandAdapt['updateOptions']
   public executeInsertTitle: CommandAdapt['insertTitle']
-  public executeEditForm: CommandAdapt['editControlValue']
+  public executeEditControl: CommandAdapt['editControlValue']
+  public executeEditTable: CommandAdapt['editTableValue']
   public getCatalog: CommandAdapt['getCatalog']
   public getImage: CommandAdapt['getImage']
   public getOptions: CommandAdapt['getOptions']
@@ -213,7 +214,8 @@ export class Command {
     this.executeUpdateOptions = adapt.updateOptions.bind(adapt)
     this.executeInsertTitle = adapt.insertTitle.bind(adapt)
     // 控件
-    this.executeEditForm = adapt.editControlValue.bind(adapt)
+    this.executeEditControl = adapt.editControlValue.bind(adapt)
+    this.executeEditTable = adapt.editTableValue.bind(adapt)
     // 获取
     this.getImage = adapt.getImage.bind(adapt)
     this.getOptions = adapt.getOptions.bind(adapt)

@@ -919,7 +919,7 @@ export class Control {
     let x = controlPositionList[0].coordinate.leftTop[0]
     let y = controlPositionList[0].coordinate.leftTop[1]
     let rowHeight = rowList[rowNo].height
-    toggleToolbarByOther(true, '',{x, y: y})
+    toggleToolbarByOther(true, {id: controlId, type: 'control'},{x, y: y})
     controlPositionList.forEach((position: IElementPosition, index: number) => {
       if (rowNo === position.rowNo) {
         width += position.metrics.width

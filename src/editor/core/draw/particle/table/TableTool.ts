@@ -6,6 +6,7 @@ import { IEditorOption } from '../../../../interface/Editor'
 import { Position } from '../../../position/Position'
 import { Draw } from '../../Draw'
 import { toggleToolbarByOther } from '../../../../../plugins/floatingToolbar'
+import { IElementPosition } from '../../../../interface/Element'
 
 interface IAnchorMouseDown {
   evt: MouseEvent
@@ -33,6 +34,9 @@ export class TableTool {
   private anchorLine: HTMLDivElement | null
   private mousedownX: number
   private mousedownY: number
+  public tableElement: IElement | null = null
+  public tableIndex: number = 0
+  public tablePosition: IElementPosition | null = null
 
   constructor(draw: Draw) {
     this.draw = draw
@@ -56,6 +60,9 @@ export class TableTool {
     this.toolRowContainer = null
     this.toolColContainer = null
     this.toolBorderContainer = null
+    this.tableIndex = -1
+    this.tableElement = null
+    this.tablePosition = null
     toggleToolbarByOther(false)
   }
 
@@ -77,6 +84,12 @@ export class TableTool {
     const element = elementList[index!]
     console.log(element, '表格')
     const position = positionList[index!]
+
+    // 公共变量赋值
+    this.tableElement = element
+    this.tableIndex = index!
+    this.tablePosition = position
+
     const { colgroup, trList } = element
     const {
       coordinate:{ leftTop }
@@ -94,7 +107,7 @@ export class TableTool {
     const tableId = element.id
 
     // 渲染编辑工具
-    toggleToolbarByOther(true, tableId, { x:tableX - 50, y:tableY })
+    toggleToolbarByOther(true, { id:tableId ?? '', type:'table' }, { x:tableX - 50, y:tableY })
 
     // 渲染行工具
     const rowHeightList = trList!.map(tr => tr.height)
