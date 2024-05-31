@@ -96,6 +96,70 @@ async function fetchHtmlContent(url: string): Promise<HtmlInfo> {
     // const bodyContent = dom.querySelector('body')?.outerHTML ?? ''
     // console.log(bodyContent)
 
+    bodyContent = '<div>\n' +
+      '    <div style="text-align:center">\n' +
+      '      <table cellspacing="0" cellpadding="0"\n' +
+      '        style="width:100%; margin-right:auto; margin-left:auto; border:1.5pt solid #000000; -aw-border-insideh:0.75pt single #000000; -aw-border-insidev:0.75pt single #000000; border-collapse:collapse">\n' +
+      '        <tr style="height:28.35pt">\n' +
+      '          <td\n' +
+      '            style="width:14.68%; border-right-style:solid; border-right-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.03pt; padding-left:4.65pt; vertical-align:middle">\n' +
+      '            <p style="margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:10.5pt"><span\n' +
+      '                style="font-family:宋体">序号</span></p>\n' +
+      '          </td>\n' +
+      '          <td\n' +
+      '            style="width:28.04%; border-right-style:solid; border-right-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:middle">\n' +
+      '            <p style="margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:10.5pt"><span\n' +
+      '                style="font-family:宋体">标段名称</span></p>\n' +
+      '          </td>\n' +
+      '          <td\n' +
+      '            style="width:57.28%; border-left-style:solid; border-left-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:4.65pt; padding-left:5.03pt; vertical-align:middle">\n' +
+      '            <p style="margin-top:0pt; margin-bottom:0pt; text-align:center; font-size:10.5pt"><span\n' +
+      '                style="font-family:宋体">资格要求</span></p>\n' +
+      '          </td>\n' +
+      '        </tr>\n' +
+      '        <tr>\n' +
+      '          <td\n' +
+      '            style="width:14.68%; border-top-style:solid; border-top-width:0.75pt; border-right-style:solid; border-right-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:5.03pt; padding-left:4.65pt; vertical-align:middle">\n' +
+      '            <p\n' +
+      '              style="margin-top:0pt; margin-left:21pt; margin-bottom:0pt; text-align:justify; line-height:150%; font-size:10.5pt">\n' +
+      '              <span style="font-family:宋体; -aw-import:ignore">&#xa0;</span></p>\n' +
+      '          </td>\n' +
+      '          <td\n' +
+      '            style="width:28.04%; border-style:solid; border-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top">\n' +
+      '            <p style="margin-top:0pt; margin-bottom:0pt; text-align:center; line-height:150%; font-size:10.5pt"><span\n' +
+      '                style="font-family:宋体; -aw-import:ignore">&#xa0;</span></p>\n' +
+      '          </td>\n' +
+      '          <td\n' +
+      '            style="width:57.28%; border-top-style:solid; border-top-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; border-bottom-style:solid; border-bottom-width:0.75pt; padding-right:4.65pt; padding-left:5.03pt; vertical-align:top">\n' +
+      '            <p style="margin-top:0pt; margin-bottom:0pt; font-size:10.5pt"><span style="font-family:宋体">基本资格要求：</span>\n' +
+      '            </p>\n' +
+      '            <p style="margin-top:0pt; margin-bottom:0pt; font-size:10.5pt"><span style="font-family:宋体">专项资格要求：111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111</span>' +
+      '            </p>\n' +
+      '          </td>\n' +
+      '        </tr>\n' +
+      '        <tr style="height:28.35pt">\n' +
+      '          <td\n' +
+      '            style="width:14.68%; border-top-style:solid; border-top-width:0.75pt; border-right-style:solid; border-right-width:0.75pt; padding-right:5.03pt; padding-left:4.65pt; vertical-align:middle">\n' +
+      '            <p\n' +
+      '              style="margin-top:0pt; margin-left:21pt; margin-bottom:0pt; text-align:justify; line-height:150%; font-size:10.5pt">\n' +
+      '              <span style="font-family:宋体; -aw-import:ignore">&#xa0;</span></p>\n' +
+      '          </td>\n' +
+      '          <td\n' +
+      '            style="width:28.04%; border-top-style:solid; border-top-width:0.75pt; border-right-style:solid; border-right-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; padding-right:5.03pt; padding-left:5.03pt; vertical-align:top">\n' +
+      '            <p style="margin-top:0pt; margin-bottom:0pt; text-align:center; line-height:150%; font-size:10.5pt"><span\n' +
+      '                style="font-family:宋体; -aw-import:ignore">&#xa0;</span></p>\n' +
+      '          </td>\n' +
+      '          <td\n' +
+      '            style="width:57.28%; border-top-style:solid; border-top-width:0.75pt; border-left-style:solid; border-left-width:0.75pt; padding-right:4.65pt; padding-left:5.03pt; vertical-align:top">\n' +
+      '            <p style="margin-top:0pt; margin-bottom:0pt; text-align:center; line-height:150%; font-size:10.5pt"><span\n' +
+      '                style="font-family:宋体; -aw-import:ignore">&#xa0;</span></p>\n' +
+      '          </td>\n' +
+      '        </tr>\n' +
+      '      </table>\n' +
+      '    </div>\n' +
+      '    <p style="margin-top:0pt; margin-bottom:0pt"><span style="-aw-import:ignore">&#xa0;</span></p>\n' +
+      '  </div>'
+
     return {
       header: headerHTML,
       main: bodyContent,

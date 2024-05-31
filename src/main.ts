@@ -1905,3 +1905,4 @@ const canvasEditorFun = {
 window.canvasEditorFun = canvasEditorFun
 export default canvasEditorFun
 initEditorByData()
+// initEditorByFile('')

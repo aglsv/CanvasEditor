@@ -100,6 +100,7 @@ import { WorkerManager } from '../worker/WorkerManager'
 import { img2PDF } from '../../utils/pdf'
 import { Dialog, IDialogData } from '../../../components/dialog/Dialog'
 import { instance } from '../../../main'
+import { ITableDialogInfo, TableDialog } from '../../../components/dialog/tableDialog'
 
 export class CommandAdapt {
   private draw: Draw
@@ -201,10 +202,10 @@ export class CommandAdapt {
     )
     const isCollapsed = startIndex === endIndex
     this.draw.render({
-      curIndex:isCollapsed ? startIndex : undefined,
-      isCompute:false,
-      isSubmitHistory:false,
-      isSetCursor:isCollapsed
+      curIndex: isCollapsed ? startIndex : undefined,
+      isCompute: false,
+      isSubmitHistory: false,
+      isSetCursor: isCollapsed
     })
   }
 
@@ -230,17 +231,17 @@ export class CommandAdapt {
       const tr = tableElement.trList![startTrIndex!]
       const td = tr.tdList[startTdIndex!]
       this.position.setPositionContext({
-        isTable:true,
-        index:tableElementIndex,
-        trIndex:startTrIndex,
-        tdIndex:startTdIndex,
-        tdId:td.id,
-        trId:tr.id,
+        isTable: true,
+        index: tableElementIndex,
+        trIndex: startTrIndex,
+        tdIndex: startTdIndex,
+        tdId: td.id,
+        trId: tr.id,
         tableId
       })
     } else {
       this.position.setPositionContext({
-        isTable:false
+        isTable: false
       })
     }
   }
@@ -250,7 +251,7 @@ export class CommandAdapt {
     this.range.clearRange()
     this.draw.render({
       isSubmitHistory,
-      isSetCursor:false
+      isSetCursor: false
     })
   }
 
@@ -309,14 +310,14 @@ export class CommandAdapt {
     let changeElementList: IElement[] = []
     if (selection?.length) {
       changeElementList = selection
-      renderOption = { isSetCursor:false }
+      renderOption = { isSetCursor: false }
     } else {
       const { endIndex } = this.range.getRange()
       const elementList = this.draw.getElementList()
       const enterElement = elementList[endIndex]
       if (enterElement?.value === ZERO) {
         changeElementList.push(enterElement)
-        renderOption = { curIndex:endIndex }
+        renderOption = { curIndex: endIndex }
       }
     }
     if (!changeElementList.length) return
@@ -341,14 +342,14 @@ export class CommandAdapt {
       selection.forEach(el => {
         el.font = payload
       })
-      this.draw.render({ isSetCursor:false })
+      this.draw.render({ isSetCursor: false })
     } else {
       const { endIndex } = this.range.getRange()
       const elementList = this.draw.getElementList()
       const enterElement = elementList[endIndex]
       if (enterElement?.value === ZERO) {
         enterElement.font = payload
-        this.draw.render({ curIndex:endIndex, isCompute:false })
+        this.draw.render({ curIndex: endIndex, isCompute: false })
       }
     }
   }
@@ -365,14 +366,14 @@ export class CommandAdapt {
     const selection = this.range.getTextLikeSelectionElementList()
     if (selection?.length) {
       changeElementList = selection
-      renderOption = { isSetCursor:false }
+      renderOption = { isSetCursor: false }
     } else {
       const { endIndex } = this.range.getRange()
       const elementList = this.draw.getElementList()
       const enterElement = elementList[endIndex]
       if (enterElement?.value === ZERO) {
         changeElementList.push(enterElement)
-        renderOption = { curIndex:endIndex }
+        renderOption = { curIndex: endIndex }
       }
     }
     if (!changeElementList.length) return
@@ -402,14 +403,14 @@ export class CommandAdapt {
     let changeElementList: IElement[] = []
     if (selection?.length) {
       changeElementList = selection
-      renderOption = { isSetCursor:false }
+      renderOption = { isSetCursor: false }
     } else {
       const { endIndex } = this.range.getRange()
       const elementList = this.draw.getElementList()
       const enterElement = elementList[endIndex]
       if (enterElement?.value === ZERO) {
         changeElementList.push(enterElement)
-        renderOption = { curIndex:endIndex }
+        renderOption = { curIndex: endIndex }
       }
     }
     if (!changeElementList.length) return
@@ -442,14 +443,14 @@ export class CommandAdapt {
     let changeElementList: IElement[] = []
     if (selection?.length) {
       changeElementList = selection
-      renderOption = { isSetCursor:false }
+      renderOption = { isSetCursor: false }
     } else {
       const { endIndex } = this.range.getRange()
       const elementList = this.draw.getElementList()
       const enterElement = elementList[endIndex]
       if (enterElement?.value === ZERO) {
         changeElementList.push(enterElement)
-        renderOption = { curIndex:endIndex }
+        renderOption = { curIndex: endIndex }
       }
     }
     if (!changeElementList.length) return
@@ -482,14 +483,14 @@ export class CommandAdapt {
       selection.forEach(el => {
         el.bold = !!~noBoldIndex
       })
-      this.draw.render({ isSetCursor:false })
+      this.draw.render({ isSetCursor: false })
     } else {
       const { endIndex } = this.range.getRange()
       const elementList = this.draw.getElementList()
       const enterElement = elementList[endIndex]
       if (enterElement?.value === ZERO) {
         enterElement.bold = !enterElement.bold
-        this.draw.render({ curIndex:endIndex, isCompute:false })
+        this.draw.render({ curIndex: endIndex, isCompute: false })
       }
     }
   }
@@ -504,14 +505,14 @@ export class CommandAdapt {
       selection.forEach(el => {
         el.italic = !!~noItalicIndex
       })
-      this.draw.render({ isSetCursor:false })
+      this.draw.render({ isSetCursor: false })
     } else {
       const { endIndex } = this.range.getRange()
       const elementList = this.draw.getElementList()
       const enterElement = elementList[endIndex]
       if (enterElement?.value === ZERO) {
         enterElement.italic = !enterElement.italic
-        this.draw.render({ curIndex:endIndex, isCompute:false })
+        this.draw.render({ curIndex: endIndex, isCompute: false })
       }
     }
   }
@@ -541,8 +542,8 @@ export class CommandAdapt {
         }
       })
       this.draw.render({
-        isSetCursor:false,
-        isCompute:false
+        isSetCursor: false,
+        isCompute: false
       })
     } else {
       const { endIndex } = this.range.getRange()
@@ -550,7 +551,7 @@ export class CommandAdapt {
       const enterElement = elementList[endIndex]
       if (enterElement?.value === ZERO) {
         enterElement.underline = !enterElement.underline
-        this.draw.render({ curIndex:endIndex, isCompute:false })
+        this.draw.render({ curIndex: endIndex, isCompute: false })
       }
     }
   }
@@ -566,8 +567,8 @@ export class CommandAdapt {
         el.strikeout = !!~noStrikeoutIndex
       })
       this.draw.render({
-        isSetCursor:false,
-        isCompute:false
+        isSetCursor: false,
+        isCompute: false
       })
     } else {
       const { endIndex } = this.range.getRange()
@@ -575,7 +576,7 @@ export class CommandAdapt {
       const enterElement = elementList[endIndex]
       if (enterElement?.value === ZERO) {
         enterElement.strikeout = !enterElement.strikeout
-        this.draw.render({ curIndex:endIndex, isCompute:false })
+        this.draw.render({ curIndex: endIndex, isCompute: false })
       }
     }
   }
@@ -607,7 +608,7 @@ export class CommandAdapt {
         }
       }
     })
-    this.draw.render({ isSetCursor:false })
+    this.draw.render({ isSetCursor: false })
   }
 
   public subscript() {
@@ -637,7 +638,7 @@ export class CommandAdapt {
         }
       }
     })
-    this.draw.render({ isSetCursor:false })
+    this.draw.render({ isSetCursor: false })
   }
 
   public color(payload: string | null) {
@@ -654,8 +655,8 @@ export class CommandAdapt {
         }
       })
       this.draw.render({
-        isSetCursor:false,
-        isCompute:false
+        isSetCursor: false,
+        isCompute: false
       })
     } else {
       const { endIndex } = this.range.getRange()
@@ -667,7 +668,7 @@ export class CommandAdapt {
         } else {
           delete enterElement.color
         }
-        this.draw.render({ curIndex:endIndex, isCompute:false })
+        this.draw.render({ curIndex: endIndex, isCompute: false })
       }
     }
   }
@@ -686,8 +687,8 @@ export class CommandAdapt {
         }
       })
       this.draw.render({
-        isSetCursor:false,
-        isCompute:false
+        isSetCursor: false,
+        isCompute: false
       })
     } else {
       const { endIndex } = this.range.getRange()
@@ -699,7 +700,7 @@ export class CommandAdapt {
         } else {
           delete enterElement.highlight
         }
-        this.draw.render({ curIndex:endIndex, isCompute:false })
+        this.draw.render({ curIndex: endIndex, isCompute: false })
       }
     }
   }
@@ -805,7 +806,7 @@ export class CommandAdapt {
     const colWidth = innerWidth / col
     for (let c = 0; c < col; c++) {
       colgroup.push({
-        width:colWidth
+        width: colWidth
       })
     }
     // trlist
@@ -813,27 +814,27 @@ export class CommandAdapt {
     for (let r = 0; r < row; r++) {
       const tdList: ITd[] = []
       const tr: ITr = {
-        height:defaultTrMinHeight,
+        height: defaultTrMinHeight,
         tdList
       }
       for (let c = 0; c < col; c++) {
         tdList.push({
-          colspan:1,
-          rowspan:1,
-          value:[{ value:ZERO, size:16 }]
+          colspan: 1,
+          rowspan: 1,
+          value: [{ value: ZERO, size: 16 }]
         })
       }
       trList.push(tr)
     }
     const element: IElement = {
-      type:ElementType.TABLE,
-      value:'',
+      type: ElementType.TABLE,
+      value: '',
       colgroup,
       trList
     }
     // 格式化element
     formatElementList([element], {
-      editorOptions:this.options
+      editorOptions: this.options
     })
     formatElementContext(elementList, [element], startIndex)
     const curIndex = startIndex + 1
@@ -844,7 +845,7 @@ export class CommandAdapt {
       element
     )
     this.range.setRange(curIndex, curIndex)
-    this.draw.render({ curIndex, isSetCursor:false })
+    this.draw.render({ curIndex, isSetCursor: false })
   }
 
   public insertTableTopRow() {
@@ -873,24 +874,24 @@ export class CommandAdapt {
     // 增加当前行
     const newTrId = getUUID()
     const newTr: ITr = {
-      height:curTr.height,
-      id:newTrId,
-      tdList:[]
+      height: curTr.height,
+      id: newTrId,
+      tdList: []
     }
     for (let t = 0; t < curTr.tdList.length; t++) {
       const curTd = curTr.tdList[t]
       const newTdId = getUUID()
       newTr.tdList.push({
-        id:newTdId,
-        rowspan:1,
-        colspan:curTd.colspan,
-        value:[
+        id: newTdId,
+        rowspan: 1,
+        colspan: curTd.colspan,
+        value: [
           {
-            value:ZERO,
-            size:16,
+            value: ZERO,
+            size: 16,
             tableId,
-            trId:newTrId,
-            tdId:newTdId
+            trId: newTrId,
+            tdId: newTdId
           }
         ]
       })
@@ -898,17 +899,17 @@ export class CommandAdapt {
     curTrList.splice(trIndex!, 0, newTr)
     // 重新设置上下文
     this.position.setPositionContext({
-      isTable:true,
+      isTable: true,
       index,
       trIndex,
-      tdIndex:0,
-      tdId:newTr.tdList[0].id,
-      trId:newTr.id,
+      tdIndex: 0,
+      tdId: newTr.tdList[0].id,
+      trId: newTr.id,
       tableId
     })
     this.range.setRange(0, 0)
     // 重新渲染
-    this.draw.render({ curIndex:0 })
+    this.draw.render({ curIndex: 0 })
     this.tableTool.render()
   }
 
@@ -940,24 +941,24 @@ export class CommandAdapt {
     // 增加当前行
     const newTrId = getUUID()
     const newTr: ITr = {
-      height:anchorTr.height,
-      id:newTrId,
-      tdList:[]
+      height: anchorTr.height,
+      id: newTrId,
+      tdList: []
     }
     for (let t = 0; t < anchorTr.tdList.length; t++) {
       const curTd = anchorTr.tdList[t]
       const newTdId = getUUID()
       newTr.tdList.push({
-        id:newTdId,
-        rowspan:1,
-        colspan:curTd.colspan,
-        value:[
+        id: newTdId,
+        rowspan: 1,
+        colspan: curTd.colspan,
+        value: [
           {
-            value:ZERO,
-            size:16,
+            value: ZERO,
+            size: 16,
             tableId,
-            trId:newTrId,
-            tdId:newTdId
+            trId: newTrId,
+            tdId: newTdId
           }
         ]
       })
@@ -965,17 +966,17 @@ export class CommandAdapt {
     curTrList.splice(trIndex! + 1, 0, newTr)
     // 重新设置上下文
     this.position.setPositionContext({
-      isTable:true,
+      isTable: true,
       index,
-      trIndex:trIndex! + 1,
-      tdIndex:0,
-      tdId:newTr.tdList[0].id,
-      trId:newTr.id,
+      trIndex: trIndex! + 1,
+      tdIndex: 0,
+      tdId: newTr.tdList[0].id,
+      trId: newTr.id,
       tableId
     })
     this.range.setRange(0, 0)
     // 重新渲染
-    this.draw.render({ curIndex:0 })
+    this.draw.render({ curIndex: 0 })
     this.tableTool.render()
   }
 
@@ -994,15 +995,15 @@ export class CommandAdapt {
       const tr = curTrList[t]
       const tdId = getUUID()
       tr.tdList.splice(curTdIndex, 0, {
-        id:tdId,
-        rowspan:1,
-        colspan:1,
-        value:[
+        id: tdId,
+        rowspan: 1,
+        colspan: 1,
+        value: [
           {
-            value:ZERO,
-            size:16,
+            value: ZERO,
+            size: 16,
             tableId,
-            trId:tr.id,
+            trId: tr.id,
             tdId
           }
         ]
@@ -1011,7 +1012,7 @@ export class CommandAdapt {
     // 重新计算宽度
     const colgroup = element.colgroup!
     colgroup.splice(curTdIndex, 0, {
-      width:this.options.table.defaultColMinWidth
+      width: this.options.table.defaultColMinWidth
     })
     const colgroupWidth = colgroup.reduce((pre, cur) => pre + cur.width, 0)
     const width = this.draw.getOriginalInnerWidth()
@@ -1024,17 +1025,17 @@ export class CommandAdapt {
     }
     // 重新设置上下文
     this.position.setPositionContext({
-      isTable:true,
+      isTable: true,
       index,
-      trIndex:0,
-      tdIndex:curTdIndex,
-      tdId:curTrList[0].tdList[curTdIndex].id,
-      trId:curTrList[0].id,
+      trIndex: 0,
+      tdIndex: curTdIndex,
+      tdId: curTrList[0].tdList[curTdIndex].id,
+      trId: curTrList[0].id,
       tableId
     })
     this.range.setRange(0, 0)
     // 重新渲染
-    this.draw.render({ curIndex:0 })
+    this.draw.render({ curIndex: 0 })
     this.tableTool.render()
   }
 
@@ -1053,15 +1054,15 @@ export class CommandAdapt {
       const tr = curTrList[t]
       const tdId = getUUID()
       tr.tdList.splice(curTdIndex, 0, {
-        id:tdId,
-        rowspan:1,
-        colspan:1,
-        value:[
+        id: tdId,
+        rowspan: 1,
+        colspan: 1,
+        value: [
           {
-            value:ZERO,
-            size:16,
+            value: ZERO,
+            size: 16,
             tableId,
-            trId:tr.id,
+            trId: tr.id,
             tdId
           }
         ]
@@ -1070,7 +1071,7 @@ export class CommandAdapt {
     // 重新计算宽度
     const colgroup = element.colgroup!
     colgroup.splice(curTdIndex, 0, {
-      width:this.options.table.defaultColMinWidth
+      width: this.options.table.defaultColMinWidth
     })
     const colgroupWidth = colgroup.reduce((pre, cur) => pre + cur.width, 0)
     const width = this.draw.getOriginalInnerWidth()
@@ -1083,17 +1084,17 @@ export class CommandAdapt {
     }
     // 重新设置上下文
     this.position.setPositionContext({
-      isTable:true,
+      isTable: true,
       index,
-      trIndex:0,
-      tdIndex:curTdIndex,
-      tdId:curTrList[0].tdList[curTdIndex].id,
-      trId:curTrList[0].id,
+      trIndex: 0,
+      tdIndex: curTdIndex,
+      tdId: curTrList[0].tdList[curTdIndex].id,
+      trId: curTrList[0].id,
       tableId
     })
     this.range.setRange(0, 0)
     // 重新渲染
-    this.draw.render({ curIndex:0 })
+    this.draw.render({ curIndex: 0 })
     this.tableTool.render()
   }
 
@@ -1131,15 +1132,15 @@ export class CommandAdapt {
         const tdId = getUUID()
         const nextTr = trList[trIndex! + 1]
         nextTr.tdList.splice(d, 0, {
-          id:tdId,
-          rowspan:td.rowspan - 1,
-          colspan:td.colspan,
-          value:[
+          id: tdId,
+          rowspan: td.rowspan - 1,
+          colspan: td.colspan,
+          value: [
             {
-              value:ZERO,
-              size:16,
-              tableId:element.id,
-              trId:nextTr.id,
+              value: ZERO,
+              size: 16,
+              tableId: element.id,
+              trId: nextTr.id,
               tdId
             }
           ]
@@ -1150,12 +1151,12 @@ export class CommandAdapt {
     trList.splice(trIndex!, 1)
     // 重新设置上下文
     this.position.setPositionContext({
-      isTable:false
+      isTable: false
     })
     this.range.clearRange()
     // 重新渲染
     this.draw.render({
-      curIndex:positionContext.index
+      curIndex: positionContext.index
     })
     this.tableTool.dispose()
   }
@@ -1211,12 +1212,12 @@ export class CommandAdapt {
     element.colgroup?.splice(curColIndex, 1)
     // 重新设置上下文
     this.position.setPositionContext({
-      isTable:false
+      isTable: false
     })
     this.range.setRange(0, 0)
     // 重新渲染
     this.draw.render({
-      curIndex:positionContext.index
+      curIndex: positionContext.index
     })
     this.tableTool.dispose()
   }
@@ -1230,8 +1231,8 @@ export class CommandAdapt {
     originalElementList.splice(positionContext.index!, 1)
     const curIndex = positionContext.index! - 1
     this.position.setPositionContext({
-      isTable:false,
-      index:curIndex
+      isTable: false,
+      index: curIndex
     })
     this.range.setRange(curIndex, curIndex)
     this.draw.render({ curIndex })
@@ -1397,15 +1398,15 @@ export class CommandAdapt {
       for (let c = 1; c < curTd.colspan; c++) {
         const tdId = getUUID()
         curTr.tdList.splice(tdIndex! + c, 0, {
-          id:tdId,
-          rowspan:1,
-          colspan:1,
-          value:[
+          id: tdId,
+          rowspan: 1,
+          colspan: 1,
+          value: [
             {
-              value:ZERO,
-              size:16,
-              tableId:element.id,
-              trId:curTr.id,
+              value: ZERO,
+              size: 16,
+              tableId: element.id,
+              trId: curTr.id,
               tdId
             }
           ]
@@ -1421,15 +1422,15 @@ export class CommandAdapt {
         for (let c = 0; c < colspan; c++) {
           const tdId = getUUID()
           tr.tdList.splice(curTd.colIndex!, 0, {
-            id:tdId,
-            rowspan:1,
-            colspan:1,
-            value:[
+            id: tdId,
+            rowspan: 1,
+            colspan: 1,
+            value: [
               {
-                value:ZERO,
-                size:16,
-                tableId:element.id,
-                trId:tr.id,
+                value: ZERO,
+                size: 16,
+                tableId: element.id,
+                trId: tr.id,
                 tdId
               }
             ]
@@ -1468,7 +1469,7 @@ export class CommandAdapt {
     }
     const { endIndex } = this.range.getRange()
     this.draw.render({
-      curIndex:endIndex
+      curIndex: endIndex
     })
   }
 
@@ -1489,7 +1490,7 @@ export class CommandAdapt {
     element.borderType = payload
     const { endIndex } = this.range.getRange()
     this.draw.render({
-      curIndex:endIndex
+      curIndex: endIndex
     })
   }
 
@@ -1524,7 +1525,7 @@ export class CommandAdapt {
     })
     const { endIndex } = this.range.getRange()
     this.draw.render({
-      curIndex:endIndex
+      curIndex: endIndex
     })
   }
 
@@ -1559,7 +1560,7 @@ export class CommandAdapt {
     })
     const { endIndex } = this.range.getRange()
     this.draw.render({
-      curIndex:endIndex
+      curIndex: endIndex
     })
   }
 
@@ -1578,7 +1579,7 @@ export class CommandAdapt {
     const { endIndex } = this.range.getRange()
     this.range.setRange(endIndex, endIndex)
     this.draw.render({
-      isCompute:false
+      isCompute: false
     })
   }
 
@@ -1596,14 +1597,14 @@ export class CommandAdapt {
       startIndex,
       endIndex,
       tableId,
-      startTdIndex:0,
+      startTdIndex: 0,
       endTdIndex,
-      startTrIndex:0,
+      startTrIndex: 0,
       endTrIndex
     })
     this.draw.render({
-      isCompute:false,
-      isSubmitHistory:false
+      isCompute: false,
+      isSubmitHistory: false
     })
   }
 
@@ -1620,8 +1621,8 @@ export class CommandAdapt {
     const newElementList = valueList?.map<IElement>(v => ({
       url,
       hyperlinkId,
-      value:v.value,
-      type:ElementType.HYPERLINK
+      value: v.value,
+      type: ElementType.HYPERLINK
     }))
     if (!newElementList) return
     const start = startIndex + 1
@@ -1692,7 +1693,7 @@ export class CommandAdapt {
     const newIndex = leftIndex - 1
     this.range.setRange(newIndex, newIndex)
     this.draw.render({
-      curIndex:newIndex
+      curIndex: newIndex
     })
   }
 
@@ -1716,8 +1717,8 @@ export class CommandAdapt {
     // 重置画布
     const { endIndex } = this.range.getRange()
     this.draw.render({
-      curIndex:endIndex,
-      isCompute:false
+      curIndex: endIndex,
+      isCompute: false
     })
   }
 
@@ -1738,8 +1739,8 @@ export class CommandAdapt {
     // 重置画布
     const { endIndex } = this.range.getRange()
     this.draw.render({
-      curIndex:endIndex,
-      isCompute:false
+      curIndex: endIndex,
+      isCompute: false
     })
   }
 
@@ -1765,9 +1766,9 @@ export class CommandAdapt {
       endElement.dashArray = payload
     } else {
       const newElement: IElement = {
-        value:WRAP,
-        type:ElementType.SEPARATOR,
-        dashArray:payload
+        value: WRAP,
+        type: ElementType.SEPARATOR,
+        dashArray: payload
       }
       // 从行头增加分割线
       formatElementContext(elementList, [newElement], startIndex)
@@ -1790,8 +1791,8 @@ export class CommandAdapt {
     if (activeControl) return
     this.insertElementList([
       {
-        type:ElementType.PAGE_BREAK,
-        value:WRAP
+        type: ElementType.PAGE_BREAK,
+        value: WRAP
       }
     ])
   }
@@ -1807,9 +1808,9 @@ export class CommandAdapt {
     options.watermark.opacity = payload.opacity || opacity
     options.watermark.font = payload.font || font
     this.draw.render({
-      isSetCursor:false,
-      isSubmitHistory:false,
-      isCompute:false
+      isSetCursor: false,
+      isSubmitHistory: false,
+      isCompute: false
     })
   }
 
@@ -1820,9 +1821,9 @@ export class CommandAdapt {
     if (options.watermark && options.watermark.data) {
       options.watermark = { ...defaultWatermarkOption }
       this.draw.render({
-        isSetCursor:false,
-        isSubmitHistory:false,
-        isCompute:false
+        isSetCursor: false,
+        isSubmitHistory: false,
+        isCompute: false
       })
     }
   }
@@ -1839,8 +1840,8 @@ export class CommandAdapt {
         value,
         width,
         height,
-        id:getUUID(),
-        type:ElementType.IMAGE,
+        id: getUUID(),
+        type: ElementType.IMAGE,
         imgDisplay
       }
     ])
@@ -1849,8 +1850,8 @@ export class CommandAdapt {
   public search(payload: string | null) {
     this.searchManager.setSearchKeyword(payload)
     this.draw.render({
-      isSetCursor:false,
-      isSubmitHistory:false
+      isSetCursor: false,
+      isSubmitHistory: false
     })
   }
 
@@ -1858,10 +1859,10 @@ export class CommandAdapt {
     const index = this.searchManager.searchNavigatePre()
     if (index === null) return
     this.draw.render({
-      isSetCursor:false,
-      isSubmitHistory:false,
-      isCompute:false,
-      isLazy:false
+      isSetCursor: false,
+      isSubmitHistory: false,
+      isCompute: false,
+      isLazy: false
     })
   }
 
@@ -1869,10 +1870,10 @@ export class CommandAdapt {
     const index = this.searchManager.searchNavigateNext()
     if (index === null) return
     this.draw.render({
-      isSetCursor:false,
-      isSubmitHistory:false,
-      isCompute:false,
-      isLazy:false
+      isSetCursor: false,
+      isSubmitHistory: false,
+      isCompute: false,
+      isLazy: false
     })
   }
 
@@ -1968,23 +1969,23 @@ export class CommandAdapt {
       const element =
         elementList[tableIndex!].trList![trIndex!].tdList[tdIndex!].value[index]
       this.position.setPositionContext({
-        isTable:true,
-        index:tableIndex,
+        isTable: true,
+        index: tableIndex,
         trIndex,
         tdIndex,
-        tdId:element.tdId,
-        trId:element.trId,
-        tableId:element.tableId
+        tdId: element.tdId,
+        trId: element.trId,
+        tableId: element.tableId
       })
     } else {
       this.position.setPositionContext({
-        isTable:false
+        isTable: false
       })
     }
     this.range.setRange(firstIndex, firstIndex)
     // 重新渲染
     this.draw.render({
-      curIndex:firstIndex
+      curIndex: firstIndex
     })
   }
 
@@ -1996,13 +1997,13 @@ export class CommandAdapt {
     const width = this.draw.getOriginalWidth()
     const height = this.draw.getOriginalHeight()
     const base64List = await this.draw.getDataURL({
-      pixelRatio:printPixelRatio,
-      mode:EditorMode.PRINT
+      pixelRatio: printPixelRatio,
+      mode: EditorMode.PRINT
     })
     printImageBase64(base64List, {
       width,
       height,
-      direction:paperDirection
+      direction: paperDirection
     })
     if (scale !== 1) {
       this.draw.setPageScale(scale)
@@ -2019,8 +2020,8 @@ export class CommandAdapt {
     const width = this.draw.getOriginalWidth()
     const height = this.draw.getOriginalHeight()
     const base64List = await this.draw.getDataURL({
-      pixelRatio:2,
-      mode:EditorMode.PRINT
+      pixelRatio: 2,
+      mode: EditorMode.PRINT
     })
     console.time('img2pdf')
     // getPdf({
@@ -2030,7 +2031,7 @@ export class CommandAdapt {
     img2PDF(base64List, {
       width,
       height,
-      direction:paperDirection
+      direction: paperDirection
     })
     console.timeEnd('img2pdf')
     console.timeEnd('generatePDF')
@@ -2045,7 +2046,7 @@ export class CommandAdapt {
     element.id = getUUID()
     element.value = payload
     this.draw.render({
-      isSetCursor:false
+      isSetCursor: false
     })
   }
 
@@ -2068,19 +2069,19 @@ export class CommandAdapt {
       const positionList = this.position.getPositionList()
       const { startIndex } = this.range.getRange()
       const {
-        coordinate:{ leftTop }
+        coordinate: { leftTop }
       } = positionList[startIndex]
       element.imgFloatPosition = {
-        x:leftTop[0],
-        y:leftTop[1]
+        x: leftTop[0],
+        y: leftTop[1]
       }
     } else {
       delete element.imgFloatPosition
     }
     this.draw.getPreviewer().clearResizer()
     this.draw.render({
-      isSetCursor:true,
-      curIndex:endIndex
+      isSetCursor: true,
+      curIndex: endIndex
     })
   }
 
@@ -2102,9 +2103,9 @@ export class CommandAdapt {
     const mainElementList = this.draw.getOriginalMainElementList()
     const footerElementList = this.draw.getFooterElementList()
     return {
-      header:createDomFromElementList(headerElementList, options).innerHTML,
-      main:createDomFromElementList(mainElementList, options).innerHTML,
-      footer:createDomFromElementList(footerElementList, options).innerHTML
+      header: createDomFromElementList(headerElementList, options).innerHTML,
+      main: createDomFromElementList(mainElementList, options).innerHTML,
+      footer: createDomFromElementList(footerElementList, options).innerHTML
     }
   }
 
@@ -2113,9 +2114,9 @@ export class CommandAdapt {
     const mainElementList = this.draw.getOriginalMainElementList()
     const footerElementList = this.draw.getFooterElementList()
     return {
-      header:getTextFromElementList(headerElementList),
-      main:getTextFromElementList(mainElementList),
-      footer:getTextFromElementList(footerElementList)
+      header: getTextFromElementList(headerElementList),
+      main: getTextFromElementList(mainElementList),
+      footer: getTextFromElementList(footerElementList)
     }
   }
 
@@ -2161,7 +2162,7 @@ export class CommandAdapt {
         const {
           rowNo,
           pageNo,
-          coordinate:{ leftTop, rightTop },
+          coordinate: { leftTop, rightTop },
           lineHeight
         } = selectionPositionList[p]
         // 起始行变化追加选区信息
@@ -2170,10 +2171,10 @@ export class CommandAdapt {
             rangeRects.push(rangeRect)
           }
           rangeRect = {
-            x:leftTop[0],
-            y:leftTop[1] + pageNo * (height + pageGap),
-            width:rightTop[0] - leftTop[0],
-            height:lineHeight
+            x: leftTop[0],
+            y: leftTop[1] + pageNo * (height + pageGap),
+            width: rightTop[0] - leftTop[0],
+            height: lineHeight
           }
           currentRowNo = rowNo
           currentX = leftTop[0]
@@ -2189,15 +2190,15 @@ export class CommandAdapt {
       const positionList = this.position.getPositionList()
       const position = positionList[endIndex]
       const {
-        coordinate:{ rightTop },
+        coordinate: { rightTop },
         pageNo,
         lineHeight
       } = position
       rangeRects.push({
-        x:rightTop[0],
-        y:rightTop[1] + pageNo * (height + pageGap),
-        width:0,
-        height:lineHeight
+        x: rightTop[0],
+        y: rightTop[1] + pageNo * (height + pageGap),
+        width: 0,
+        height: lineHeight
       })
     }
     // 区域信息
@@ -2222,8 +2223,8 @@ export class CommandAdapt {
       rangeRects,
       zone,
       isTable,
-      trIndex:trIndex ?? null,
-      tdIndex:tdIndex ?? null,
+      trIndex: trIndex ?? null,
+      tdIndex: tdIndex ?? null,
       tableElement
     })
   }
@@ -2324,7 +2325,7 @@ export class CommandAdapt {
     // 重新渲染
     this.range.setRange(newIndex, newIndex)
     this.draw.render({
-      curIndex:newIndex
+      curIndex: newIndex
     })
   }
 
@@ -2356,9 +2357,9 @@ export class CommandAdapt {
     if (!~newIndex) return
     this.range.setRange(newIndex, newIndex)
     this.draw.render({
-      curIndex:newIndex,
-      isCompute:false,
-      isSubmitHistory:false
+      curIndex: newIndex,
+      isCompute: false,
+      isSubmitHistory: false
     })
   }
 
@@ -2381,11 +2382,11 @@ export class CommandAdapt {
       // 避免输入框光标丢失
       const isCollapsed = this.range.getIsCollapsed()
       this.draw.getCursor().drawCursor({
-        isShow:isCollapsed
+        isShow: isCollapsed
       })
     } else {
       this.draw.render({
-        isSetCursor:false
+        isSetCursor: false
       })
     }
   }
@@ -2401,9 +2402,9 @@ export class CommandAdapt {
         })
         : undefined
     this.setValue({
-      header:getElementList(header),
-      main:getElementList(main),
-      footer:getElementList(footer)
+      header: getElementList(header),
+      main: getElementList(main),
+      footer: getElementList(footer)
     })
   }
 
@@ -2442,9 +2443,9 @@ export class CommandAdapt {
     })
     this.range.setRange(endIndex, endIndex)
     this.draw.render({
-      curIndex:endIndex,
-      isCompute:false,
-      isSubmitHistory:false
+      curIndex: endIndex,
+      isCompute: false,
+      isSubmitHistory: false
     })
   }
 
@@ -2503,25 +2504,25 @@ export class CommandAdapt {
     const valueList = activeControl?.getValue()
     const controlStr = valueList?.reduce(
       (previousValue, currentValue) => ({
-        value:previousValue.value + currentValue.value,
+        value: previousValue.value + currentValue.value,
       }),
-      { value:'' }).value
+      { value: '' }).value
     console.log(controlStr)
     // 呼出空间弹窗
     new Dialog({
-      title:'内容编辑',
-      data:[
+      title: '内容编辑',
+      data: [
         {
-          type:controlType,
-          label:'内容',
-          name:'value',
-          value:controlStr,
+          type: controlType,
+          label: '内容',
+          name: 'value',
+          value: controlStr,
         }
       ],
-      onConfirm:payload => {
+      onConfirm: payload => {
         const value = payload.find(p => p.name === 'value')?.value || ''
         console.log(value)
-        this.setControlValue({controlId,value})
+        this.setControlValue({ controlId, value })
       }
     })
   }
@@ -2534,37 +2535,79 @@ export class CommandAdapt {
     // 获取表格信息，轮询表格elementList
     const tableValue: Map<string, string> = new Map()
     const dialogData: IDialogData[] = []
+    const tableInfo: ITableDialogInfo[] = []
+    const oldColgroup = this.tableTool.tableElement?.colgroup
+
     this.tableTool.tableElement?.trList?.forEach((tr, trIndex) => {
       tr.tdList.forEach((td, tdIndex) => {
         if (td.value.length > 0 && td.id != null) {
+          tableInfo.push({
+            colIndex: tdIndex,
+            colspan: td.colspan,
+            rowIndex: trIndex,
+            rowspan: td.rowspan
+          })
           // 循环td，将所有td.value的值拼接到一起，存入tableValue中
           const tdValue = td.value.reduce((previousValue, currentValue) => previousValue + currentValue.value, '')
           tableValue.set(td.id, tdValue)
           dialogData.push({
-            type:'table',
-            label:`${trIndex + 1}行${tdIndex + 1}列`,
-            name:'value',
-            value:tdValue,
+            type: 'table',
+            label: `${trIndex + 1}行${tdIndex + 1}列`,
+            name: 'value',
+            value: tdValue,
           })
         }
       })
     })
-    new Dialog({
-      title:'表格内容编辑',
-      data:dialogData,
-      onConfirm:payload => {
+    new TableDialog({
+      title: '表格内容编辑',
+      data: dialogData,
+      onConfirm: payload => {
         const value = payload.find(p => p.name === 'value')?.value || ''
-        console.log(payload,value)
+        console.log(payload)
         // 删除表格
         this.deleteTable()
         // 生成并添加新的表格
-
+        this.insertElementListByData(payload, oldColgroup)
       }
-    })
+    }, tableInfo)
   }
 
-  public setTableValue(){
+  public insertElementListByData<T>(data: T, oldColgroup: IColgroup[]) {
+    console.log(data)
+    let elementList: IElement[] = []
+    if (Array.isArray(data)) {
+      // 使用reduce来组合数据
+      const trList: ITr[] = []
 
+      data.forEach((item) => {
+        const existingGroup = trList.find((group) => group.rowIndex === item.rowIndex)
+
+        if (existingGroup) {
+          // 如果找到了相同rowIndex的组，将当前元素添加到该组
+          existingGroup.tdList.push({ ...item, value: [{ value: item.value }] })
+        } else {
+          // 否则，创建一个新的组并添加当前元素
+          trList.push({ rowIndex: item.rowIndex, tdList: [{ ...item, value: [{ value: item.value }] }], height: 60 })
+        }
+      })
+      const maxTdLength = trList.reduce((max, row) => Math.max(max, row.tdList.length), 0)
+      const colgroup: IColgroup[] = Array.from({ length: maxTdLength }, (_, index) => ({
+        width: (this.options.width - this.options.margins[1] - this.options.margins[3]) / maxTdLength,
+      }))
+      console.log(colgroup,oldColgroup)
+      console.log(this.options)
+      console.log(trList)
+      elementList.push({
+        type: ElementType.TABLE,
+        colgroup: oldColgroup,
+        value: '',
+        trList,
+      })
+    }
+    console.log(elementList)
+    // 根据数据生成elementList
+    this.insertElementList(elementList)
   }
 
   public getControlList(): IElement[] {
@@ -2614,8 +2657,8 @@ export class CommandAdapt {
         }
         result.push({
           ...element.title!,
-          value:getTextFromElementList(valueList),
-          elementList:zipElementList(valueList),
+          value: getTextFromElementList(valueList),
+          elementList: zipElementList(valueList),
           zone
         })
         i = j
@@ -2623,16 +2666,16 @@ export class CommandAdapt {
     }
     const data = [
       {
-        zone:EditorZone.HEADER,
-        elementList:this.draw.getHeaderElementList()
+        zone: EditorZone.HEADER,
+        elementList: this.draw.getHeaderElementList()
       },
       {
-        zone:EditorZone.MAIN,
-        elementList:this.draw.getOriginalMainElementList()
+        zone: EditorZone.MAIN,
+        elementList: this.draw.getOriginalMainElementList()
       },
       {
-        zone:EditorZone.FOOTER,
-        elementList:this.draw.getFooterElementList()
+        zone: EditorZone.FOOTER,
+        elementList: this.draw.getFooterElementList()
       }
     ]
     for (const { zone, elementList } of data) {

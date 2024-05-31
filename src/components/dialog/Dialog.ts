@@ -30,11 +30,11 @@ export class Dialog {
   private options: IDialogOptions
   private mask: HTMLDivElement | null
   private container: HTMLDivElement | null
-  private inputList: (
+  protected inputList: (
     | HTMLInputElement
     | HTMLTextAreaElement
     | HTMLSelectElement
-  )[]
+    )[]
 
   constructor(options: IDialogOptions) {
     this.options = options
@@ -78,6 +78,39 @@ export class Dialog {
     // 选项容器
     const optionContainer = document.createElement('div')
     optionContainer.classList.add('dialog-option')
+    this.renderOption(optionContainer, data)
+    dialogContainer.append(optionContainer)
+    // 按钮容器
+    const menuContainer = document.createElement('div')
+    menuContainer.classList.add('dialog-menu')
+    // 取消按钮
+    const cancelBtn = document.createElement('button')
+    cancelBtn.classList.add('dialog-menu__cancel')
+    cancelBtn.append(document.createTextNode('取消'))
+    cancelBtn.type = 'button'
+    cancelBtn.onclick = () => {
+      if (onCancel) {
+        onCancel()
+      }
+      this._dispose()
+    }
+    menuContainer.append(cancelBtn)
+    // 确认按钮
+    const confirmBtn = document.createElement('button')
+    confirmBtn.append(document.createTextNode('确定'))
+    confirmBtn.type = 'submit'
+    confirmBtn.onclick = () => {
+      this.confirmBtnClick(onConfirm)
+    }
+    menuContainer.append(confirmBtn)
+    dialogContainer.append(menuContainer)
+    // 渲染
+    document.body.append(container)
+    this.container = container
+    this.mask = mask
+  }
+
+  protected renderOption(optionContainer: HTMLDivElement, data: IDialogData[]) {
     // 选项
     for (let i = 0; i < data.length; i++) {
       const option = data[i]
@@ -126,45 +159,20 @@ export class Dialog {
       optionContainer.append(optionItemContainer)
       this.inputList.push(optionInput)
     }
-    dialogContainer.append(optionContainer)
-    // 按钮容器
-    const menuContainer = document.createElement('div')
-    menuContainer.classList.add('dialog-menu')
-    // 取消按钮
-    const cancelBtn = document.createElement('button')
-    cancelBtn.classList.add('dialog-menu__cancel')
-    cancelBtn.append(document.createTextNode('取消'))
-    cancelBtn.type = 'button'
-    cancelBtn.onclick = () => {
-      if (onCancel) {
-        onCancel()
-      }
-      this._dispose()
-    }
-    menuContainer.append(cancelBtn)
-    // 确认按钮
-    const confirmBtn = document.createElement('button')
-    confirmBtn.append(document.createTextNode('确定'))
-    confirmBtn.type = 'submit'
-    confirmBtn.onclick = () => {
-      if (onConfirm) {
-        const payload = this.inputList.map<IDialogConfirm>(input => ({
-          name: input.name,
-          value: input.value
-        }))
-        onConfirm(payload)
-      }
-      this._dispose()
-    }
-    menuContainer.append(confirmBtn)
-    dialogContainer.append(menuContainer)
-    // 渲染
-    document.body.append(container)
-    this.container = container
-    this.mask = mask
   }
 
-  private _dispose() {
+  protected confirmBtnClick(onConfirm: Function | undefined) {
+    if (onConfirm) {
+      const payload = this.inputList.map<IDialogConfirm>(input => ({
+        name: input.name,
+        value: input.value
+      }))
+      onConfirm(payload)
+    }
+    this._dispose()
+  }
+
+  protected _dispose() {
     this.mask?.remove()
     this.container?.remove()
   }
