@@ -64,6 +64,12 @@ async function fetchHtmlContent(url: string): Promise<HtmlInfo> {
         if (style.includes('orphans') && style.includes('widows')) {
           // 添加分页符
           element.setAttribute('data-pageBack','true')
+          return
+        }
+        // 判断是否为分节符
+        else if(style.includes('page-break-after:always') && style.includes('mso-break-type:section-break')){
+          element.setAttribute('data-pageBack','true')
+          return
         }
         // 判断是否是页脚页眉，从main结构中删除,添加到对应的header和footer中
         else if (style.includes('-aw-headerfooter-type:header-primary')) {
@@ -86,6 +92,15 @@ async function fetchHtmlContent(url: string): Promise<HtmlInfo> {
         if (titleTagName.includes(element.tagName) && !element.querySelector('strong')) {
           element.innerHTML = `<strong style="${style}">${element.innerHTML}</strong>`
         }
+
+        // // 判断内容是否为控件
+        // if (element.innerHTML.includes('-aw-sdt-content')){
+        //   //   获取所有包含-aw-sdt-content样式的子元素
+        //   const sdtContent = element.querySelectorAll('[style*="-aw-sdt-content"]')
+        //   sdtContent.forEach(()=>{
+        //
+        //   })
+        // }
       })
       bodyContent += page.innerHTML
       console.log(page.innerHTML)
@@ -98,6 +113,7 @@ async function fetchHtmlContent(url: string): Promise<HtmlInfo> {
 
     bodyContent = '<div>\n' +
       '    <div style="text-align:center">\n' +
+      '<p style="margin-top:0pt; margin-bottom:7.8pt; text-align:center; font-size:16pt"><span style="-aw-sdt-content:placeholder; -aw-sdt-tag:\'gxebdItem_unprotect_1\'; -aw-sdt-title:\'文件编制时间（年）\'"><span style="font-family:宋体; font-size:10.5pt; color:#808080">文件编制时间（年）</span></span><span style="font-family:宋体">年</span><span style="-aw-sdt-content:placeholder; -aw-sdt-tag:\'gxebdItem_unprotect_2\'; -aw-sdt-title:\'文件编制时间（月）\'"><span style="font-family:宋体; font-size:10.5pt; color:#808080">文件编制时间（月）</span></span><span style="font-family:宋体">月</span><span style="-aw-sdt-content:placeholder; -aw-sdt-tag:\'gxebdItem_unprotect_3\'; -aw-sdt-title:\'文件编制时间（日）\'"><span style="font-family:宋体; font-size:10.5pt; color:#808080">文件编制时间（日）</span></span><span style="font-family:宋体">日</span></p>'+
       '      <table cellspacing="0" cellpadding="0"\n' +
       '        style="width:100%; margin-right:auto; margin-left:auto; border:1.5pt solid #000000; -aw-border-insideh:0.75pt single #000000; -aw-border-insidev:0.75pt single #000000; border-collapse:collapse">\n' +
       '        <tr style="height:28.35pt">\n' +

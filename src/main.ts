@@ -868,9 +868,153 @@ function initTool() {
                 }
               })
             })
+            elementList.push({
+              'type': ElementType.TABLE,
+              'colgroup': [
+                {
+                  'width': 185
+                },
+                {
+                  'width': 185
+                },
+                {
+                  'width': 185
+                }
+              ],
+              'value': '',
+              'trList': [
+                {
+                  'rowIndex': 0,
+                  'tdList': [
+                    {
+                      'name': 'value',
+                      'value': [
+                        {
+                          'value': '​序号'
+                        }
+                      ],
+                      'colIndex': 0,
+                      'colspan': 1,
+                      'rowIndex': 0,
+                      'rowspan': 1
+                    },
+                    {
+                      'name': 'value',
+                      'value': [
+                        {
+                          'value': '​标段名称'
+                        }
+                      ],
+                      'colIndex': 1,
+                      'colspan': 1,
+                      'rowIndex': 0,
+                      'rowspan': 1
+                    },
+                    {
+                      'name': 'value',
+                      'value': [
+                        {
+                          'value': '​资格要求'
+                        }
+                      ],
+                      'colIndex': 2,
+                      'colspan': 1,
+                      'rowIndex': 0,
+                      'rowspan': 1
+                    }
+                  ],
+                  'height': 60
+                },
+                {
+                  'rowIndex': 1,
+                  'tdList': [
+                    {
+                      'name': 'value',
+                      'value': [
+                        {
+                          'value': '​               '
+                        }
+                      ],
+                      'colIndex': 0,
+                      'colspan': 1,
+                      'rowIndex': 1,
+                      'rowspan': 1
+                    },
+                    {
+                      'name': 'value',
+                      'value': [
+                        {
+                          'value': '​ '
+                        }
+                      ],
+                      'colIndex': 1,
+                      'colspan': 1,
+                      'rowIndex': 1,
+                      'rowspan': 1
+                    },
+                    {
+                      'name': 'value',
+                      'value': [
+                        {
+                          'value': '​基本资格要求：​            ​专项资格要求：111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111            '
+                        }
+                      ],
+                      'colIndex': 2,
+                      'colspan': 1,
+                      'rowIndex': 1,
+                      'rowspan': 1
+                    }
+                  ],
+                  'height': 60
+                },
+                {
+                  'rowIndex': 2,
+                  'tdList': [
+                    {
+                      'name': 'value',
+                      'value': [
+                        {
+                          'value': '​               '
+                        }
+                      ],
+                      'colIndex': 0,
+                      'colspan': 1,
+                      'rowIndex': 2,
+                      'rowspan': 1
+                    },
+                    {
+                      'name': 'value',
+                      'value': [
+                        {
+                          'value': '​ '
+                        }
+                      ],
+                      'colIndex': 1,
+                      'colspan': 1,
+                      'rowIndex': 2,
+                      'rowspan': 1
+                    },
+                    {
+                      'name': 'value',
+                      'value': [
+                        {
+                          'value': '​ '
+                        }
+                      ],
+                      'colIndex': 2,
+                      'colspan': 1,
+                      'rowIndex': 2,
+                      'rowspan': 1
+                    }
+                  ],
+                  'height': 60
+                }
+              ]
+            })
             // const valueSets = payload.find(p => p.name === 'select')?.value
             // if (!valueSets) return
             // const value = payload.find(p => p.name === 'code')?.value
+            console.log(elementList)
             instance.command.executeInsertElementList(elementList)
           }
         })
@@ -1238,6 +1382,7 @@ function initTool() {
     }
   }
 
+  // 目录
   let isCatalogShow = true
   const catalogDom = document.querySelector<HTMLElement>('.catalog')!
   const catalogModeDom =
@@ -1245,10 +1390,21 @@ function initTool() {
   const catalogHeaderCloseDom = document.querySelector<HTMLDivElement>(
     '.catalog__header__close'
   )!
+  // 控件目录
+  const controlCatalogDom =
+    document.querySelector<HTMLDivElement>('.control')!
+  const controlCatalogModeDom = document.querySelector<HTMLDivElement>(
+    '.controlCatalog-mode'
+  )!
+  let isShowControlCatalog = false
   const switchCatalog = () => {
     isCatalogShow = !isCatalogShow
     if (isCatalogShow) {
       catalogDom.style.display = 'block'
+      if (isShowControlCatalog) {
+        isShowControlCatalog = false
+        controlCatalogDom.style.display = 'none'
+      }
       updateCatalog()
     } else {
       catalogDom.style.display = 'none'
@@ -1257,6 +1413,21 @@ function initTool() {
   catalogModeDom.onclick = switchCatalog
   catalogHeaderCloseDom.onclick = switchCatalog
 
+  // 6.3 控件目录显隐
+  controlCatalogModeDom.onclick = function () {
+    isShowControlCatalog = !isShowControlCatalog
+    if (isShowControlCatalog) {
+      controlCatalogDom.style.display = 'block'
+      if (isCatalogShow) {
+        isCatalogShow = false
+        catalogDom.style.display = 'none'
+      }
+    } else {
+      controlCatalogDom.style.display = 'none'
+    }
+  }
+
+  // 6.2 页面模式
   const pageModeDom = document.querySelector<HTMLDivElement>('.page-mode')!
   const pageModeOptionsDom =
     pageModeDom.querySelector<HTMLDivElement>('.options')!
@@ -1267,6 +1438,7 @@ function initTool() {
     const li = evt.target as HTMLLIElement
     instance.command.executePageMode(<PageMode>li.dataset.pageMode!)
   }
+
 
   document.querySelector<HTMLDivElement>('.page-scale-percentage')!.onclick =
     function () {
@@ -1904,5 +2076,5 @@ const canvasEditorFun = {
 // @ts-ignore
 window.canvasEditorFun = canvasEditorFun
 export default canvasEditorFun
-initEditorByData()
-// initEditorByFile('')
+// initEditorByData()
+initEditorByFile('')

@@ -62,6 +62,7 @@ export class Control {
   private controlOptions: IControlOption
   private activeControl: IControlInstance | null
   private shadowBoxList: HTMLDivElement[] = []
+  public controlGroupList: Map<string, string[]> = new Map()
 
   constructor(draw: Draw) {
     this.controlBorder = new ControlBorder(draw)
@@ -134,7 +135,7 @@ export class Control {
   // 是否属于控件可以捕获事件的选区
   public getIsRangeCanCaptureEvent(): boolean {
     if (!this.activeControl) return false
-    const {startIndex, endIndex} = this.getRange()
+    const { startIndex, endIndex } = this.getRange()
     if (!~startIndex && !~endIndex) return false
     const elementList = this.getElementList()
     const startElement = elementList[startIndex]
@@ -160,7 +161,7 @@ export class Control {
   // 判断选区是否在后缀处
   public getIsRangeInPostfix(): boolean {
     if (!this.activeControl) return false
-    const {startIndex, endIndex} = this.getRange()
+    const { startIndex, endIndex } = this.getRange()
     if (startIndex !== endIndex) return false
     const elementList = this.getElementList()
     const element = elementList[startIndex]
@@ -169,7 +170,7 @@ export class Control {
 
   // 判断选区是否在控件内
   public getIsRangeWithinControl(): boolean {
-    const {startIndex, endIndex} = this.getRange()
+    const { startIndex, endIndex } = this.getRange()
     if (!~startIndex && !~endIndex) return false
     const elementList = this.getElementList()
     const startElement = elementList[startIndex]
@@ -200,7 +201,7 @@ export class Control {
    * 获取控件元素列表
    */
   public getControlElementList(): { controlElementList: IElement[], controlPositionList: IElementPosition[] } {
-    const {startIndex} = this.range.getRange()
+    const { startIndex } = this.range.getRange()
     const elementList = this.getElementList()
     const positionList = this.draw.getPosition().getPositionList()
 
@@ -230,12 +231,12 @@ export class Control {
         break
       }
     }
-    return {controlElementList, controlPositionList}
+    return { controlElementList, controlPositionList }
   }
 
   public getPosition(): IElementPosition | null {
     const positionList = this.draw.getPosition().getPositionList()
-    const {endIndex} = this.range.getRange()
+    const { endIndex } = this.range.getRange()
     return positionList[endIndex] || null
   }
 
@@ -340,7 +341,7 @@ export class Control {
     return oldPayload.reduce((diff: IDialogConfirm[], oldItem) => {
       const newItem = payload.find((item) => item.name === oldItem.name)
       if (!newItem || newItem.value !== oldItem.value) {
-        diff.push({...oldItem})
+        diff.push({ ...oldItem })
       }
       return diff
     }, [])
@@ -370,7 +371,7 @@ export class Control {
   }
 
   public repaintControl(options: IRepaintControlOption = {}) {
-    const {curIndex, isCompute = true, isSubmitHistory = true} = options
+    const { curIndex, isCompute = true, isSubmitHistory = true } = options
     // 重新渲染
     if (curIndex === undefined) {
       this.range.clearRange()
@@ -405,7 +406,7 @@ export class Control {
   }
 
   public moveCursor(position: IControlInitOption): IMoveCursorResult {
-    const {index, trIndex, tdIndex, tdValueIndex} = position
+    const { index, trIndex, tdIndex, tdValueIndex } = position
     let elementList = this.draw.getOriginalElementList()
     let element: IElement
     const newIndex = position.isTable ? tdValueIndex! : index
@@ -479,7 +480,7 @@ export class Control {
   ): number | null {
     const elementList = context.elementList || this.getElementList()
     const startElement = elementList[startIndex]
-    const {deletable = true} = startElement.control!
+    const { deletable = true } = startElement.control!
     if (!deletable) return null
     let leftIndex = -1
     let rightIndex = -1
@@ -596,7 +597,7 @@ export class Control {
   public getValueByConceptId(
     payload: IGetControlValueOption
   ): IGetControlValueResult {
-    const {conceptId} = payload
+    const { conceptId } = payload
     const result: IGetControlValueResult = []
     const getValue = (elementList: IElement[], zone: EditorZone) => {
       let i = 0
@@ -615,7 +616,7 @@ export class Control {
           }
         }
         if (element?.control?.conceptId !== conceptId) continue
-        const {type, code, valueSets} = element.control!
+        const { type, code, valueSets } = element.control!
         let j = i
         let textControlValue = ''
         while (j < elementList.length) {
@@ -673,7 +674,7 @@ export class Control {
         elementList: this.draw.getFooterElementList()
       }
     ]
-    for (const {zone, elementList} of data) {
+    for (const { zone, elementList } of data) {
       getValue(elementList, zone)
     }
     return result
@@ -683,7 +684,7 @@ export class Control {
     const isReadonly = this.draw.isReadonly()
     if (isReadonly) return
     let isExistSet = false
-    const {controlId, value} = payload
+    const { controlId, value } = payload
     // 设置值
     const setValue = (elementList: IElement[]) => {
       let i = 0
@@ -703,7 +704,7 @@ export class Control {
         }
         if (element?.controlId !== controlId) continue
         isExistSet = true
-        const {type} = element.control!
+        const { type } = element.control!
         // 当前控件结束索引
         let currentEndIndex = i
         while (currentEndIndex < elementList.length) {
@@ -724,7 +725,7 @@ export class Control {
           isIgnoreDisabledRule: true
         }
         if (type === ControlType.TEXT) {
-          const formatValue = [{value}]
+          const formatValue = [{ value }]
           formatElementList(formatValue, {
             isHandleFirstElement: false,
             editorOptions: this.options
@@ -788,7 +789,7 @@ export class Control {
   public setExtensionByConceptId(payload: ISetControlExtensionOption) {
     const isReadonly = this.draw.isReadonly()
     if (isReadonly) return
-    const {conceptId, extension} = payload
+    const { conceptId, extension } = payload
     const setExtension = (elementList: IElement[]) => {
       let i = 0
       while (i < elementList.length) {
@@ -830,7 +831,7 @@ export class Control {
   public setPropertiesByConceptId(payload: ISetControlProperties) {
     const isReadonly = this.draw.isReadonly()
     if (isReadonly) return
-    const {conceptId, properties} = payload
+    const { conceptId, properties } = payload
     let isExistUpdate = false
     const pageComponentData: IEditorData = {
       header: this.draw.getHeaderElementList(),
@@ -910,7 +911,7 @@ export class Control {
     const controlId = this.activeControl?.getElement().controlId
     if (!controlId) return
     // console.log(controlId)
-    const {controlPositionList} = this.getControlElementList()
+    const { controlPositionList } = this.getControlElementList()
     const rowList = this.draw.getRowList()
 
     let rowNo = controlPositionList[0].rowNo
@@ -919,13 +920,13 @@ export class Control {
     let x = controlPositionList[0].coordinate.leftTop[0]
     let y = controlPositionList[0].coordinate.leftTop[1]
     let rowHeight = rowList[rowNo].height
-    toggleToolbarByOther(true, {id: controlId, type: 'control'},{x, y: y})
+    toggleToolbarByOther(true, { id: controlId, type: 'control' }, { x, y: y })
     controlPositionList.forEach((position: IElementPosition, index: number) => {
       if (rowNo === position.rowNo) {
         width += position.metrics.width
         height = height = Math.max(position.metrics.height, height)
       } else {
-        this.generateShadowBox(x, y, width, rowHeight,controlId)
+        this.generateShadowBox(x, y, width, rowHeight, controlId)
         rowNo = position.rowNo
         width = position.metrics.width
         height = position.metrics.height
@@ -934,7 +935,7 @@ export class Control {
         y = position.coordinate.leftTop[1]
       }
       if (index === controlPositionList.length - 1) {
-        this.generateShadowBox(x, y, width, rowHeight,controlId)
+        this.generateShadowBox(x, y, width, rowHeight, controlId)
       }
     })
     // console.log(controlElementList, controlPositionList)
@@ -956,7 +957,7 @@ export class Control {
   /**
    * 生成控件背景框
    */
-  public generateShadowBox(x: number, y: number, width: number, height: number,controlId): void {
+  public generateShadowBox(x: number, y: number, width: number, height: number, controlId): void {
     // todo 生成单个div控件背景框
     const shadowBox = document.createElement('div')
     shadowBox.classList.add(`${EDITOR_PREFIX}-control-shadowBox`)
@@ -979,6 +980,7 @@ export class Control {
     const positionContext = position.getPositionContext()
     if (!positionContext) return null
     const controlElement = this.activeControl.getElement()
+
     // 获取上一个控件上下文本信息
     function getPreContext(
       elementList: IElement[],
@@ -1039,6 +1041,7 @@ export class Control {
       }
       return null
     }
+
     // 当前上下文控件信息
     const { startIndex } = this.range.getRange()
     const elementList = this.getElementList()
@@ -1099,6 +1102,7 @@ export class Control {
     const positionContext = position.getPositionContext()
     if (!positionContext) return null
     const controlElement = this.activeControl.getElement()
+
     // 获取下一个控件上下文本信息
     function getNextContext(
       elementList: IElement[],
@@ -1147,6 +1151,7 @@ export class Control {
       }
       return null
     }
+
     // 当前上下文控件信息
     const { endIndex } = this.range.getRange()
     const elementList = this.getElementList()
@@ -1229,6 +1234,19 @@ export class Control {
     this.draw.getCursor().moveCursorToVisible({
       cursorPosition: positionList[nextIndex],
       direction
+    })
+  }
+
+  public setControlGroup(elementList: IElement[], controlGroupId?: string) {
+    if (controlGroupId) {
+      this.controlGroupList.delete(controlGroupId)
+    }
+    const groupList: string[] = []
+    elementList.forEach((element) => {
+      let id = element.controlId || element.id
+      if (id && !groupList.includes(id)){
+        groupList.push(id)
+      }
     })
   }
 }

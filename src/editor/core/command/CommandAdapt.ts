@@ -2286,7 +2286,7 @@ export class CommandAdapt {
     return this.draw.setPaperMargin(payload)
   }
 
-  public insertElementList(payload: IElement[]) {
+  public insertElementList(payload: IElement[], isControlGroup?: boolean) {
     if (!payload.length) return
     const isReadonly = this.draw.isReadonly()
     if (isReadonly) return
@@ -2295,7 +2295,12 @@ export class CommandAdapt {
     const { startIndex } = this.range.getRange()
     const elementList = this.draw.getElementList()
     formatElementContext(elementList, cloneElementList, startIndex)
+    if (isControlGroup){
+      // 生成控件组
+      this.control
+    }
     this.draw.insertElementList(cloneElementList)
+    console.log(this.draw.getElementList())
   }
 
   public appendElementList(
@@ -2595,7 +2600,7 @@ export class CommandAdapt {
       const colgroup: IColgroup[] = Array.from({ length: maxTdLength }, (_, index) => ({
         width: (this.options.width - this.options.margins[1] - this.options.margins[3]) / maxTdLength,
       }))
-      console.log(colgroup,oldColgroup)
+      console.log(colgroup, oldColgroup)
       console.log(this.options)
       console.log(trList)
       elementList.push({

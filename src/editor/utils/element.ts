@@ -18,8 +18,8 @@ import {
   TableBorder,
   TdBorder
 } from '..'
-import {LaTexParticle} from '../core/draw/particle/latex/LaTexParticle'
-import {NON_BREAKING_SPACE, ZERO} from '../dataset/constant/Common'
+import { LaTexParticle } from '../core/draw/particle/latex/LaTexParticle'
+import { NON_BREAKING_SPACE, ZERO } from '../dataset/constant/Common'
 import {
   BLOCK_ELEMENT_TYPE,
   CONTROL_STYLE_ATTR,
@@ -36,19 +36,19 @@ import {
   listTypeElementMapping,
   ulStyleMapping
 } from '../dataset/constant/List'
-import {START_LINE_BREAK_REG} from '../dataset/constant/Regular'
+import { START_LINE_BREAK_REG } from '../dataset/constant/Regular'
 import {
   titleNodeNameMapping,
   titleOrderNumberMapping,
   titleSizeMapping
 } from '../dataset/constant/Title'
-import {ControlComponent, ControlType} from '../dataset/enum/Control'
-import {UlStyle} from '../dataset/enum/List'
-import {DeepRequired} from '../interface/Common'
-import {IControlSelect} from '../interface/Control'
-import {IRowElement} from '../interface/Row'
-import {ITd} from '../interface/table/Td'
-import {ITr} from '../interface/table/Tr'
+import { ControlComponent, ControlType } from '../dataset/enum/Control'
+import { UlStyle } from '../dataset/enum/List'
+import { DeepRequired } from '../interface/Common'
+import { IControlSelect } from '../interface/Control'
+import { IRowElement } from '../interface/Row'
+import { ITd } from '../interface/table/Td'
+import { ITr } from '../interface/table/Tr'
 
 export function unzipElementList(elementList: IElement[]): IElement[] {
   const result: IElement[] = []
@@ -56,7 +56,7 @@ export function unzipElementList(elementList: IElement[]): IElement[] {
     const valueItem = elementList[v]
     const textList = splitText(valueItem.value)
     for (let d = 0; d < textList.length; d++) {
-      result.push({...valueItem, value: textList[d]})
+      result.push({ ...valueItem, value: textList[d] })
     }
   }
   return result
@@ -71,7 +71,7 @@ export function formatElementList(
   elementList: IElement[],
   options: IFormatElementListOption
 ) {
-  const {isHandleFirstElement, editorOptions} = <IFormatElementListOption>{
+  const { isHandleFirstElement, editorOptions } = <IFormatElementListOption>{
     isHandleFirstElement: true,
     ...options
   }
@@ -151,7 +151,7 @@ export function formatElementList(
       const tableId = getUUID()
       el.id = tableId
       if (el.trList) {
-        const {defaultTrMinHeight} = editorOptions.table
+        const { defaultTrMinHeight } = editorOptions.table
         for (let t = 0; t < el.trList.length; t++) {
           const tr = el.trList[t]
           const trId = getUUID()
@@ -221,7 +221,7 @@ export function formatElementList(
         i++
         continue
       }
-      const {prefix, postfix, value, placeholder, code, type, valueSets} =
+      const { prefix, postfix, value, placeholder, code, type, valueSets } =
         el.control
       const {
         editorOptions: {
@@ -275,7 +275,7 @@ export function formatElementList(
             const valueStyleList = valueList.reduce(
               (pre, cur) =>
                 pre.concat(
-                  cur.value.split('').map(v => ({...cur, value: v}))
+                  cur.value.split('').map(v => ({ ...cur, value: v }))
                 ),
               [] as IElement[]
             )
@@ -322,7 +322,7 @@ export function formatElementList(
             const valueStyleList = valueList.reduce(
               (pre, cur) =>
                 pre.concat(
-                  cur.value.split('').map(v => ({...cur, value: v}))
+                  cur.value.split('').map(v => ({ ...cur, value: v }))
                 ),
               [] as IElement[]
             )
@@ -440,7 +440,7 @@ export function formatElementList(
       elementList.splice(i, 1)
       const valueList = splitText(el.value)
       for (let v = 0; v < valueList.length; v++) {
-        elementList.splice(i + v, 0, {...el, value: valueList[v]})
+        elementList.splice(i + v, 0, { ...el, value: valueList[v] })
       }
       el = elementList[i]
     }
@@ -451,7 +451,7 @@ export function formatElementList(
       el.id = getUUID()
     }
     if (el.type === ElementType.LATEX) {
-      const {svg, width, height} = LaTexParticle.convertLaTextToSVG(el.value)
+      const { svg, width, height } = LaTexParticle.convertLaTextToSVG(el.value)
       el.width = el.width || width
       el.height = el.height || height
       el.laTexSVG = svg
@@ -797,7 +797,7 @@ export function formatElementContext(
 ) {
   const copyElement = getAnchorElement(sourceElementList, anchorIndex)
   if (!copyElement) return
-  const {isBreakWhenWrap = false} = options || {}
+  const { isBreakWhenWrap = false } = options || {}
   // 是否已经换行
   let isBreakWarped = false
   for (let e = 0; e < formatElementList.length; e++) {
@@ -1116,6 +1116,7 @@ export function createDomFromElementList(
     }
     return clipboardDom
   }
+
   // 按行布局分类创建dom
   const clipboardDom = document.createElement('div')
   const groupElementList = groupElementListByRowFlex(elementList)
@@ -1298,7 +1299,7 @@ export function getElementListByHTML(
             type: ElementType.SEPARATOR
           })
         } else if (node.nodeName === 'IMG') {
-          const {src, width, height} = node as HTMLImageElement
+          const { src, width, height } = node as HTMLImageElement
           if (src && width && height) {
             elementList.push({
               width,
@@ -1380,6 +1381,27 @@ export function getElementListByHTML(
               value: (<HTMLInputElement>node).checked
             }
           })
+        } else if (node.nodeType === 1 && (node as HTMLElement).getAttribute('style')?.includes('-aw-sdt-content')) {
+          const type = (node as HTMLElement).getAttribute('style')?.split('-aw-sdt-content:')[1].split(';')[0]
+
+          console.log(node, '控件', type)
+          if (type === 'placeholder') {
+            const placeholder = (node as HTMLElement).getAttribute('-aw-sdt-title') ?? '请输入'
+            elementList.push({
+              'value': '',
+              'type': ElementType.CONTROL,
+              'control': {
+                'type': ControlType.TEXT,
+                'value': [
+                  {
+                    'value': (node as HTMLElement).innerText,
+                    'type': ElementType.TEXT
+                  }
+                ],
+                placeholder
+              }
+            })
+          }
         } else {
           findTextNode(node)
           if (node.nodeType === 1 && n !== childNodes.length - 1) {

@@ -925,6 +925,20 @@ ul {
   background-image: url('../assets/images/page-mode.svg');
 }
 
+.footer .controlCatalog-mode {
+  padding: 1px;
+  position: relative;
+}
+
+.footer .controlCatalog-mode i {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  cursor: pointer;
+  display: inline-block;
+  background-image: url('../assets/images/control.svg');
+}
+
 .footer .options {
   width: 70px;
   position: absolute;
