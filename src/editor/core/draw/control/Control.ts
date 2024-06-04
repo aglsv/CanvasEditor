@@ -62,7 +62,8 @@ export class Control {
   private controlOptions: IControlOption
   private activeControl: IControlInstance | null
   private shadowBoxList: HTMLDivElement[] = []
-  public controlGroupList: Map<string, string[]> = new Map()
+  public controlGroupMap: Map<string, string[]> = new Map()
+  public controlToGroupMap: Map<string, string> = new Map()
 
   constructor(draw: Draw) {
     this.controlBorder = new ControlBorder(draw)
@@ -206,6 +207,7 @@ export class Control {
     const positionList = this.draw.getPosition().getPositionList()
 
     const controlId = this.activeControl?.getElement().controlId
+    const controlGroupId = this.activeControl?.getElement().controlGroupId
     //   根据控件id查找对应的元素列表
     const controlElementList: IElement[] = []
     const controlPositionList = []
@@ -213,7 +215,11 @@ export class Control {
     // 通过startIndex在elementList中向左向右找，并返回最有一个匹配控件id的选项
     for (let i = startIndex; i >= 0; i--) {
       const element = elementList[i]
-      if (element.controlId === controlId) {
+      if (controlGroupId && controlGroupId === element.controlGroupId) {
+        controlElementList.unshift(element)
+        controlPositionList.unshift(positionList[i])
+        console.log(element, 'left')
+      } else if (element.controlId === controlId) {
         controlElementList.unshift(element)
         controlPositionList.unshift(positionList[i])
       } else {
@@ -224,7 +230,10 @@ export class Control {
 
     for (let i = startIndex + 1; i < elementList.length; i++) {
       const element = elementList[i]
-      if (element.controlId === controlId) {
+      if (controlGroupId && controlGroupId === element.controlGroupId) {
+        controlElementList.push(element)
+        controlPositionList.push(positionList[i])
+      } else if (element.controlId === controlId) {
         controlElementList.push(element)
         controlPositionList.push(positionList[i])
       } else {
@@ -315,18 +324,7 @@ export class Control {
         this.renderShadowBox()
       } else {
         console.log('表单控件激活')
-        // todo 对比新旧数据，回填
-        // let oldPayload: IDialogConfirm[] = []
-        // const formDialogData = this.activeControl?.getValue()
-        // // 如果是表单，弹出表单控件
-        // new Dialog({
-        //   title: '表单控件',
-        //   data: formDialogData,
-        //   onConfirm: payload => {
-        //     // 对比oldPayload和payload,找到不同项
-        //     this.differences(oldPayload,payload)
-        //   }
-        // })
+        this.renderShadowBox()
       }
     })
   }
@@ -337,15 +335,15 @@ export class Control {
    * @param payload
    * @private
    */
-  private differences(oldPayload: IDialogConfirm[], payload: IDialogConfirm[]) {
-    return oldPayload.reduce((diff: IDialogConfirm[], oldItem) => {
-      const newItem = payload.find((item) => item.name === oldItem.name)
-      if (!newItem || newItem.value !== oldItem.value) {
-        diff.push({ ...oldItem })
-      }
-      return diff
-    }, [])
-  }
+  // private differences(oldPayload: IDialogConfirm[], payload: IDialogConfirm[]) {
+  //   return oldPayload.reduce((diff: IDialogConfirm[], oldItem) => {
+  //     const newItem = payload.find((item) => item.name === oldItem.name)
+  //     if (!newItem || newItem.value !== oldItem.value) {
+  //       diff.push({ ...oldItem })
+  //     }
+  //     return diff
+  //   }, [])
+  // }
 
   public destroyControl() {
     if (this.activeControl) {
@@ -910,7 +908,7 @@ export class Control {
     // 获取控件尺寸信息
     const controlId = this.activeControl?.getElement().controlId
     if (!controlId) return
-    // console.log(controlId)
+    console.log(controlId, 'controlId')
     const { controlPositionList } = this.getControlElementList()
     const rowList = this.draw.getRowList()
 
@@ -1237,14 +1235,15 @@ export class Control {
     })
   }
 
+  // 设置对应控件组
   public setControlGroup(elementList: IElement[], controlGroupId?: string) {
     if (controlGroupId) {
-      this.controlGroupList.delete(controlGroupId)
+      this.controlGroupMap.delete(controlGroupId)
     }
     const groupList: string[] = []
     elementList.forEach((element) => {
       let id = element.controlId || element.id
-      if (id && !groupList.includes(id)){
+      if (id && !groupList.includes(id)) {
         groupList.push(id)
       }
     })

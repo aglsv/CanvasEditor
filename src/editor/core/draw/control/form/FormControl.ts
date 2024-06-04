@@ -10,7 +10,6 @@ import { ControlComponent } from '../../../../dataset/enum/Control'
 import { CONTROL_STYLE_ATTR, TEXTLIKE_ELEMENT_TYPE } from '../../../../dataset/constant/Element'
 import { omitObject, pickObject } from '../../../../utils'
 import { formatElementContext } from '../../../../utils/element'
-import { Dialog } from '../../../../../components/dialog/Dialog'
 
 export class FormControl implements IControlInstance{
   protected element: IElement
@@ -34,6 +33,7 @@ export class FormControl implements IControlInstance{
   }
 
   public keydown(evt: KeyboardEvent): number | null {
+    console.log(evt)
     return null
   }
 
@@ -72,6 +72,7 @@ export class FormControl implements IControlInstance{
         ? pickObject(startElement, [
           'control',
           'controlId',
+          'controlGroupId',
           ...CONTROL_STYLE_ATTR
         ])
         : omitObject(startElement, ['type'])
@@ -83,6 +84,7 @@ export class FormControl implements IControlInstance{
         ...data[i],
         controlComponent: ControlComponent.VALUE
       }
+      console.log(elementList,newElement)
       formatElementContext(elementList, [newElement], startIndex)
       draw.spliceElementList(elementList, start + i, 0, newElement)
     }

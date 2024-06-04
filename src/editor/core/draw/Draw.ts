@@ -574,14 +574,22 @@ export class Draw {
     return this.footer.getElementList()
   }
 
-  public insertElementList(payload: IElement[]) {
+  public insertElementList(payload: IElement[], isControlGroup?: boolean) {
     if (!payload.length || !this.range.getIsCanInput()) return
     const { startIndex, endIndex } = this.range.getRange()
     if (!~startIndex && !~endIndex) return
-    formatElementList(payload, {
-      isHandleFirstElement: false,
-      editorOptions: this.options
-    })
+    if (isControlGroup) {
+      formatElementList(payload, {
+        isHandleFirstElement: false,
+        editorOptions: this.options,
+      }, getUUID())
+    } else {
+      formatElementList(payload, {
+        isHandleFirstElement: false,
+        editorOptions: this.options,
+      })
+    }
+    console.log(payload, 'payload')
     let curIndex = -1
     // 判断是否在控件内
     let activeControl = this.control.getActiveControl()
@@ -804,7 +812,7 @@ export class Draw {
       isSubmitHistory: false
     })
     await this.imageObserver.allSettled()
-    const dataUrlList = this.pageList.map(c => c.toDataURL('image/jpeg',1))
+    const dataUrlList = this.pageList.map(c => c.toDataURL('image/jpeg', 1))
     // 还原
     if (pixelRatio) {
       this.setPagePixelRatio(null)
@@ -1343,7 +1351,7 @@ export class Draw {
           const rowMarginHeight = rowMargin * 2 * scale
           if (
             curPagePreHeight + element.trList![0].height! + rowMarginHeight >
-              height ||
+            height ||
             (element.pagingIndex !== 0 && element.trList![0].pagingRepeat)
           ) {
             // 无可拆分行则切换至新页
@@ -1965,11 +1973,11 @@ export class Draw {
             if (
               preElement &&
               ((preElement.type === ElementType.SUBSCRIPT &&
-                element.type !== ElementType.SUBSCRIPT) ||
+                  element.type !== ElementType.SUBSCRIPT) ||
                 (preElement.type === ElementType.SUPERSCRIPT &&
                   element.type !== ElementType.SUPERSCRIPT) ||
                 this.getElementSize(preElement) !==
-                  this.getElementSize(element))
+                this.getElementSize(element))
             ) {
               this.strikeout.render(ctx)
             }
@@ -2082,7 +2090,6 @@ export class Draw {
       // 绘制选区
       if (!isPrintMode) {
         if (rangeRecord.width && rangeRecord.height) {
-          console.log(rangeRecord,ctx)
           const { x, y, width, height } = rangeRecord
           this.range.render(ctx, x, y, width, height)
         }

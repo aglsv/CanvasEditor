@@ -69,7 +69,8 @@ interface IFormatElementListOption {
 
 export function formatElementList(
   elementList: IElement[],
-  options: IFormatElementListOption
+  options: IFormatElementListOption,
+  controlGroupId?: string
 ) {
   const { isHandleFirstElement, editorOptions } = <IFormatElementListOption>{
     isHandleFirstElement: true,
@@ -98,8 +99,8 @@ export function formatElementList(
       const valueList = el.valueList || []
       formatElementList(valueList, {
         ...options,
-        isHandleFirstElement: false
-      })
+        isHandleFirstElement: false,
+      }, controlGroupId)
       // 追加节点
       if (valueList.length) {
         const titleId = getUUID()
@@ -133,7 +134,7 @@ export function formatElementList(
       formatElementList(valueList, {
         ...options,
         isHandleFirstElement: true
-      })
+      }, controlGroupId)
       // 追加节点
       if (valueList.length) {
         const listId = getUUID()
@@ -169,7 +170,7 @@ export function formatElementList(
             formatElementList(td.value, {
               ...options,
               isHandleFirstElement: true
-            })
+            }, controlGroupId)
             for (let v = 0; v < td.value.length; v++) {
               const value = td.value[v]
               value.tdId = tdId
@@ -230,6 +231,7 @@ export function formatElementList(
           radio: radioOption
         }
       } = options
+      // todo 生成控件id
       const controlId = getUUID()
       // 移除父节点
       elementList.splice(i, 1)
@@ -253,6 +255,7 @@ export function formatElementList(
           ...controlContext,
           ...thePrePostfixArg,
           controlId,
+          controlGroupId,
           value,
           type: el.type,
           control: el.control,
@@ -286,6 +289,7 @@ export function formatElementList(
               elementList.splice(i, 0, {
                 ...controlContext,
                 controlId,
+                controlGroupId,
                 value: '',
                 type: el.type,
                 control: el.control,
@@ -306,6 +310,7 @@ export function formatElementList(
                   ...controlDefaultStyle,
                   ...valueStyleList[valueStyleIndex],
                   controlId,
+                  controlGroupId,
                   value: value === '\n' ? ZERO : value,
                   letterSpacing: isLastLetter ? checkboxOption.gap : 0,
                   control: el.control,
@@ -333,6 +338,7 @@ export function formatElementList(
               elementList.splice(i, 0, {
                 ...controlContext,
                 controlId,
+                controlGroupId,
                 value: '',
                 type: el.type,
                 control: el.control,
@@ -353,6 +359,7 @@ export function formatElementList(
                   ...controlDefaultStyle,
                   ...valueStyleList[valueStyleIndex],
                   controlId,
+                  controlGroupId,
                   value: value === '\n' ? ZERO : value,
                   letterSpacing: isLastLetter ? radioOption.gap : 0,
                   control: el.control,
@@ -379,7 +386,7 @@ export function formatElementList(
           formatElementList(valueList, {
             ...options,
             isHandleFirstElement: false
-          })
+          }, controlGroupId)
           for (let v = 0; v < valueList.length; v++) {
             const element = valueList[v]
             const value = element.value
@@ -388,6 +395,7 @@ export function formatElementList(
               ...controlDefaultStyle,
               ...element,
               controlId,
+              controlGroupId,
               value: value === '\n' ? ZERO : value,
               type: element.type || ElementType.TEXT,
               control: el.control,
@@ -409,6 +417,7 @@ export function formatElementList(
             ...controlContext,
             ...thePlaceholderArgs,
             controlId,
+            controlGroupId,
             value: value === '\n' ? ZERO : value,
             type: el.type,
             control: el.control,
@@ -425,6 +434,7 @@ export function formatElementList(
           ...controlContext,
           ...thePrePostfixArg,
           controlId,
+          controlGroupId,
           value,
           type: el.type,
           control: el.control,
@@ -503,6 +513,7 @@ export function pickElementAttr(payload: IElement): IElement {
 
 export function zipElementList(payload: IElement[]): IElement[] {
   const elementList = deepClone(payload)
+  console.log(elementList, '压缩元素列表')
   const zipElementListData: IElement[] = []
   let e = 0
   while (e < elementList.length) {
@@ -667,9 +678,15 @@ export function zipElementList(payload: IElement[]): IElement[] {
         const controlDefaultStyle = <IControlSelect>(
           (<unknown>pickObject(element, CONTROL_STYLE_ATTR))
         )
-        const control = {
+        let control = {
           ...element.control!,
           ...controlDefaultStyle
+        }
+        if (element.controlGroupId) {
+          control = {
+            ...control,
+            controlGroupId: element.controlGroupId
+          }
         }
         const controlElement: IElement = {
           ...pickObject(element, EDITOR_ROW_ATTR),
@@ -687,6 +704,7 @@ export function zipElementList(payload: IElement[]): IElement[] {
           if (controlE.controlComponent === ControlComponent.VALUE) {
             delete controlE.control
             delete controlE.controlId
+            // delete controlE.controlGroupId
             valueList.push(controlE)
           }
           e++

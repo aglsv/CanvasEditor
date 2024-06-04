@@ -35,7 +35,7 @@ async function fetchHtmlContent(url: string): Promise<HtmlInfo> {
     const dom: Document = parser.parseFromString(htmlContent, 'text/html')
 
     const body = dom.querySelector('body')
-    if (!body) return {header: '', main: '', footer: ''}
+    if (!body) return { header: '', main: '', footer: '' }
 
     const headerInfo: any[] = []
     const footerInfo: any[] = []
@@ -63,12 +63,12 @@ async function fetchHtmlContent(url: string): Promise<HtmlInfo> {
         // 判断如果包含orphans和widows样式,则判断为分页符
         if (style.includes('orphans') && style.includes('widows')) {
           // 添加分页符
-          element.setAttribute('data-pageBack','true')
+          element.setAttribute('data-pageBack', 'true')
           return
         }
         // 判断是否为分节符
-        else if(style.includes('page-break-after:always') && style.includes('mso-break-type:section-break')){
-          element.setAttribute('data-pageBack','true')
+        else if (style.includes('page-break-after:always') && style.includes('mso-break-type:section-break')) {
+          element.setAttribute('data-pageBack', 'true')
           return
         }
         // 判断是否是页脚页眉，从main结构中删除,添加到对应的header和footer中
@@ -83,6 +83,10 @@ async function fetchHtmlContent(url: string): Promise<HtmlInfo> {
           // todo 添加第一页的页脚信息，后续改动
           if (pageIndex === 0) {
             footerHTML = element.outerHTML
+            const img = element.querySelectorAll('img')
+            const src = img[0].src
+            if (img.length >= 2 && Array.from(img).every(img => img.src === src))
+              return
             setHeaderFooterInfo((element as HTMLElement), footerInfo)
           }
           element.remove()
@@ -113,7 +117,7 @@ async function fetchHtmlContent(url: string): Promise<HtmlInfo> {
 
     bodyContent = '<div>\n' +
       '    <div style="text-align:center">\n' +
-      '<p style="margin-top:0pt; margin-bottom:7.8pt; text-align:center; font-size:16pt"><span style="-aw-sdt-content:placeholder; -aw-sdt-tag:\'gxebdItem_unprotect_1\'; -aw-sdt-title:\'文件编制时间（年）\'"><span style="font-family:宋体; font-size:10.5pt; color:#808080">文件编制时间（年）</span></span><span style="font-family:宋体">年</span><span style="-aw-sdt-content:placeholder; -aw-sdt-tag:\'gxebdItem_unprotect_2\'; -aw-sdt-title:\'文件编制时间（月）\'"><span style="font-family:宋体; font-size:10.5pt; color:#808080">文件编制时间（月）</span></span><span style="font-family:宋体">月</span><span style="-aw-sdt-content:placeholder; -aw-sdt-tag:\'gxebdItem_unprotect_3\'; -aw-sdt-title:\'文件编制时间（日）\'"><span style="font-family:宋体; font-size:10.5pt; color:#808080">文件编制时间（日）</span></span><span style="font-family:宋体">日</span></p>'+
+      '<p style="margin-top:0pt; margin-bottom:7.8pt; text-align:center; font-size:16pt"><span style="-aw-sdt-content:placeholder; -aw-sdt-tag:\'gxebdItem_unprotect_1\'; -aw-sdt-title:\'文件编制时间（年）\'"><span style="font-family:宋体; font-size:10.5pt; color:#808080">文件编制时间（年）</span></span><span style="font-family:宋体">年</span><span style="-aw-sdt-content:placeholder; -aw-sdt-tag:\'gxebdItem_unprotect_2\'; -aw-sdt-title:\'文件编制时间（月）\'"><span style="font-family:宋体; font-size:10.5pt; color:#808080">文件编制时间（月）</span></span><span style="font-family:宋体">月</span><span style="-aw-sdt-content:placeholder; -aw-sdt-tag:\'gxebdItem_unprotect_3\'; -aw-sdt-title:\'文件编制时间（日）\'"><span style="font-family:宋体; font-size:10.5pt; color:#808080">文件编制时间（日）</span></span><span style="font-family:宋体">日</span></p>' +
       '      <table cellspacing="0" cellpadding="0"\n' +
       '        style="width:100%; margin-right:auto; margin-left:auto; border:1.5pt solid #000000; -aw-border-insideh:0.75pt single #000000; -aw-border-insidev:0.75pt single #000000; border-collapse:collapse">\n' +
       '        <tr style="height:28.35pt">\n' +

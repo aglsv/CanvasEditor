@@ -2295,12 +2295,12 @@ export class CommandAdapt {
     const { startIndex } = this.range.getRange()
     const elementList = this.draw.getElementList()
     formatElementContext(elementList, cloneElementList, startIndex)
-    if (isControlGroup){
-      // 生成控件组
-      this.control
+    if (isControlGroup) {
+
     }
-    this.draw.insertElementList(cloneElementList)
-    console.log(this.draw.getElementList())
+    // console.log(cloneElementList, 'cloneElementList')
+    this.draw.insertElementList(cloneElementList, isControlGroup)
+    console.log(this.draw.getElementList(), 'elementList')
   }
 
   public appendElementList(

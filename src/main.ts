@@ -75,7 +75,7 @@ function initEditorByData(CEData: IEditorResult) {
   instance = new Editor(
     container,
     mockData,
-    {...options, ...CEData}
+    { ...options, ...CEData }
   )
   // @ts-ignore
   Window.editor = instance
@@ -430,7 +430,7 @@ function initTool() {
     const celSize = 16
     const rowMarginTop = 10
     const celMarginRight = 6
-    const {offsetX, offsetY} = evt
+    const { offsetX, offsetY } = evt
     // 移除所有选择
     removeAllTableCellSelect()
     colIndex = Math.ceil(offsetX / (celSize + celMarginRight)) || 1
@@ -869,153 +869,160 @@ function initTool() {
               })
             })
             elementList.push({
-              'type': ElementType.TABLE,
-              'colgroup': [
-                {
-                  'width': 185
-                },
-                {
-                  'width': 185
-                },
-                {
-                  'width': 185
-                }
-              ],
-              'value': '',
-              'trList': [
-                {
-                  'rowIndex': 0,
-                  'tdList': [
+              type: ElementType.CONTROL,
+              value: '',
+              control: {
+                'type': ControlType.FORM,
+                'value': [{
+                  'type': ElementType.TABLE,
+                  'colgroup': [
                     {
-                      'name': 'value',
-                      'value': [
-                        {
-                          'value': '​序号'
-                        }
-                      ],
-                      'colIndex': 0,
-                      'colspan': 1,
-                      'rowIndex': 0,
-                      'rowspan': 1
+                      'width': 185
                     },
                     {
-                      'name': 'value',
-                      'value': [
-                        {
-                          'value': '​标段名称'
-                        }
-                      ],
-                      'colIndex': 1,
-                      'colspan': 1,
-                      'rowIndex': 0,
-                      'rowspan': 1
+                      'width': 185
                     },
                     {
-                      'name': 'value',
-                      'value': [
-                        {
-                          'value': '​资格要求'
-                        }
-                      ],
-                      'colIndex': 2,
-                      'colspan': 1,
-                      'rowIndex': 0,
-                      'rowspan': 1
+                      'width': 185
                     }
                   ],
-                  'height': 60
-                },
-                {
-                  'rowIndex': 1,
-                  'tdList': [
+                  'value': '',
+                  'trList': [
                     {
-                      'name': 'value',
-                      'value': [
+                      'rowIndex': 0,
+                      'tdList': [
                         {
-                          'value': '​               '
+                          'name': 'value',
+                          'value': [
+                            {
+                              'value': '​序号'
+                            }
+                          ],
+                          'colIndex': 0,
+                          'colspan': 1,
+                          'rowIndex': 0,
+                          'rowspan': 1
+                        },
+                        {
+                          'name': 'value',
+                          'value': [
+                            {
+                              'value': '​标段名称'
+                            }
+                          ],
+                          'colIndex': 1,
+                          'colspan': 1,
+                          'rowIndex': 0,
+                          'rowspan': 1
+                        },
+                        {
+                          'name': 'value',
+                          'value': [
+                            {
+                              'value': '​资格要求'
+                            }
+                          ],
+                          'colIndex': 2,
+                          'colspan': 1,
+                          'rowIndex': 0,
+                          'rowspan': 1
                         }
                       ],
-                      'colIndex': 0,
-                      'colspan': 1,
-                      'rowIndex': 1,
-                      'rowspan': 1
+                      'height': 60
                     },
                     {
-                      'name': 'value',
-                      'value': [
+                      'rowIndex': 1,
+                      'tdList': [
                         {
-                          'value': '​ '
+                          'name': 'value',
+                          'value': [
+                            {
+                              'value': '​               '
+                            }
+                          ],
+                          'colIndex': 0,
+                          'colspan': 1,
+                          'rowIndex': 1,
+                          'rowspan': 1
+                        },
+                        {
+                          'name': 'value',
+                          'value': [
+                            {
+                              'value': '​ '
+                            }
+                          ],
+                          'colIndex': 1,
+                          'colspan': 1,
+                          'rowIndex': 1,
+                          'rowspan': 1
+                        },
+                        {
+                          'name': 'value',
+                          'value': [
+                            {
+                              'value': '​基本资格要求：​            ​专项资格要求：111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111            '
+                            }
+                          ],
+                          'colIndex': 2,
+                          'colspan': 1,
+                          'rowIndex': 1,
+                          'rowspan': 1
                         }
                       ],
-                      'colIndex': 1,
-                      'colspan': 1,
-                      'rowIndex': 1,
-                      'rowspan': 1
+                      'height': 60
                     },
                     {
-                      'name': 'value',
-                      'value': [
+                      'rowIndex': 2,
+                      'tdList': [
                         {
-                          'value': '​基本资格要求：​            ​专项资格要求：111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111            '
+                          'name': 'value',
+                          'value': [
+                            {
+                              'value': '​               '
+                            }
+                          ],
+                          'colIndex': 0,
+                          'colspan': 1,
+                          'rowIndex': 2,
+                          'rowspan': 1
+                        },
+                        {
+                          'name': 'value',
+                          'value': [
+                            {
+                              'value': '​ '
+                            }
+                          ],
+                          'colIndex': 1,
+                          'colspan': 1,
+                          'rowIndex': 2,
+                          'rowspan': 1
+                        },
+                        {
+                          'name': 'value',
+                          'value': [
+                            {
+                              'value': '​ '
+                            }
+                          ],
+                          'colIndex': 2,
+                          'colspan': 1,
+                          'rowIndex': 2,
+                          'rowspan': 1
                         }
                       ],
-                      'colIndex': 2,
-                      'colspan': 1,
-                      'rowIndex': 1,
-                      'rowspan': 1
+                      'height': 60
                     }
-                  ],
-                  'height': 60
-                },
-                {
-                  'rowIndex': 2,
-                  'tdList': [
-                    {
-                      'name': 'value',
-                      'value': [
-                        {
-                          'value': '​               '
-                        }
-                      ],
-                      'colIndex': 0,
-                      'colspan': 1,
-                      'rowIndex': 2,
-                      'rowspan': 1
-                    },
-                    {
-                      'name': 'value',
-                      'value': [
-                        {
-                          'value': '​ '
-                        }
-                      ],
-                      'colIndex': 1,
-                      'colspan': 1,
-                      'rowIndex': 2,
-                      'rowspan': 1
-                    },
-                    {
-                      'name': 'value',
-                      'value': [
-                        {
-                          'value': '​ '
-                        }
-                      ],
-                      'colIndex': 2,
-                      'colspan': 1,
-                      'rowIndex': 2,
-                      'rowspan': 1
-                    }
-                  ],
-                  'height': 60
-                }
-              ]
+                  ]
+                }],
+              }
             })
             // const valueSets = payload.find(p => p.name === 'select')?.value
             // if (!valueSets) return
             // const value = payload.find(p => p.name === 'code')?.value
             console.log(elementList)
-            instance.command.executeInsertElementList(elementList)
+            instance.command.executeInsertElementList(elementList,true)
           }
         })
         break
@@ -1237,7 +1244,7 @@ function initTool() {
   function setSearchResult() {
     const result = instance.command.getSearchNavigateInfo()
     if (result) {
-      const {index, count} = result
+      const { index, count } = result
       searchResultDom.innerText = `${index}/${count}`
     } else {
       searchResultDom.innerText = ''
@@ -1608,7 +1615,7 @@ function initTool() {
     // 模式选择循环
     modeIndex === modeList.length - 1 ? (modeIndex = 0) : modeIndex++
     // 设置模式
-    const {name, mode} = modeList[modeIndex]
+    const { name, mode } = modeList[modeIndex]
     modeElement.innerText = name
     instance.command.executeMode(mode)
     // 设置菜单栏权限视觉反馈
@@ -1975,7 +1982,7 @@ function initTool() {
         new Signature({
           onConfirm(payload) {
             if (!payload) return
-            const {value, width, height} = payload
+            const { value, width, height } = payload
             if (!value || !width || !height) return
             command.executeInsertElementList([
               {

@@ -94,6 +94,7 @@ export interface IControlElement {
   controlId?: string
   controlFormId?: string
   controlComponent?: ControlComponent
+  controlGroupId?: string
 }
 
 export interface ICheckboxElement {
