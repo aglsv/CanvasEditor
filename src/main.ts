@@ -1,6 +1,6 @@
 import { commentList, formDialogData, mockData, options } from './mock'
 import './style/style.css'
-import './style/control.sass'
+import './style/control.css'
 import prism from 'prismjs'
 import Editor, {
   BlockType,
