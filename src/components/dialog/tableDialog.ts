@@ -4,7 +4,6 @@
  * @date 2024/5/31.
  */
 import { Dialog, IDialogData, IDialogOptions } from './Dialog'
-import { data } from '../../mock'
 
 export interface ITableDialogInfo {
   rowIndex: number,

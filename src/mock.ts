@@ -514,265 +514,167 @@ export const formDialogData: IDialogData[] = [
 ]
 
 export const mockData:IEditorData | IElement[] = {
-  "header": [],
-  "main": [
+  'header': [],
+  'main': [
     {
-      "value": "",
-      "type": "control",
-      "control": {
-        "type": "text",
-        "value": [
+      'value': '',
+      'type': ElementType.CONTROL,
+      'control': {
+        'type': ControlType.FORM,
+        'value': [
           {
-            "value": "测试用的文本",
-            "type": "text"
+            'value': '123'
           }
         ],
-        "placeholder": "请输入"
+        'placeholder': '请输入',
+        'controlGroupId': 'd908323c-efe8-206b-04b9-99e4a1ca7a21'
       }
     },
     {
-      "value": "\n",
-      "color": "#000000"
+      'value': '',
+      'type': ElementType.CONTROL,
+      'control': {
+        'type': ControlType.FORM,
+        'value': [
+          {
+            'value': '213'
+          }
+        ],
+        'placeholder': '请输入',
+        'controlGroupId': 'd908323c-efe8-206b-04b9-99e4a1ca7a21'
+      }
     },
     {
-      "value": "",
-      "type": "table",
-      "trList": [
-        {
-          "height": 42,
-          "tdList": [
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": [
-                {
-                  "value": "1"
-                }
-              ]
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": [
-                {
-                  "value": "2"
-                }
-              ]
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": [
-                {
-                  "value": "3"
-                }
-              ]
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": [
-                {
-                  "value": "4"
-                }
-              ]
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            }
-          ],
-          "minHeight": 42
-        },
-        {
-          "height": 42,
-          "tdList": [
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": [
-                {
-                  "value": "22"
-                }
-              ]
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": [
-                {
-                  "value": "222"
-                }
-              ]
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": [
-                {
-                  "value": "23"
-                }
-              ]
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": [
-                {
-                  "value": "24"
-                }
-              ]
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            }
-          ],
-          "minHeight": 42
-        },
-        {
-          "height": 42,
-          "tdList": [
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": [
-                {
-                  "value": "44"
-                }
-              ]
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            }
-          ],
-          "minHeight": 42
-        },
-        {
-          "height": 42,
-          "tdList": [
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": []
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": [
-                {
-                  "value": "55"
-                }
-              ]
-            },
-            {
-              "colspan": 1,
-              "rowspan": 1,
-              "value": [
-                {
-                  "value": "66"
-                }
-              ]
-            }
-          ],
-          "minHeight": 42
-        }
-      ],
-      "width": 553.9999999999999,
-      "height": 168,
-      "colgroup": [
-        {
-          "width": 79.14285714285714
-        },
-        {
-          "width": 79.14285714285714
-        },
-        {
-          "width": 79.14285714285714
-        },
-        {
-          "width": 79.14285714285714
-        },
-        {
-          "width": 79.14285714285714
-        },
-        {
-          "width": 79.14285714285714
-        },
-        {
-          "width": 79.14285714285714
-        }
-      ]
+      'value': '',
+      'type': ElementType.CONTROL,
+      'control': {
+        'type': ControlType.FORM,
+        'value': [
+          {
+            'value': '',
+            'type': ElementType.TABLE,
+            'trList': [
+              {
+                'rowIndex': 0,
+                'tdList': [
+                  {
+                    'colspan': 1,
+                    'rowspan': 1,
+                    'value': [
+                      {
+                        'value': '序号'
+                      }
+                    ]
+                  },
+                  {
+                    'colspan': 1,
+                    'rowspan': 1,
+                    'value': [
+                      {
+                        'value': '标段名称'
+                      }
+                    ]
+                  },
+                  {
+                    'colspan': 1,
+                    'rowspan': 1,
+                    'value': [
+                      {
+                        'value': '资格要求'
+                      }
+                    ]
+                  }
+                ],
+                'height': 42,
+                'minHeight': 42
+              },
+              {
+                'rowIndex': 1,
+                'tdList': [
+                  {
+                    'colspan': 1,
+                    'rowspan': 1,
+                    'value': [
+                      {
+                        'value': '               '
+                      }
+                    ]
+                  },
+                  {
+                    'colspan': 1,
+                    'rowspan': 1,
+                    'value': [
+                      {
+                        'value': ' '
+                      }
+                    ]
+                  },
+                  {
+                    'colspan': 1,
+                    'rowspan': 1,
+                    'value': [
+                      {
+                        'value': '基本资格要求：\n            \n专项资格要求：111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111            '
+                      }
+                    ]
+                  }
+                ],
+                'height': 285,
+                'minHeight': 42
+              },
+              {
+                'rowIndex': 2,
+                'tdList': [
+                  {
+                    'colspan': 1,
+                    'rowspan': 1,
+                    'value': [
+                      {
+                        'value': '               '
+                      }
+                    ]
+                  },
+                  {
+                    'colspan': 1,
+                    'rowspan': 1,
+                    'value': [
+                      {
+                        'value': ' '
+                      }
+                    ]
+                  },
+                  {
+                    'colspan': 1,
+                    'rowspan': 1,
+                    'value': [
+                      {
+                        'value': ' '
+                      }
+                    ]
+                  }
+                ],
+                'height': 42,
+                'minHeight': 42
+              }
+            ],
+            'width': 555,
+            'height': 369,
+            'colgroup': [
+              {
+                'width': 185
+              },
+              {
+                'width': 185
+              },
+              {
+                'width': 185
+              }
+            ]
+          }
+        ],
+        'controlGroupId': 'd908323c-efe8-206b-04b9-99e4a1ca7a21'
+      }
     }
   ],
-  "footer": []
+  'footer': []
 }

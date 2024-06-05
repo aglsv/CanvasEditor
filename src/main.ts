@@ -62,6 +62,7 @@ async function initEditorByFile(url: string) {
 
 
   const htmlInfo = await fetchHtmlContent(url ?? '')
+  console.log(htmlInfo, 'htmlInfo')
   instance.command.executeSetHTML({
     header: htmlInfo.header,
     main: htmlInfo.main,
@@ -856,7 +857,7 @@ function initTool() {
                 type: ElementType.CONTROL,
                 value: '',
                 control: {
-                  type,
+                  type: ControlType.TEXT,
                   value: value
                     ? [
                       {
@@ -892,7 +893,6 @@ function initTool() {
                       'rowIndex': 0,
                       'tdList': [
                         {
-                          'name': 'value',
                           'value': [
                             {
                               'value': '​序号'
@@ -904,7 +904,6 @@ function initTool() {
                           'rowspan': 1
                         },
                         {
-                          'name': 'value',
                           'value': [
                             {
                               'value': '​标段名称'
@@ -916,7 +915,6 @@ function initTool() {
                           'rowspan': 1
                         },
                         {
-                          'name': 'value',
                           'value': [
                             {
                               'value': '​资格要求'
@@ -934,7 +932,6 @@ function initTool() {
                       'rowIndex': 1,
                       'tdList': [
                         {
-                          'name': 'value',
                           'value': [
                             {
                               'value': '​               '
@@ -946,7 +943,6 @@ function initTool() {
                           'rowspan': 1
                         },
                         {
-                          'name': 'value',
                           'value': [
                             {
                               'value': '​ '
@@ -958,7 +954,6 @@ function initTool() {
                           'rowspan': 1
                         },
                         {
-                          'name': 'value',
                           'value': [
                             {
                               'value': '​基本资格要求：​            ​专项资格要求：111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111            '
@@ -976,7 +971,6 @@ function initTool() {
                       'rowIndex': 2,
                       'tdList': [
                         {
-                          'name': 'value',
                           'value': [
                             {
                               'value': '​               '
@@ -988,7 +982,6 @@ function initTool() {
                           'rowspan': 1
                         },
                         {
-                          'name': 'value',
                           'value': [
                             {
                               'value': '​ '
@@ -1000,7 +993,6 @@ function initTool() {
                           'rowspan': 1
                         },
                         {
-                          'name': 'value',
                           'value': [
                             {
                               'value': '​ '
@@ -1022,7 +1014,7 @@ function initTool() {
             // if (!valueSets) return
             // const value = payload.find(p => p.name === 'code')?.value
             console.log(elementList)
-            instance.command.executeInsertElementList(elementList,true)
+            instance.command.executeInsertElementList(elementList, true)
           }
         })
         break
@@ -2084,4 +2076,4 @@ const canvasEditorFun = {
 window.canvasEditorFun = canvasEditorFun
 export default canvasEditorFun
 // initEditorByData()
-initEditorByFile('')
+// initEditorByFile('')

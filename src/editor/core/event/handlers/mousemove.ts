@@ -2,12 +2,11 @@ import { ImageDisplay } from '../../../dataset/enum/Common'
 import { ControlComponent } from '../../../dataset/enum/Control'
 import { ElementType } from '../../../dataset/enum/Element'
 import { CanvasEvent } from '../CanvasEvent'
-import { toggleToolbarByOther } from '../../../../plugins/floatingToolbar'
 
-const eventPosition = {
-  x: 0,
-  y: 0
-}
+// const eventPosition = {
+//   x: 0,
+//   y: 0
+// }
 
 export function mousemove(evt: MouseEvent, host: CanvasEvent) {
   const draw = host.getDraw()

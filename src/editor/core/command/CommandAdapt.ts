@@ -99,7 +99,6 @@ import { RangeManager } from '../range/RangeManager'
 import { WorkerManager } from '../worker/WorkerManager'
 import { img2PDF } from '../../utils/pdf'
 import { Dialog, IDialogData } from '../../../components/dialog/Dialog'
-import { instance } from '../../../main'
 import { ITableDialogInfo, TableDialog } from '../../../components/dialog/tableDialog'
 
 export class CommandAdapt {
@@ -2061,7 +2060,7 @@ export class CommandAdapt {
   public changeImageDisplay(element: IElement, display: ImageDisplay) {
     if (element.imgDisplay === display) return
     element.imgDisplay = display
-    const { startIndex, endIndex } = this.range.getRange()
+    const { endIndex } = this.range.getRange()
     if (
       display === ImageDisplay.FLOAT_TOP ||
       display === ImageDisplay.FLOAT_BOTTOM
@@ -2295,9 +2294,6 @@ export class CommandAdapt {
     const { startIndex } = this.range.getRange()
     const elementList = this.draw.getElementList()
     formatElementContext(elementList, cloneElementList, startIndex)
-    if (isControlGroup) {
-
-    }
     // console.log(cloneElementList, 'cloneElementList')
     this.draw.insertElementList(cloneElementList, isControlGroup)
     console.log(this.draw.getElementList(), 'elementList')
@@ -2536,6 +2532,7 @@ export class CommandAdapt {
    * 修改表格内容
    */
   public editTableValue(tableId: string) {
+    console.log(tableId)
     // console.log('修改表格内容', tableId, this.tableTool.tableElement)
     // 获取表格信息，轮询表格elementList
     const tableValue: Map<string, string> = new Map()
@@ -2568,19 +2565,19 @@ export class CommandAdapt {
       title: '表格内容编辑',
       data: dialogData,
       onConfirm: payload => {
-        const value = payload.find(p => p.name === 'value')?.value || ''
+        // const value = payload.find(p => p.name === 'value')?.value || ''
         console.log(payload)
         // 删除表格
         this.deleteTable()
         // 生成并添加新的表格
-        this.insertElementListByData(payload, oldColgroup)
+        this.insertElementListByData(payload, oldColgroup!)
       }
     }, tableInfo)
   }
 
   public insertElementListByData<T>(data: T, oldColgroup: IColgroup[]) {
     console.log(data)
-    let elementList: IElement[] = []
+    const elementList: IElement[] = []
     if (Array.isArray(data)) {
       // 使用reduce来组合数据
       const trList: ITr[] = []
@@ -2597,7 +2594,9 @@ export class CommandAdapt {
         }
       })
       const maxTdLength = trList.reduce((max, row) => Math.max(max, row.tdList.length), 0)
-      const colgroup: IColgroup[] = Array.from({ length: maxTdLength }, (_, index) => ({
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const colgroup: IColgroup[] = Array.from({ length: maxTdLength }, (_) => ({
+
         width: (this.options.width - this.options.margins[1] - this.options.margins[3]) / maxTdLength,
       }))
       console.log(colgroup, oldColgroup)

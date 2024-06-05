@@ -5,11 +5,10 @@ import './style/index.scss'
 import { ToolbarType } from './enum'
 import { IToolbarRegister } from './interface'
 import { PLUGIN_PREFIX } from './constant'
-import { IElementFillRect } from '../../editor/interface/Element'
 
 let toolbarContainer: HTMLDivElement | null = null
 
-let CEditor: Editor
+// let CEditor: Editor
 
 let isInside = false
 
@@ -75,45 +74,6 @@ let nowTargetType = ''
 
 // 工具栏列表
 const toolbarRegisterList: IToolbarRegister[] = [
-  // {
-  //   key: ToolbarType.SIZE_ADD,
-  //   callback(editor) {
-  //     editor.command.executeSizeAdd()
-  //   }
-  // },
-  // {
-  //   key: ToolbarType.SIZE_MINUS,
-  //   callback(editor) {
-  //     editor.command.executeSizeMinus()
-  //   }
-  // },
-  // {
-  //   isDivider: true
-  // },
-  // {
-  //   key: ToolbarType.BOLD,
-  //   callback(editor) {
-  //     editor.command.executeBold()
-  //   }
-  // },
-  // {
-  //   key: ToolbarType.ITALIC,
-  //   callback(editor) {
-  //     editor.command.executeItalic()
-  //   }
-  // },
-  // {
-  //   key: ToolbarType.UNDERLINE,
-  //   callback(editor) {
-  //     editor.command.executeUnderline()
-  //   }
-  // },
-  // {
-  //   key: ToolbarType.STRIKEOUT,
-  //   callback(editor) {
-  //     editor.command.executeStrikeout()
-  //   }
-  // },
   {
     key:ToolbarType.EDITOR_VALUE,
     callback(editor) {
@@ -126,23 +86,6 @@ const toolbarRegisterList: IToolbarRegister[] = [
       // toggleToolbarVisible(toolbarContainer!, false)
     }
   },
-  // {
-  //   isDivider: true
-  // },
-  // {
-  //   render(container, editor) {
-  //     createPickerToolbar(container, ToolbarType.COLOR, color => {
-  //       editor.command.executeColor(color)
-  //     })
-  //   }
-  // },
-  // {
-  //   render(container, editor) {
-  //     createPickerToolbar(container, ToolbarType.HIGHLIGHT, color => {
-  //       editor.command.executeHighlight(color)
-  //     })
-  //   }
-  // }
 ]
 
 function createToolbar(editor: Editor): HTMLDivElement {
@@ -186,7 +129,7 @@ function toggleToolbarItemActive(toolbarItem: HTMLDivElement, active: boolean) {
 }
 
 export default function floatingToolbarPlugin(editor: Editor) {
-  CEditor = editor
+  // CEditor = editor
   // 创建工具栏
   toolbarContainer = createToolbar(editor)
   const editorContainer = editor.command.getContainer()
@@ -269,16 +212,16 @@ export function toggleToolbarByOther(visible: boolean, targetInfo: { id: string,
 /**
  * 根据光标设置浮动窗口位置
  */
-function setPositionByRange(position?: IElementFillRect) {
-  if (CEditor && toolbarContainer) {
-    const context = CEditor.command.getRangeContext()
-    if (!context || context.isCollapsed || !context.rangeRects[0]) {
-      toggleToolbarVisible(toolbarContainer, false)
-      return
-    }
-    // 定位
-    position = position ? position : context.rangeRects[0]
-    toolbarContainer.style.left = `${position.x}px`
-    toolbarContainer.style.top = `${position.y + position.height}px`
-  }
-}
+// function setPositionByRange(position?: IElementFillRect) {
+//   if (CEditor && toolbarContainer) {
+//     const context = CEditor.command.getRangeContext()
+//     if (!context || context.isCollapsed || !context.rangeRects[0]) {
+//       toggleToolbarVisible(toolbarContainer, false)
+//       return
+//     }
+//     // 定位
+//     position = position ? position : context.rangeRects[0]
+//     toolbarContainer.style.left = `${position.x}px`
+//     toolbarContainer.style.top = `${position.y + position.height}px`
+//   }
+// }

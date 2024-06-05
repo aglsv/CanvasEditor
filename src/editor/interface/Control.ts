@@ -81,7 +81,8 @@ export type IControl = IControlBasic &
   Partial<IControlCheckbox> &
   Partial<IControlRadio> &
   Partial<IControlStyle> &
-  Partial<IControlForm>
+  Partial<IControlForm> &
+  { controlGroupId?: string }
 
 export interface IControlOption {
   placeholderColor?: string

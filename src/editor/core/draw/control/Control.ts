@@ -41,7 +41,6 @@ import { ControlBorder } from './richtext/Border'
 import { SelectControl } from './select/SelectControl'
 import { TextControl } from './text/TextControl'
 import { FormControl } from './form/FormControl'
-import { Dialog, IDialogConfirm } from '../../../../components/dialog/Dialog'
 import { EDITOR_PREFIX } from '../../../dataset/constant/Editor'
 import { toggleToolbarByOther } from '../../../../plugins/floatingToolbar'
 import { MoveDirection } from '../../../dataset/enum/Observer'
@@ -556,6 +555,7 @@ export class Control {
       const newElement: IElement = {
         value,
         controlId: startElement.controlId,
+        controlGroupId: startElement.controlGroupId,
         type: ElementType.CONTROL,
         control: startElement.control,
         controlComponent: ControlComponent.PLACEHOLDER,
@@ -907,24 +907,25 @@ export class Control {
   public renderShadowBox(): void {
     // 获取控件尺寸信息
     const controlId = this.activeControl?.getElement().controlId
-    if (!controlId) return
-    console.log(controlId, 'controlId')
+    const controlGroupId = this.activeControl?.getElement().controlGroupId
+    const id = controlGroupId ?? controlId
+    if (!id) return
+    console.log(id, `是控件组吗：${id === controlId}`)
     const { controlPositionList } = this.getControlElementList()
     const rowList = this.draw.getRowList()
-
     let rowNo = controlPositionList[0].rowNo
     let width = 0
     let height = 0
     let x = controlPositionList[0].coordinate.leftTop[0]
     let y = controlPositionList[0].coordinate.leftTop[1]
     let rowHeight = rowList[rowNo].height
-    toggleToolbarByOther(true, { id: controlId, type: 'control' }, { x, y: y })
+    toggleToolbarByOther(true, { id: id, type: 'control' }, { x, y: y })
     controlPositionList.forEach((position: IElementPosition, index: number) => {
       if (rowNo === position.rowNo) {
         width += position.metrics.width
         height = height = Math.max(position.metrics.height, height)
       } else {
-        this.generateShadowBox(x, y, width, rowHeight, controlId)
+        this.generateShadowBox(x, y, width, rowHeight, id)
         rowNo = position.rowNo
         width = position.metrics.width
         height = position.metrics.height
@@ -933,7 +934,7 @@ export class Control {
         y = position.coordinate.leftTop[1]
       }
       if (index === controlPositionList.length - 1) {
-        this.generateShadowBox(x, y, width, rowHeight, controlId)
+        this.generateShadowBox(x, y, width, rowHeight, id)
       }
     })
     // console.log(controlElementList, controlPositionList)
@@ -955,7 +956,7 @@ export class Control {
   /**
    * 生成控件背景框
    */
-  public generateShadowBox(x: number, y: number, width: number, height: number, controlId): void {
+  public generateShadowBox(x: number, y: number, width: number, height: number, controlId:string): void {
     // todo 生成单个div控件背景框
     const shadowBox = document.createElement('div')
     shadowBox.classList.add(`${EDITOR_PREFIX}-control-shadowBox`)
@@ -970,7 +971,6 @@ export class Control {
     this.shadowBoxList.push(shadowBox)
     console.log(x, y, width, height)
   }
-
 
   public getPreControlContext(): INextControlContext | null {
     if (!this.activeControl) return null
@@ -1242,7 +1242,7 @@ export class Control {
     }
     const groupList: string[] = []
     elementList.forEach((element) => {
-      let id = element.controlId || element.id
+      const id = element.controlId || element.id
       if (id && !groupList.includes(id)) {
         groupList.push(id)
       }

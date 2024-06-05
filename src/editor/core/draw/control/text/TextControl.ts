@@ -100,6 +100,7 @@ export class TextControl implements IControlInstance {
         ? pickObject(startElement, [
             'control',
             'controlId',
+            'controlGroupId',
             ...CONTROL_STYLE_ATTR
           ])
         : omitObject(startElement, ['type'])

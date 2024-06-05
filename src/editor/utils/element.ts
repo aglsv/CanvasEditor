@@ -222,6 +222,7 @@ export function formatElementList(
         i++
         continue
       }
+      controlGroupId = controlGroupId ?? el.control.controlGroupId
       const { prefix, postfix, value, placeholder, code, type, valueSets } =
         el.control
       const {
@@ -1242,11 +1243,13 @@ export function getElementListByHTML(
         if (node.nodeName === 'BR') {
           // 判断是否是分页符
           if ((dom as HTMLElement).getAttribute('data-pageBack')) {
+            console.log('是分页符')
             elementList.push({
               type: ElementType.PAGE_BREAK,
               value: '\n',
             })
           } else {
+            console.log('不是分页符')
             elementList.push({
               value: '\n',
             })
@@ -1402,7 +1405,6 @@ export function getElementListByHTML(
         } else if (node.nodeType === 1 && (node as HTMLElement).getAttribute('style')?.includes('-aw-sdt-content')) {
           const type = (node as HTMLElement).getAttribute('style')?.split('-aw-sdt-content:')[1].split(';')[0]
 
-          console.log(node, '控件', type)
           if (type === 'placeholder') {
             const placeholder = (node as HTMLElement).getAttribute('-aw-sdt-title') ?? '请输入'
             elementList.push({

@@ -35,7 +35,7 @@ export class TableTool {
   private mousedownX: number
   private mousedownY: number
   public tableElement: IElement | null = null
-  public tableIndex: number = 0
+  public tableIndex = 0
   public tablePosition: IElementPosition | null = null
 
   constructor(draw: Draw) {

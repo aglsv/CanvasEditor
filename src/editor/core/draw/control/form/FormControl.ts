@@ -10,8 +10,10 @@ import { ControlComponent } from '../../../../dataset/enum/Control'
 import { CONTROL_STYLE_ATTR, TEXTLIKE_ELEMENT_TYPE } from '../../../../dataset/constant/Element'
 import { omitObject, pickObject } from '../../../../utils'
 import { formatElementContext } from '../../../../utils/element'
+import { KeyMap } from '../../../../dataset/enum/KeyMap'
+import { ElementType } from '../../../../dataset/enum/Element'
 
-export class FormControl implements IControlInstance{
+export class FormControl implements IControlInstance {
   protected element: IElement
   protected control: Control
 
@@ -33,7 +35,33 @@ export class FormControl implements IControlInstance{
   }
 
   public keydown(evt: KeyboardEvent): number | null {
-    console.log(evt)
+    if (this.control.getIsDisabledControl()) {
+      return null
+    }
+    const elementList = this.control.getElementList()
+    const range = this.control.getRange()
+    // 收缩边界到Value内
+    this.control.shrinkBoundary()
+    const { startIndex, endIndex } = range
+    const startElement = elementList[startIndex]
+    const endElement = elementList[endIndex]
+    const draw = this.control.getDraw()
+
+    console.log('keyDown', elementList, startElement, endElement)
+    if (evt.key === KeyMap.Backspace) {
+      if (endElement.control?.value![0].type === ElementType.TABLE) {
+        // 删除表格
+        draw.spliceElementList(
+          elementList,
+          endIndex-2,
+          3
+        )
+        return endIndex-3
+      }
+      // eslint-disable-next-line no-empty
+    } else if (evt.key === KeyMap.Delete) {
+
+    }
     return null
   }
 
@@ -84,7 +112,7 @@ export class FormControl implements IControlInstance{
         ...data[i],
         controlComponent: ControlComponent.VALUE
       }
-      console.log(elementList,newElement)
+      console.log(elementList, newElement)
       formatElementContext(elementList, [newElement], startIndex)
       draw.spliceElementList(elementList, start + i, 0, newElement)
     }
