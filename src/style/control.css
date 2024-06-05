@@ -1,0 +1,27 @@
+.control {
+  display: none;
+  width: 250px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  top: 100px;
+  padding: 0 20px 40px 20px
+}
+
+.control .control__header {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e2e6ed;
+}
+
+.control .control__header span {
+  color: #3d4757;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.control .control__header div:hover {
+  background: rgba(235, 238, 241);
+}
