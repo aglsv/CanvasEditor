@@ -1,4 +1,4 @@
-import {defineConfig} from 'vite'
+import { defineConfig } from 'vite'
 import typescript from '@rollup/plugin-typescript'
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 import * as path from 'path'
@@ -28,7 +28,6 @@ export default defineConfig(({ mode }) => {
           name,
           fileName: name,
           formats: ['umd'],
-          // entry: path.resolve(__dirname, 'src/editor/index.ts')
           entry: path.resolve(__dirname, 'src/main.ts')
         },
         rollupOptions: {

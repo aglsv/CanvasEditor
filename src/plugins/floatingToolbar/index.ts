@@ -1,4 +1,4 @@
-import '@simonwep/pickr/dist/themes/nano.min.css'
+// import '@simonwep/pickr/dist/themes/nano.min.css'
 // import Pickr from '@simonwep/pickr'
 import Editor from '../../editor'
 import './style/index.scss'
@@ -16,62 +16,6 @@ let nowtargetId = ''
 
 let nowTargetType = ''
 
-// function createPickerToolbar(
-//   container: HTMLDivElement,
-//   toolbarType: ToolbarType,
-//   changed: (color: string) => void
-// ) {
-//   const toolbarItem = document.createElement('div')
-//   toolbarItem.classList.add(`${PLUGIN_PREFIX}-picker`)
-//   toolbarItem.classList.add(`${PLUGIN_PREFIX}-${toolbarType}`)
-//   // 颜色选择容器
-//   const pickerContainer = document.createElement('div')
-//   pickerContainer.classList.add(`${PLUGIN_PREFIX}-picker-container`)
-//   const pickerDom = document.createElement('div')
-//   pickerContainer.append(pickerDom)
-//   toolbarItem.append(pickerContainer)
-//   container.append(toolbarItem)
-//   // 实例化颜色选择器
-//   const currentColor = '#000000'
-//   const pickr = new Pickr({
-//     el: pickerDom,
-//     theme: 'nano',
-//     useAsButton: true,
-//     inline: true,
-//     default: currentColor,
-//     i18n: {
-//       'btn:save': '✓'
-//     },
-//     components: {
-//       preview: true,
-//       opacity: true,
-//       hue: true,
-//       interaction: {
-//         input: true,
-//         save: true
-//       }
-//     }
-//   })
-//   const icon = document.createElement('i')
-//   toolbarItem.append(icon)
-//   const colorBar = document.createElement('span')
-//   colorBar.style.backgroundColor = currentColor
-//   toolbarItem.append(colorBar)
-//   toolbarItem.onclick = evt => {
-//     const target = evt.target as HTMLElement
-//     if (pickerContainer !== target && !pickerContainer.contains(target)) {
-//       pickr.show()
-//     }
-//   }
-//   pickr.on('save', (cb: any) => {
-//     pickr.hide()
-//     const color = cb.toHEXA().toString()
-//     colorBar.style.backgroundColor = color
-//     changed(color)
-//   })
-// }
-
-
 // 工具栏列表
 const toolbarRegisterList: IToolbarRegister[] = [
   {
@@ -88,13 +32,23 @@ const toolbarRegisterList: IToolbarRegister[] = [
   },
 ]
 
+/**
+ * 创建并返回一个包含多个工具栏项的浮动工具栏HTMLDivElement。
+ *
+ * @param editor - 当前编辑器实例，用于传递给工具栏项的回调函数。
+ * @returns 一个新的HTMLDivElement，作为浮动工具栏的容器。
+ */
 function createToolbar(editor: Editor): HTMLDivElement {
   const toolbarContainer = document.createElement('div')
   toolbarContainer.classList.add(`${PLUGIN_PREFIX}-floating-toolbar`)
+  // 便利遍历工具栏列表，创建并添加工具栏项
   for (const toolbar of toolbarRegisterList) {
+    // 如果工具项有render方法,使用自定义渲染方法
     if (toolbar.render) {
       toolbar.render(toolbarContainer, editor)
-    } else if (toolbar.isDivider) {
+    }
+    // 如果是分割线
+    else if (toolbar.isDivider) {
       const divider = document.createElement('div')
       divider.classList.add(`${PLUGIN_PREFIX}-divider`)
       toolbarContainer.append(divider)

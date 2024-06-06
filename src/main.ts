@@ -28,7 +28,7 @@ import { Dialog } from './components/dialog/Dialog'
 import { formatPrismToken } from './utils/prism'
 import { Signature } from './components/signature/Signature'
 import { debounce, nextTick, scrollIntoView } from './utils'
-import fetchHtmlContent from './getElement'
+import fetchHtmlContent, { getControlElement } from './getElement'
 import floatingToolbarPlugin from './plugins/floatingToolbar'
 
 export let instance: Editor
@@ -2075,5 +2075,5 @@ const canvasEditorFun = {
 // @ts-ignore
 window.canvasEditorFun = canvasEditorFun
 export default canvasEditorFun
-// initEditorByData()
+initEditorByData()
 // initEditorByFile('')

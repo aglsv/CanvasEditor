@@ -217,7 +217,6 @@ export class Control {
       if (controlGroupId && controlGroupId === element.controlGroupId) {
         controlElementList.unshift(element)
         controlPositionList.unshift(positionList[i])
-        console.log(element, 'left')
       } else if (element.controlId === controlId) {
         controlElementList.unshift(element)
         controlPositionList.unshift(positionList[i])
@@ -912,6 +911,7 @@ export class Control {
     if (!id) return
     console.log(id, `是控件组吗：${id === controlId}`)
     const { controlPositionList } = this.getControlElementList()
+    console.log(controlPositionList)
     const rowList = this.draw.getRowList()
     let rowNo = controlPositionList[0].rowNo
     let width = 0
@@ -925,7 +925,7 @@ export class Control {
         width += position.metrics.width
         height = height = Math.max(position.metrics.height, height)
       } else {
-        this.generateShadowBox(x, y, width, rowHeight, id)
+        this.generateShadowBox(x, y, width, rowHeight, id, position.pageNo)
         rowNo = position.rowNo
         width = position.metrics.width
         height = position.metrics.height
@@ -934,7 +934,7 @@ export class Control {
         y = position.coordinate.leftTop[1]
       }
       if (index === controlPositionList.length - 1) {
-        this.generateShadowBox(x, y, width, rowHeight, id)
+        this.generateShadowBox(x, y, width, rowHeight, id, position.pageNo)
       }
     })
     // console.log(controlElementList, controlPositionList)
@@ -956,8 +956,9 @@ export class Control {
   /**
    * 生成控件背景框
    */
-  public generateShadowBox(x: number, y: number, width: number, height: number, controlId:string): void {
-    // todo 生成单个div控件背景框
+  public generateShadowBox(x: number, y: number, width: number, height: number, controlId: string, pageNo: number): void {
+    // todo 根据pageNo修改top
+    // todo 单页上宽度，left相同的合为一个shadow框
     const shadowBox = document.createElement('div')
     shadowBox.classList.add(`${EDITOR_PREFIX}-control-shadowBox`)
     // shadowBox.style.position = 'absolute'

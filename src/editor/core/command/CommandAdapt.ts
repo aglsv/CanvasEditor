@@ -11,7 +11,7 @@ import {
 } from '../../dataset/constant/Title'
 import { defaultWatermarkOption } from '../../dataset/constant/Watermark'
 import { ImageDisplay } from '../../dataset/enum/Common'
-import { ControlComponent } from '../../dataset/enum/Control'
+import { ControlComponent, ControlType } from '../../dataset/enum/Control'
 import {
   EditorContext,
   EditorMode,
@@ -100,6 +100,8 @@ import { WorkerManager } from '../worker/WorkerManager'
 import { img2PDF } from '../../utils/pdf'
 import { Dialog, IDialogData } from '../../../components/dialog/Dialog'
 import { ITableDialogInfo, TableDialog } from '../../../components/dialog/tableDialog'
+import { getControlElement } from '../../../getElement'
+import { instance } from '../../../main'
 
 export class CommandAdapt {
   private draw: Draw
@@ -2502,30 +2504,67 @@ export class CommandAdapt {
     console.log(activeControl)
     const controlId: string = activeControl.getElement().controlId!
     const controlType = activeControl.getElement()!.control!.type
-    const valueList = activeControl?.getValue()
-    const controlStr = valueList?.reduce(
-      (previousValue, currentValue) => ({
-        value: previousValue.value + currentValue.value,
-      }),
-      { value: '' }).value
-    console.log(controlStr)
-    // 呼出空间弹窗
-    new Dialog({
-      title: '内容编辑',
-      data: [
-        {
-          type: controlType,
-          label: '内容',
-          name: 'value',
-          value: controlStr,
+    const controlGroupId = activeControl.getElement()!.controlGroupId
+    // 如果存在,这表示为控件组
+    if (controlGroupId) {
+      // todo 调用底层方法
+      this.editControlGroupValue()
+    } else {
+      const valueList = activeControl?.getValue()
+      const controlStr = valueList?.reduce(
+        (previousValue, currentValue) => ({
+          value: previousValue.value + currentValue.value
+        }),
+        { value: '' }).value
+      console.log(controlStr)
+      // 呼出空间弹窗
+      new Dialog({
+        title: '内容编辑',
+        data: [
+          {
+            type: controlType,
+            label: '内容',
+            name: 'value',
+            value: controlStr
+          }
+        ],
+        onConfirm: payload => {
+          const value = payload.find(p => p.name === 'value')?.value || ''
+          console.log(value)
+          this.setControlValue({ controlId, value })
         }
-      ],
-      onConfirm: payload => {
-        const value = payload.find(p => p.name === 'value')?.value || ''
-        console.log(value)
-        this.setControlValue({ controlId, value })
-      }
+      })
+    }
+  }
+
+  /**
+   * 修改控件组内容
+   */
+  public async editControlGroupValue(url: string) {
+    console.log('修改控件组内容')
+    // 获取控件内容
+    const controlHTMLArr = await getControlElement()
+    console.log(controlHTMLArr)
+    // 将控件html转为elementList
+    const innerWidth = this.draw.getOriginalInnerWidth()
+    const controlElementList: IElement[] = []
+    controlHTMLArr.forEach((html, index) => {
+      const elementList = getElementListByHTML(html, {
+        innerWidth
+      })
+      console.log(elementList)
+      controlElementList.push({
+        type: ElementType.CONTROL,
+        value: '',
+        control: {
+          type: elementList[0].type === ElementType.TABLE ? ControlType.FORM : ControlType.TEXT,
+          value: elementList,
+          placeholder: '请输入'
+        }
+      })
+
     })
+    instance.command.executeInsertElementList(controlElementList, true)
   }
 
   /**
@@ -2556,7 +2595,7 @@ export class CommandAdapt {
             type: 'table',
             label: `${trIndex + 1}行${tdIndex + 1}列`,
             name: 'value',
-            value: tdValue,
+            value: tdValue
           })
         }
       })
@@ -2597,7 +2636,7 @@ export class CommandAdapt {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const colgroup: IColgroup[] = Array.from({ length: maxTdLength }, (_) => ({
 
-        width: (this.options.width - this.options.margins[1] - this.options.margins[3]) / maxTdLength,
+        width: (this.options.width - this.options.margins[1] - this.options.margins[3]) / maxTdLength
       }))
       console.log(colgroup, oldColgroup)
       console.log(this.options)
@@ -2606,7 +2645,7 @@ export class CommandAdapt {
         type: ElementType.TABLE,
         colgroup: oldColgroup,
         value: '',
-        trList,
+        trList
       })
     }
     console.log(elementList)

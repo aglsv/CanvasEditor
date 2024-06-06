@@ -7,6 +7,7 @@ import {
   TitleLevel
 } from './editor'
 import { IDialogData } from './components/dialog/Dialog'
+import mockCEData from '../mock/mockCEData.json'
 
 const text = `主诉：\n发热三天，咳嗽五天。\n现病史：\n患者于三天前无明显诱因，感冒后发现面部水肿，无皮疹，尿量减少，出现乏力，在外治疗无好转，现来我院就诊。\n既往史：\n有糖尿病10年，有高血压2年，有传染性疾病1年。报告其他既往疾病。\n流行病史：\n否认14天内接触过确诊患者、疑似患者、无症状感染者及其密切接触者；否认14天内去过以下场所：水产、肉类批发市场，农贸市场，集市，大型超市，夜市；否认14天内与以下场所工作人员密切接触：水产、肉类批发市场，农贸市场，集市，大型超市；否认14天内周围（如家庭、办公室）有2例以上聚集性发病；否认14天内接触过有发热或呼吸道症状的人员；否认14天内自身有发热或呼吸道症状；否认14天内接触过纳入隔离观察的人员及其他可能与新冠肺炎关联的情形；陪同家属无以上情况。\n体格检查：\nT：39.5℃，P：80bpm，R：20次/分，BP：120/80mmHg；\n辅助检查：\n2020年6月10日，普放：血细胞比容36.50%（偏低）40～50；单核细胞绝对值0.75*10/L（偏高）参考值：0.1～0.6；\n门诊诊断：处置治疗：电子签名：【】\n其他记录：`
 
@@ -239,24 +240,24 @@ elementList.push({
           colspan: 1,
           rowspan: 2,
           value: [
-            {value: `1`, size: 16},
-            {value: '.', size: 16}
+            { value: `1`, size: 16 },
+            { value: '.', size: 16 }
           ]
         },
         {
           colspan: 1,
           rowspan: 1,
           value: [
-            {value: `2`, size: 16},
-            {value: '.', size: 16}
+            { value: `2`, size: 16 },
+            { value: '.', size: 16 }
           ]
         },
         {
           colspan: 2,
           rowspan: 1,
           value: [
-            {value: `3`, size: 16},
-            {value: '.', size: 16}
+            { value: `3`, size: 16 },
+            { value: '.', size: 16 }
           ]
         }
       ]
@@ -268,24 +269,24 @@ elementList.push({
           colspan: 1,
           rowspan: 1,
           value: [
-            {value: `4`, size: 16},
-            {value: '.', size: 16}
+            { value: `4`, size: 16 },
+            { value: '.', size: 16 }
           ]
         },
         {
           colspan: 1,
           rowspan: 1,
           value: [
-            {value: `5`, size: 16},
-            {value: '.', size: 16}
+            { value: `5`, size: 16 },
+            { value: '.', size: 16 }
           ]
         },
         {
           colspan: 1,
           rowspan: 1,
           value: [
-            {value: `6`, size: 16},
-            {value: '.', size: 16}
+            { value: `6`, size: 16 },
+            { value: '.', size: 16 }
           ]
         }
       ]
@@ -297,33 +298,33 @@ elementList.push({
           colspan: 1,
           rowspan: 1,
           value: [
-            {value: `7`, size: 16},
-            {value: '.', size: 16}
+            { value: `7`, size: 16 },
+            { value: '.', size: 16 }
           ]
         },
         {
           colspan: 1,
           rowspan: 1,
           value: [
-            {value: `8`, size: 16},
-            {value: '.', size: 16}
+            { value: `8`, size: 16 },
+            { value: '.', size: 16 }
           ]
         },
         {
           colspan: 1,
           rowspan: 1,
           value: [
-            {value: `9`, size: 16},
-            {value: '.', size: 16}
+            { value: `9`, size: 16 },
+            { value: '.', size: 16 }
           ]
         },
         {
           colspan: 1,
           rowspan: 1,
           value: [
-            {value: `1`, size: 16},
-            {value: `0`, size: 16},
-            {value: '.', size: 16}
+            { value: `1`, size: 16 },
+            { value: `0`, size: 16 },
+            { value: '.', size: 16 }
           ]
         }
       ]
@@ -513,168 +514,169 @@ export const formDialogData: IDialogData[] = [
   }
 ]
 
-export const mockData:IEditorData | IElement[] = {
-  'header': [],
-  'main': [
-    {
-      'value': '',
-      'type': ElementType.CONTROL,
-      'control': {
-        'type': ControlType.FORM,
-        'value': [
-          {
-            'value': '123'
-          }
-        ],
-        'placeholder': '请输入',
-        'controlGroupId': 'd908323c-efe8-206b-04b9-99e4a1ca7a21'
-      }
-    },
-    {
-      'value': '',
-      'type': ElementType.CONTROL,
-      'control': {
-        'type': ControlType.FORM,
-        'value': [
-          {
-            'value': '213'
-          }
-        ],
-        'placeholder': '请输入',
-        'controlGroupId': 'd908323c-efe8-206b-04b9-99e4a1ca7a21'
-      }
-    },
-    {
-      'value': '',
-      'type': ElementType.CONTROL,
-      'control': {
-        'type': ControlType.FORM,
-        'value': [
-          {
-            'value': '',
-            'type': ElementType.TABLE,
-            'trList': [
-              {
-                'rowIndex': 0,
-                'tdList': [
-                  {
-                    'colspan': 1,
-                    'rowspan': 1,
-                    'value': [
-                      {
-                        'value': '序号'
-                      }
-                    ]
-                  },
-                  {
-                    'colspan': 1,
-                    'rowspan': 1,
-                    'value': [
-                      {
-                        'value': '标段名称'
-                      }
-                    ]
-                  },
-                  {
-                    'colspan': 1,
-                    'rowspan': 1,
-                    'value': [
-                      {
-                        'value': '资格要求'
-                      }
-                    ]
-                  }
-                ],
-                'height': 42,
-                'minHeight': 42
-              },
-              {
-                'rowIndex': 1,
-                'tdList': [
-                  {
-                    'colspan': 1,
-                    'rowspan': 1,
-                    'value': [
-                      {
-                        'value': '               '
-                      }
-                    ]
-                  },
-                  {
-                    'colspan': 1,
-                    'rowspan': 1,
-                    'value': [
-                      {
-                        'value': ' '
-                      }
-                    ]
-                  },
-                  {
-                    'colspan': 1,
-                    'rowspan': 1,
-                    'value': [
-                      {
-                        'value': '基本资格要求：\n            \n专项资格要求：111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111            '
-                      }
-                    ]
-                  }
-                ],
-                'height': 285,
-                'minHeight': 42
-              },
-              {
-                'rowIndex': 2,
-                'tdList': [
-                  {
-                    'colspan': 1,
-                    'rowspan': 1,
-                    'value': [
-                      {
-                        'value': '               '
-                      }
-                    ]
-                  },
-                  {
-                    'colspan': 1,
-                    'rowspan': 1,
-                    'value': [
-                      {
-                        'value': ' '
-                      }
-                    ]
-                  },
-                  {
-                    'colspan': 1,
-                    'rowspan': 1,
-                    'value': [
-                      {
-                        'value': ' '
-                      }
-                    ]
-                  }
-                ],
-                'height': 42,
-                'minHeight': 42
-              }
-            ],
-            'width': 555,
-            'height': 369,
-            'colgroup': [
-              {
-                'width': 185
-              },
-              {
-                'width': 185
-              },
-              {
-                'width': 185
-              }
-            ]
-          }
-        ],
-        'controlGroupId': 'd908323c-efe8-206b-04b9-99e4a1ca7a21'
-      }
-    }
-  ],
-  'footer': []
-}
+// export const mockData:IEditorData | IElement[] = {
+//   'header': [],
+//   'main': [
+//     {
+//       'value': '',
+//       'type': ElementType.CONTROL,
+//       'control': {
+//         'type': ControlType.FORM,
+//         'value': [
+//           {
+//             'value': '123'
+//           }
+//         ],
+//         'placeholder': '请输入',
+//         'controlGroupId': 'd908323c-efe8-206b-04b9-99e4a1ca7a21'
+//       }
+//     },
+//     {
+//       'value': '',
+//       'type': ElementType.CONTROL,
+//       'control': {
+//         'type': ControlType.FORM,
+//         'value': [
+//           {
+//             'value': '213'
+//           }
+//         ],
+//         'placeholder': '请输入',
+//         'controlGroupId': 'd908323c-efe8-206b-04b9-99e4a1ca7a21'
+//       }
+//     },
+//     {
+//       'value': '',
+//       'type': ElementType.CONTROL,
+//       'control': {
+//         'type': ControlType.FORM,
+//         'value': [
+//           {
+//             'value': '',
+//             'type': ElementType.TABLE,
+//             'trList': [
+//               {
+//                 'rowIndex': 0,
+//                 'tdList': [
+//                   {
+//                     'colspan': 1,
+//                     'rowspan': 1,
+//                     'value': [
+//                       {
+//                         'value': '序号'
+//                       }
+//                     ]
+//                   },
+//                   {
+//                     'colspan': 1,
+//                     'rowspan': 1,
+//                     'value': [
+//                       {
+//                         'value': '标段名称'
+//                       }
+//                     ]
+//                   },
+//                   {
+//                     'colspan': 1,
+//                     'rowspan': 1,
+//                     'value': [
+//                       {
+//                         'value': '资格要求'
+//                       }
+//                     ]
+//                   }
+//                 ],
+//                 'height': 42,
+//                 'minHeight': 42
+//               },
+//               {
+//                 'rowIndex': 1,
+//                 'tdList': [
+//                   {
+//                     'colspan': 1,
+//                     'rowspan': 1,
+//                     'value': [
+//                       {
+//                         'value': '               '
+//                       }
+//                     ]
+//                   },
+//                   {
+//                     'colspan': 1,
+//                     'rowspan': 1,
+//                     'value': [
+//                       {
+//                         'value': ' '
+//                       }
+//                     ]
+//                   },
+//                   {
+//                     'colspan': 1,
+//                     'rowspan': 1,
+//                     'value': [
+//                       {
+//                         'value': '基本资格要求：\n            \n专项资格要求：111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111            '
+//                       }
+//                     ]
+//                   }
+//                 ],
+//                 'height': 285,
+//                 'minHeight': 42
+//               },
+//               {
+//                 'rowIndex': 2,
+//                 'tdList': [
+//                   {
+//                     'colspan': 1,
+//                     'rowspan': 1,
+//                     'value': [
+//                       {
+//                         'value': '               '
+//                       }
+//                     ]
+//                   },
+//                   {
+//                     'colspan': 1,
+//                     'rowspan': 1,
+//                     'value': [
+//                       {
+//                         'value': ' '
+//                       }
+//                     ]
+//                   },
+//                   {
+//                     'colspan': 1,
+//                     'rowspan': 1,
+//                     'value': [
+//                       {
+//                         'value': ' '
+//                       }
+//                     ]
+//                   }
+//                 ],
+//                 'height': 42,
+//                 'minHeight': 42
+//               }
+//             ],
+//             'width': 555,
+//             'height': 369,
+//             'colgroup': [
+//               {
+//                 'width': 185
+//               },
+//               {
+//                 'width': 185
+//               },
+//               {
+//                 'width': 185
+//               }
+//             ]
+//           }
+//         ],
+//         'controlGroupId': 'd908323c-efe8-206b-04b9-99e4a1ca7a21'
+//       }
+//     }
+//   ],
+//   'footer': []
+// }
+export const mockData = mockCEData

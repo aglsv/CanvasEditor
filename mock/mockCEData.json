@@ -1,0 +1,1149 @@
+{
+    "header": [],
+    "main": [
+        {
+            "value": "",
+            "type": "control",
+            "control": {
+                "type": "text",
+                "value": [
+                    {
+                        "value": "货物清单行报价暨投标报价汇总表",
+                        "type": "text",
+                        "size": 16,
+                        "bold": true,
+                        "color": "rgb(0, 0, 0)",
+                        "italic": false,
+                        "rowFlex": "center"
+                    },
+                    {
+                        "value": "\n",
+                        "type": "text"
+                    },
+                    {
+                        "value": "单位：元（人民币）",
+                        "type": "text",
+                        "size": 16,
+                        "bold": false,
+                        "color": "rgb(0, 0, 0)",
+                        "italic": false,
+                        "rowFlex": "right"
+                    }
+                ],
+                "placeholder": "请输入",
+                "controlGroupId": "07ffb375-5b00-a2ba-772c-724f436d00a8"
+            }
+        },
+        {
+            "value": "",
+            "type": "control",
+            "control": {
+                "type": "form",
+                "value": [
+                    {
+                        "value": "\n",
+                        "type": "table",
+                        "trList": [
+                            {
+                                "height": 179,
+                                "tdList": [
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": "序号",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": "项目单位",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": "项目名称",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": "货物名称",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": "货物（功能规格型号）描述",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": "单位",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": "数量",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": "单价最高限价",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": "未含税单价",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": "未含税合价",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": "税率(%)",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": "含税单价",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": "含税合价",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "minHeight": 42
+                            },
+                            {
+                                "height": 42,
+                                "tdList": [
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "minHeight": 42
+                            },
+                            {
+                                "height": 42,
+                                "tdList": [
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "minHeight": 42
+                            },
+                            {
+                                "height": 42,
+                                "tdList": [
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "right"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "minHeight": 42
+                            }
+                        ],
+                        "width": 559,
+                        "height": 305,
+                        "colgroup": [
+                            {
+                                "width": 43
+                            },
+                            {
+                                "width": 43
+                            },
+                            {
+                                "width": 43
+                            },
+                            {
+                                "width": 43
+                            },
+                            {
+                                "width": 43
+                            },
+                            {
+                                "width": 43
+                            },
+                            {
+                                "width": 43
+                            },
+                            {
+                                "width": 43
+                            },
+                            {
+                                "width": 43
+                            },
+                            {
+                                "width": 43
+                            },
+                            {
+                                "width": 43
+                            },
+                            {
+                                "width": 43
+                            },
+                            {
+                                "width": 43
+                            }
+                        ]
+                    }
+                ],
+                "placeholder": "请输入",
+                "controlGroupId": "07ffb375-5b00-a2ba-772c-724f436d00a8"
+            }
+        },
+        {
+            "value": "",
+            "type": "control",
+            "control": {
+                "type": "form",
+                "value": [
+                    {
+                        "value": "\n",
+                        "type": "table",
+                        "trList": [
+                            {
+                                "height": 42,
+                                "tdList": [
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": "合计",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "minHeight": 42
+                            },
+                            {
+                                "height": 42,
+                                "tdList": [
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": "交货时间",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " ",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "minHeight": 42
+                            },
+                            {
+                                "height": 42,
+                                "tdList": [
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": "交货地点",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    },
+                                    {
+                                        "colspan": 1,
+                                        "rowspan": 1,
+                                        "value": [
+                                            {
+                                                "value": " 12312313123123",
+                                                "size": 14,
+                                                "bold": false,
+                                                "color": "rgb(51, 51, 51)",
+                                                "italic": false,
+                                                "rowFlex": "center"
+                                            }
+                                        ],
+                                        "backgroundColor": "rgb(255, 255, 255)"
+                                    }
+                                ],
+                                "minHeight": 42
+                            }
+                        ],
+                        "width": 554,
+                        "height": 126,
+                        "colgroup": [
+                            {
+                                "width": 277
+                            },
+                            {
+                                "width": 277
+                            }
+                        ]
+                    }
+                ],
+                "placeholder": "请输入",
+                "controlGroupId": "07ffb375-5b00-a2ba-772c-724f436d00a8"
+            }
+        },
+        {
+            "value": "",
+            "type": "control",
+            "control": {
+                "type": "text",
+                "value": [
+                    {
+                        "value": "投标单位签章：\n                   ",
+                        "type": "text",
+                        "size": 16,
+                        "bold": false,
+                        "color": "rgb(0, 0, 0)",
+                        "italic": false,
+                        "rowFlex": "right"
+                    },
+                    {
+                        "value": "\n",
+                        "type": "text"
+                    },
+                    {
+                        "value": "1.本投标价格是投标人设备/材料运至招标人指定的交货地点的落地价格，包括：本体、附件、备品备件，专用工具、技术资料、技术配合、技术服务、买方参加设计联络会和检验、包装、运输、装卸、保险、税费、政府规费等全部费用的价格，以上内容不在本表中单独进行报价。",
+                        "type": "text",
+                        "size": 16,
+                        "bold": false,
+                        "color": "rgb(255, 0, 0)",
+                        "italic": false,
+                        "rowFlex": "alignment"
+                    },
+                    {
+                        "value": "\n",
+                        "type": "text"
+                    },
+                    {
+                        "value": "2.投标人应按本招标文件技术规范的规定，用图纸、清单和文字来界定供货和服务的范围和界限。",
+                        "type": "text",
+                        "size": 16,
+                        "bold": false,
+                        "color": "rgb(255, 0, 0)",
+                        "italic": false,
+                        "rowFlex": "alignment"
+                    },
+                    {
+                        "value": "\n",
+                        "type": "text"
+                    },
+                    {
+                        "value": "3.投标报价应为固定不变价格。",
+                        "type": "text",
+                        "size": 16,
+                        "bold": false,
+                        "color": "rgb(255, 0, 0)",
+                        "italic": false,
+                        "rowFlex": "alignment"
+                    },
+                    {
+                        "value": "\n",
+                        "type": "text"
+                    },
+                    {
+                        "value": "4.投标人投标报价须包含招标文件所要求的全部内容，不得缺项、漏项或改变招标文件所要求的内容，如果分项报价中缺漏项，则视为这项报价已分摊在其它分项报价中，即已包含在《货物清单行报价暨投标报价汇总表》总报价中，合同执行中不另行支付，请投标人报价时综合考虑。",
+                        "type": "text",
+                        "size": 16,
+                        "bold": false,
+                        "color": "rgb(255, 0, 0)",
+                        "italic": false,
+                        "rowFlex": "alignment"
+                    },
+                    {
+                        "value": "\n",
+                        "type": "text"
+                    },
+                    {
+                        "value": "5.招标人不接受任何包含价格信息的备注。",
+                        "type": "text",
+                        "size": 16,
+                        "bold": false,
+                        "color": "rgb(255, 0, 0)",
+                        "italic": false,
+                        "rowFlex": "alignment"
+                    },
+                    {
+                        "value": "\n",
+                        "type": "text"
+                    },
+                    {
+                        "value": "6.招标人不接受投标人任何形式的价格调整声明（折扣或价格上浮声明）。",
+                        "type": "text",
+                        "size": 16,
+                        "bold": false,
+                        "color": "rgb(255, 0, 0)",
+                        "italic": false,
+                        "rowFlex": "alignment"
+                    },
+                    {
+                        "value": "\n",
+                        "type": "text"
+                    },
+                    {
+                        "value": "7.报价内容应与公告附表完全一致，不得修改；保留两位小数并进行四舍五入。",
+                        "type": "text",
+                        "size": 16,
+                        "bold": false,
+                        "color": "rgb(255, 0, 0)",
+                        "italic": false,
+                        "rowFlex": "alignment"
+                    }
+                ],
+                "placeholder": "请输入",
+                "controlGroupId": "07ffb375-5b00-a2ba-772c-724f436d00a8"
+            }
+        }
+    ],
+    "footer": []
+}
