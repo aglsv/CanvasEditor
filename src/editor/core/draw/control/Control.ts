@@ -44,6 +44,7 @@ import { FormControl } from './form/FormControl'
 import { EDITOR_PREFIX } from '../../../dataset/constant/Editor'
 import { toggleToolbarByOther } from '../../../../plugins/floatingToolbar'
 import { MoveDirection } from '../../../dataset/enum/Observer'
+import { IRowElement } from '../../../interface/Row'
 
 interface IMoveCursorResult {
   newIndex: number
@@ -481,10 +482,12 @@ export class Control {
     let leftIndex = -1
     let rightIndex = -1
     // 向左查找
+    const startId = startElement.controlGroupId || startElement.controlId
     let preIndex = startIndex
     while (preIndex > 0) {
       const preElement = elementList[preIndex]
-      if (preElement.controlId !== startElement.controlId) {
+      const id = preElement.controlGroupId || preElement.controlId
+      if (id !== startId) {
         leftIndex = preIndex
         break
       }
@@ -494,7 +497,8 @@ export class Control {
     let nextIndex = startIndex + 1
     while (nextIndex < elementList.length) {
       const nextElement = elementList[nextIndex]
-      if (nextElement.controlId !== startElement.controlId) {
+      const id = nextElement.controlGroupId || nextElement.controlId
+      if (id !== startId) {
         rightIndex = nextIndex - 1
         break
       }
@@ -911,33 +915,82 @@ export class Control {
     if (!id) return
     console.log(id, `是控件组吗：${id === controlId}`)
     const { controlPositionList } = this.getControlElementList()
-    console.log(controlPositionList)
-    const rowList = this.draw.getRowList()
-    let rowNo = controlPositionList[0].rowNo
-    let width = 0
-    let height = 0
-    let x = controlPositionList[0].coordinate.leftTop[0]
+    // console.table(controlPositionList)
+    const { rowNo: startRowNo, pageNo: startPageNo } = controlPositionList[0]
+    const { rowNo: endRowNo, pageNo: endPageNo } = controlPositionList[controlPositionList.length - 1]
+    // let height = controlPositionList[0].lineHeight
+    const x = controlPositionList[0].coordinate.leftTop[0]
     let y = controlPositionList[0].coordinate.leftTop[1]
-    let rowHeight = rowList[rowNo].height
-    toggleToolbarByOther(true, { id: id, type: 'control' }, { x, y: y })
-    controlPositionList.forEach((position: IElementPosition, index: number) => {
-      if (rowNo === position.rowNo) {
-        width += position.metrics.width
-        height = height = Math.max(position.metrics.height, height)
-      } else {
-        this.generateShadowBox(x, y, width, rowHeight, id, position.pageNo)
-        rowNo = position.rowNo
-        width = position.metrics.width
-        height = position.metrics.height
-        rowHeight = rowList[rowNo].height
-        x = position.coordinate.leftTop[0]
-        y = position.coordinate.leftTop[1]
+    const endY = controlPositionList[controlPositionList.length - 1].coordinate.leftTop[1]
+    // let rowHeight = rowList[rowNo].height
+    const pageRowList = this.draw.getPageRowList()
+    const nowPageRowList = pageRowList.slice(startPageNo, endPageNo + 1)
+    console.log(pageRowList)
+    console.log(controlPositionList[controlPositionList.length - 1])
+    // console.log(startRowNo, endRowNo)
+    // 循环行内容列表
+    const isHaveValue = (rowElementList: IRowElement[]) => {
+      let haveValue = false
+      let width = 0
+      for (let i = 0; i <= rowElementList.length; i++) {
+        if ((rowElementList[i].controlGroupId ?? rowElementList[i].controlId) === id) {
+          break
+        } else if (rowElementList[i].value.replace(/[\u200b\s]/g, '') !== '') {
+          haveValue = true
+          width += rowElementList[i].metrics.width
+        }
       }
-      if (index === controlPositionList.length - 1) {
-        this.generateShadowBox(x, y, width, rowHeight, id, position.pageNo)
-      }
+      return { haveValue, width }
+    }
+    const {
+      haveValue: startHaveValue,
+      width: startWidth
+    } = isHaveValue(pageRowList[startPageNo][startRowNo].elementList)
+    const {
+      haveValue: endHaveValue,
+      width: endWidth
+    } = isHaveValue(pageRowList[endPageNo][endRowNo].elementList.toReversed())
+
+    console.log(startHaveValue, endHaveValue)
+
+    const baseWidth = this.options.width - this.options.margins[1] - this.options.margins[3]
+    const baseX = this.options.margins[3]
+    const baseY = this.options.margins[0]
+    // const basePageHeight = this.options.height + this.options.pageGap
+    // 如果只有一页，并且只有一行，直接绘制
+    if (nowPageRowList.length === 1 && endRowNo === startRowNo) {
+      this.generateShadowBox(x, y, nowPageRowList[0][0].width, nowPageRowList[0][0].height, id, startPageNo)
+    } else {
+      nowPageRowList.forEach((rowList, pageIndex) => {
+        let height = 0
+        rowList.forEach((row, rowIndex) => {
+          // 如果是第一行并且非起始位置，设置阴影块
+          if (pageIndex === 0 && rowIndex === startRowNo && startHaveValue) {
+            this.generateShadowBox(x, y, baseWidth - startWidth, row.height, id, pageIndex + startPageNo)
+            y += row.height
+            return
+          }
+          // 如果是最后一行并且后续还有内容，设置阴影块
+          else if (pageIndex === nowPageRowList.length - 1 && rowIndex === endRowNo && endHaveValue) {
+            this.generateShadowBox(baseX, endY, row.width - endWidth, row.height, id, pageIndex + startPageNo)
+          }
+          // 如果是中间放，则添加高度，设置为一整块
+          else {
+            if ((pageIndex === nowPageRowList.length - 1 && rowIndex > endRowNo)
+              || (pageIndex === 0 && rowIndex < startRowNo)) return
+            height += row.height
+          }
+        })
+        // 如果高度不等于0，则设置中间阴影块，，x为基准x，y根据是否是第一页判断，宽度为基准宽
+        if (height !== 0)
+          this.generateShadowBox(baseX, pageIndex === 0 ? y : baseY, baseWidth, height, id, pageIndex + startPageNo)
+      })
+    }
+
+    toggleToolbarByOther(true, { id: id, type: 'control' }, {
+      x,
+      y: y + startPageNo * (this.options.height + this.options.pageGap)
     })
-    // console.log(controlElementList, controlPositionList)
   }
 
   /**
@@ -957,13 +1010,14 @@ export class Control {
    * 生成控件背景框
    */
   public generateShadowBox(x: number, y: number, width: number, height: number, controlId: string, pageNo: number): void {
+    const baseY = pageNo * (this.options.height + this.options.pageGap)
     // todo 根据pageNo修改top
     // todo 单页上宽度，left相同的合为一个shadow框
     const shadowBox = document.createElement('div')
     shadowBox.classList.add(`${EDITOR_PREFIX}-control-shadowBox`)
     // shadowBox.style.position = 'absolute'
     shadowBox.style.left = `${x}px`
-    shadowBox.style.top = `${y}px`
+    shadowBox.style.top = `${y + baseY}px`
     shadowBox.style.width = `${width}px`
     shadowBox.style.height = `${height}px`
     shadowBox.setAttribute('data-controlId', controlId)

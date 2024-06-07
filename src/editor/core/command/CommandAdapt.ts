@@ -2507,8 +2507,8 @@ export class CommandAdapt {
     const controlGroupId = activeControl.getElement()!.controlGroupId
     // 如果存在,这表示为控件组
     if (controlGroupId) {
-      // todo 调用底层方法
-      this.editControlGroupValue()
+      // todo 调用底层方法，当前参数写死
+      this.editControlGroupValue('')
     } else {
       const valueList = activeControl?.getValue()
       const controlStr = valueList?.reduce(
@@ -2562,8 +2562,9 @@ export class CommandAdapt {
           placeholder: '请输入'
         }
       })
-
     })
+    // todo 删除控件组，插入新控件组
+    this.removeControl()
     instance.command.executeInsertElementList(controlElementList, true)
   }
 

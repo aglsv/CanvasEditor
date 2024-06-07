@@ -514,7 +514,6 @@ export function pickElementAttr(payload: IElement): IElement {
 
 export function zipElementList(payload: IElement[]): IElement[] {
   const elementList = deepClone(payload)
-  console.log(elementList, '压缩元素列表')
   const zipElementListData: IElement[] = []
   let e = 0
   while (e < elementList.length) {
