@@ -1,11 +1,9 @@
 import { ControlType, ControlIndentation } from '../dataset/enum/Control'
 import { EditorZone } from '../dataset/enum/Editor'
 import { MoveDirection } from '../dataset/enum/Observer'
-import { ICheckbox } from './Checkbox'
 import { IDrawOption } from './Draw'
 import { IElement } from './Element'
 import { IPositionContext } from './Position'
-import { IRadio } from './Radio'
 import { IRange } from './Range'
 
 export interface IValueSet {
@@ -23,17 +21,15 @@ export interface IControlCheckbox {
   min?: number
   max?: number
   valueSets: IValueSet[]
-  checkbox?: ICheckbox
 }
 
 export interface IControlRadio {
   code: string | null
   valueSets: IValueSet[]
-  radio?: IRadio
 }
 
-export interface IControlForm {
-
+export interface IControlDate {
+  dateFormat?: string
 }
 
 export interface IControlHighlightRule {
@@ -81,8 +77,9 @@ export type IControl = IControlBasic &
   Partial<IControlCheckbox> &
   Partial<IControlRadio> &
   Partial<IControlStyle> &
-  Partial<IControlForm> &
+  Partial<IControlDate> &
   { controlGroupId?: string }
+
 
 export interface IControlOption {
   placeholderColor?: string

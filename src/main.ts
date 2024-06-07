@@ -28,7 +28,7 @@ import { Dialog } from './components/dialog/Dialog'
 import { formatPrismToken } from './utils/prism'
 import { Signature } from './components/signature/Signature'
 import { debounce, nextTick, scrollIntoView } from './utils'
-import fetchHtmlContent, { getControlElement } from './getElement'
+import fetchHtmlContent from './getElement'
 import floatingToolbarPlugin from './plugins/floatingToolbar'
 
 export let instance: Editor
@@ -106,14 +106,14 @@ function initTool() {
   // 2. | 撤销 | 重做 | 格式刷 | 清除格式 |
   const undoDom = document.querySelector<HTMLDivElement>('.menu-item__undo')!
   undoDom.title = `撤销(${isApple ? '⌘' : 'Ctrl'}+Z)`
-  undoDom.onclick = function () {
+  undoDom.onclick = function() {
     console.log('undo')
     instance.command.executeUndo()
   }
 
   const redoDom = document.querySelector<HTMLDivElement>('.menu-item__redo')!
   redoDom.title = `重做(${isApple ? '⌘' : 'Ctrl'}+Y)`
-  redoDom.onclick = function () {
+  redoDom.onclick = function() {
     console.log('redo')
     instance.command.executeRedo()
   }
@@ -124,7 +124,7 @@ function initTool() {
 
   let isFirstClick = true
   let painterTimeout: number
-  painterDom.onclick = function () {
+  painterDom.onclick = function() {
     if (isFirstClick) {
       isFirstClick = false
       painterTimeout = window.setTimeout(() => {
@@ -139,7 +139,7 @@ function initTool() {
     }
   }
 
-  painterDom.ondblclick = function () {
+  painterDom.ondblclick = function() {
     console.log('painter-dblclick')
     isFirstClick = true
     window.clearTimeout(painterTimeout)
@@ -149,7 +149,7 @@ function initTool() {
   }
 
   document.querySelector<HTMLDivElement>('.menu-item__format')!.onclick =
-    function () {
+    function() {
       console.log('format')
       instance.command.executeFormat()
     }
@@ -158,11 +158,11 @@ function initTool() {
   const fontDom = document.querySelector<HTMLDivElement>('.menu-item__font')!
   const fontSelectDom = fontDom.querySelector<HTMLDivElement>('.select')!
   const fontOptionDom = fontDom.querySelector<HTMLDivElement>('.options')!
-  fontDom.onclick = function () {
+  fontDom.onclick = function() {
     console.log('font')
     fontOptionDom.classList.toggle('visible')
   }
-  fontOptionDom.onclick = function (evt) {
+  fontOptionDom.onclick = function(evt) {
     const li = evt.target as HTMLLIElement
     instance.command.executeFont(li.dataset.family!)
   }
@@ -171,11 +171,11 @@ function initTool() {
   const sizeSelectDom = sizeSetDom.querySelector<HTMLDivElement>('.select')!
   const sizeOptionDom = sizeSetDom.querySelector<HTMLDivElement>('.options')!
   sizeSetDom.title = `设置字号`
-  sizeSetDom.onclick = function () {
+  sizeSetDom.onclick = function() {
     console.log('size')
     sizeOptionDom.classList.toggle('visible')
   }
-  sizeOptionDom.onclick = function (evt) {
+  sizeOptionDom.onclick = function(evt) {
     const li = evt.target as HTMLLIElement
     instance.command.executeSize(Number(li.dataset.size!))
   }
@@ -184,7 +184,7 @@ function initTool() {
     '.menu-item__size-add'
   )!
   sizeAddDom.title = `增大字号(${isApple ? '⌘' : 'Ctrl'}+[)`
-  sizeAddDom.onclick = function () {
+  sizeAddDom.onclick = function() {
     console.log('size-add')
     instance.command.executeSizeAdd()
   }
@@ -193,14 +193,14 @@ function initTool() {
     '.menu-item__size-minus'
   )!
   sizeMinusDom.title = `减小字号(${isApple ? '⌘' : 'Ctrl'}+])`
-  sizeMinusDom.onclick = function () {
+  sizeMinusDom.onclick = function() {
     console.log('size-minus')
     instance.command.executeSizeMinus()
   }
 
   const boldDom = document.querySelector<HTMLDivElement>('.menu-item__bold')!
   boldDom.title = `加粗(${isApple ? '⌘' : 'Ctrl'}+B)`
-  boldDom.onclick = function () {
+  boldDom.onclick = function() {
     console.log('bold')
     instance.command.executeBold()
   }
@@ -208,7 +208,7 @@ function initTool() {
   const italicDom =
     document.querySelector<HTMLDivElement>('.menu-item__italic')!
   italicDom.title = `斜体(${isApple ? '⌘' : 'Ctrl'}+I)`
-  italicDom.onclick = function () {
+  italicDom.onclick = function() {
     console.log('italic')
     instance.command.executeItalic()
   }
@@ -220,15 +220,15 @@ function initTool() {
   const underlineOptionDom =
     underlineDom.querySelector<HTMLDivElement>('.options')!
   underlineDom.querySelector<HTMLSpanElement>('.select')!.onclick =
-    function () {
+    function() {
       underlineOptionDom.classList.toggle('visible')
     }
-  underlineDom.querySelector<HTMLElement>('i')!.onclick = function () {
+  underlineDom.querySelector<HTMLElement>('i')!.onclick = function() {
     console.log('underline')
     instance.command.executeUnderline()
     underlineOptionDom.classList.remove('visible')
   }
-  underlineDom.querySelector<HTMLUListElement>('ul')!.onmousedown = function (
+  underlineDom.querySelector<HTMLUListElement>('ul')!.onmousedown = function(
     evt
   ) {
     const li = evt.target as HTMLLIElement
@@ -242,7 +242,7 @@ function initTool() {
   const strikeoutDom = document.querySelector<HTMLDivElement>(
     '.menu-item__strikeout'
   )!
-  strikeoutDom.onclick = function () {
+  strikeoutDom.onclick = function() {
     console.log('strikeout')
     instance.command.executeStrikeout()
   }
@@ -251,7 +251,7 @@ function initTool() {
     '.menu-item__superscript'
   )!
   superscriptDom.title = `上标(${isApple ? '⌘' : 'Ctrl'}+Shift+,)`
-  superscriptDom.onclick = function () {
+  superscriptDom.onclick = function() {
     console.log('superscript')
     instance.command.executeSuperscript()
   }
@@ -260,32 +260,32 @@ function initTool() {
     '.menu-item__subscript'
   )!
   subscriptDom.title = `下标(${isApple ? '⌘' : 'Ctrl'}+Shift+.)`
-  subscriptDom.onclick = function () {
+  subscriptDom.onclick = function() {
     console.log('subscript')
     instance.command.executeSubscript()
   }
 
   const colorControlDom = document.querySelector<HTMLInputElement>('#color')!
-  colorControlDom.oninput = function () {
+  colorControlDom.oninput = function() {
     instance.command.executeColor(colorControlDom.value)
   }
   const colorDom = document.querySelector<HTMLDivElement>('.menu-item__color')!
   const colorSpanDom = colorDom.querySelector('span')!
-  colorDom.onclick = function () {
+  colorDom.onclick = function() {
     console.log('color')
     colorControlDom.click()
   }
 
   const highlightControlDom =
     document.querySelector<HTMLInputElement>('#highlight')!
-  highlightControlDom.oninput = function () {
+  highlightControlDom.oninput = function() {
     instance.command.executeHighlight(highlightControlDom.value)
   }
   const highlightDom = document.querySelector<HTMLDivElement>(
     '.menu-item__highlight'
   )!
   const highlightSpanDom = highlightDom.querySelector('span')!
-  highlightDom.onclick = function () {
+  highlightDom.onclick = function() {
     console.log('highlight')
     highlightControlDom?.click()
   }
@@ -297,11 +297,11 @@ function initTool() {
     li.title = `Ctrl+${isApple ? 'Option' : 'Alt'}+${index}`
   })
 
-  titleDom.onclick = function () {
+  titleDom.onclick = function() {
     console.log('title')
     titleOptionDom.classList.toggle('visible')
   }
-  titleOptionDom.onclick = function (evt) {
+  titleOptionDom.onclick = function(evt) {
     const li = evt.target as HTMLLIElement
     const level = <TitleLevel>li.dataset.level
     instance.command.executeTitle(level || null)
@@ -309,7 +309,7 @@ function initTool() {
 
   const leftDom = document.querySelector<HTMLDivElement>('.menu-item__left')!
   leftDom.title = `左对齐(${isApple ? '⌘' : 'Ctrl'}+L)`
-  leftDom.onclick = function () {
+  leftDom.onclick = function() {
     console.log('left')
     instance.command.executeRowFlex(RowFlex.LEFT)
   }
@@ -317,14 +317,14 @@ function initTool() {
   const centerDom =
     document.querySelector<HTMLDivElement>('.menu-item__center')!
   centerDom.title = `居中对齐(${isApple ? '⌘' : 'Ctrl'}+E)`
-  centerDom.onclick = function () {
+  centerDom.onclick = function() {
     console.log('center')
     instance.command.executeRowFlex(RowFlex.CENTER)
   }
 
   const rightDom = document.querySelector<HTMLDivElement>('.menu-item__right')!
   rightDom.title = `右对齐(${isApple ? '⌘' : 'Ctrl'}+R)`
-  rightDom.onclick = function () {
+  rightDom.onclick = function() {
     console.log('right')
     instance.command.executeRowFlex(RowFlex.RIGHT)
   }
@@ -333,7 +333,7 @@ function initTool() {
     '.menu-item__alignment'
   )!
   alignmentDom.title = `两端对齐(${isApple ? '⌘' : 'Ctrl'}+J)`
-  alignmentDom.onclick = function () {
+  alignmentDom.onclick = function() {
     console.log('alignment')
     instance.command.executeRowFlex(RowFlex.ALIGNMENT)
   }
@@ -342,7 +342,7 @@ function initTool() {
     '.menu-item__justify'
   )!
   justifyDom.title = `分散对齐(${isApple ? '⌘' : 'Ctrl'}+Shift+J)`
-  justifyDom.onclick = function () {
+  justifyDom.onclick = function() {
     console.log('justify')
     instance.command.executeRowFlex(RowFlex.JUSTIFY)
   }
@@ -351,11 +351,11 @@ function initTool() {
     '.menu-item__row-margin'
   )!
   const rowOptionDom = rowMarginDom.querySelector<HTMLDivElement>('.options')!
-  rowMarginDom.onclick = function () {
+  rowMarginDom.onclick = function() {
     console.log('row-margin')
     rowOptionDom.classList.toggle('visible')
   }
-  rowOptionDom.onclick = function (evt) {
+  rowOptionDom.onclick = function(evt) {
     const li = evt.target as HTMLLIElement
     instance.command.executeRowMargin(Number(li.dataset.rowmargin!))
   }
@@ -363,11 +363,11 @@ function initTool() {
   const listDom = document.querySelector<HTMLDivElement>('.menu-item__list')!
   listDom.title = `列表(${isApple ? '⌘' : 'Ctrl'}+Shift+U)`
   const listOptionDom = listDom.querySelector<HTMLDivElement>('.options')!
-  listDom.onclick = function () {
+  listDom.onclick = function() {
     console.log('list')
     listOptionDom.classList.toggle('visible')
   }
-  listOptionDom.onclick = function (evt) {
+  listOptionDom.onclick = function(evt) {
     const li = evt.target as HTMLLIElement
     const listType = <ListType>li.dataset.listType || null
     const listStyle = <ListStyle>(<unknown>li.dataset.listStyle)
@@ -423,11 +423,11 @@ function initTool() {
     tablePanelContainer.style.display = 'none'
   }
 
-  tableDom.onclick = function () {
+  tableDom.onclick = function() {
     console.log('table')
     tablePanelContainer!.style.display = 'block'
   }
-  tablePanel.onmousemove = function (evt) {
+  tablePanel.onmousemove = function(evt) {
     const celSize = 16
     const rowMarginTop = 10
     const celMarginRight = 6
@@ -447,10 +447,10 @@ function initTool() {
     // 改变表格标题
     setTableTitle(`${rowIndex}×${colIndex}`)
   }
-  tableClose.onclick = function () {
+  tableClose.onclick = function() {
     recoveryTable()
   }
-  tablePanel.onclick = function () {
+  tablePanel.onclick = function() {
     // 应用选择
     instance.command.executeInsertTable(rowIndex, colIndex)
     recoveryTable()
@@ -458,19 +458,19 @@ function initTool() {
 
   const imageDom = document.querySelector<HTMLDivElement>('.menu-item__image')!
   const imageFileDom = document.querySelector<HTMLInputElement>('#image')!
-  imageDom.onclick = function () {
+  imageDom.onclick = function() {
     imageFileDom.click()
   }
-  imageFileDom.onchange = function () {
+  imageFileDom.onchange = function() {
     const file = imageFileDom.files![0]!
     const fileReader = new FileReader()
     fileReader.readAsDataURL(file)
-    fileReader.onload = function () {
+    fileReader.onload = function() {
       // 计算宽高
       const image = new Image()
       const value = fileReader.result as string
       image.src = value
-      image.onload = function () {
+      image.onload = function() {
         instance.command.executeImage({
           value,
           width: image.width,
@@ -484,7 +484,7 @@ function initTool() {
   const hyperlinkDom = document.querySelector<HTMLDivElement>(
     '.menu-item__hyperlink'
   )!
-  hyperlinkDom.onclick = function () {
+  hyperlinkDom.onclick = function() {
     console.log('hyperlink')
     new Dialog({
       title: '超链接',
@@ -528,11 +528,11 @@ function initTool() {
   )!
   const separatorOptionDom =
     separatorDom.querySelector<HTMLDivElement>('.options')!
-  separatorDom.onclick = function () {
+  separatorDom.onclick = function() {
     console.log('separator')
     separatorOptionDom.classList.toggle('visible')
   }
-  separatorOptionDom.onmousedown = function (evt) {
+  separatorOptionDom.onmousedown = function(evt) {
     let payload: number[] = []
     const li = evt.target as HTMLLIElement
     const separatorDash = li.dataset.separator?.split(',').map(Number)
@@ -548,7 +548,7 @@ function initTool() {
   const pageBreakDom = document.querySelector<HTMLDivElement>(
     '.menu-item__page-break'
   )!
-  pageBreakDom.onclick = function () {
+  pageBreakDom.onclick = function() {
     console.log('pageBreak')
     instance.command.executePageBreak()
   }
@@ -558,11 +558,11 @@ function initTool() {
   )!
   const watermarkOptionDom =
     watermarkDom.querySelector<HTMLDivElement>('.options')!
-  watermarkDom.onclick = function () {
+  watermarkDom.onclick = function() {
     console.log('watermark')
     watermarkOptionDom.classList.toggle('visible')
   }
-  watermarkOptionDom.onmousedown = function (evt) {
+  watermarkOptionDom.onmousedown = function(evt) {
     const li = evt.target as HTMLLIElement
     const menu = li.dataset.menu!
     watermarkOptionDom.classList.toggle('visible')
@@ -614,7 +614,7 @@ function initTool() {
   const codeblockDom = document.querySelector<HTMLDivElement>(
     '.menu-item__codeblock'
   )!
-  codeblockDom.onclick = function () {
+  codeblockDom.onclick = function() {
     console.log('codeblock')
     new Dialog({
       title: '代码块',
@@ -665,11 +665,11 @@ function initTool() {
     '.menu-item__control'
   )!
   const controlOptionDom = controlDom.querySelector<HTMLDivElement>('.options')!
-  controlDom.onclick = function () {
+  controlDom.onclick = function() {
     console.log('control')
     controlOptionDom.classList.toggle('visible')
   }
-  controlOptionDom.onmousedown = function (evt) {
+  controlOptionDom.onmousedown = function(evt) {
     controlOptionDom.classList.toggle('visible')
     const li = evt.target as HTMLLIElement
     const type = <ControlType>li.dataset.control
@@ -1007,7 +1007,7 @@ function initTool() {
                       'height': 60
                     }
                   ]
-                }],
+                }]
               }
             })
             // const valueSets = payload.find(p => p.name === 'select')?.value
@@ -1015,6 +1015,70 @@ function initTool() {
             // const value = payload.find(p => p.name === 'code')?.value
             console.log(elementList)
             instance.command.executeInsertElementList(elementList, true)
+          }
+        })
+        break
+      case ControlType.DATE:
+        new Dialog({
+          title: '日期控件',
+          data: [
+            {
+              type: 'text',
+              label: '占位符',
+              name: 'placeholder',
+              required: true,
+              placeholder: '请输入占位符'
+            },
+            {
+              type: 'text',
+              label: '默认值',
+              name: 'value',
+              placeholder: '请输入默认值'
+            },
+            {
+              type: 'select',
+              label: '日期格式',
+              name: 'dateFormat',
+              value: 'yyyy-MM-dd hh:mm:ss',
+              required: true,
+              options: [
+                {
+                  label: 'yyyy-MM-dd hh:mm:ss',
+                  value: 'yyyy-MM-dd hh:mm:ss'
+                },
+                {
+                  label: 'yyyy-MM-dd',
+                  value: 'yyyy-MM-dd'
+                }
+              ]
+            }
+          ],
+          onConfirm: payload => {
+            const placeholder = payload.find(
+              p => p.name === 'placeholder'
+            )?.value
+            if (!placeholder) return
+            const value = payload.find(p => p.name === 'value')?.value || ''
+            const dateFormat =
+              payload.find(p => p.name === 'dateFormat')?.value || ''
+            instance.command.executeInsertElementList([
+              {
+                type: ElementType.CONTROL,
+                value: '',
+                control: {
+                  type,
+                  dateFormat,
+                  value: value
+                    ? [
+                      {
+                        value
+                      }
+                    ]
+                    : null,
+                  placeholder
+                }
+              }
+            ])
           }
         })
         break
@@ -1026,7 +1090,7 @@ function initTool() {
   const checkboxDom = document.querySelector<HTMLDivElement>(
     '.menu-item__checkbox'
   )!
-  checkboxDom.onclick = function () {
+  checkboxDom.onclick = function() {
     console.log('checkbox')
     instance.command.executeInsertElementList([
       {
@@ -1040,7 +1104,7 @@ function initTool() {
   }
 
   const radioDom = document.querySelector<HTMLDivElement>('.menu-item__radio')!
-  radioDom.onclick = function () {
+  radioDom.onclick = function() {
     console.log('radio')
     instance.command.executeInsertElementList([
       {
@@ -1054,7 +1118,7 @@ function initTool() {
   }
 
   const latexDom = document.querySelector<HTMLDivElement>('.menu-item__latex')!
-  latexDom.onclick = function () {
+  latexDom.onclick = function() {
     console.log('LaTeX')
     new Dialog({
       title: 'LaTeX',
@@ -1081,7 +1145,7 @@ function initTool() {
 
   const dateDom = document.querySelector<HTMLDivElement>('.menu-item__date')!
   const dateDomOptionDom = dateDom.querySelector<HTMLDivElement>('.options')!
-  dateDom.onclick = function () {
+  dateDom.onclick = function() {
     console.log('date')
     dateDomOptionDom.classList.toggle('visible')
     // 定位调整
@@ -1109,7 +1173,7 @@ function initTool() {
     dateDomOptionDom.querySelector<HTMLLIElement>('li:last-child')!.innerText =
       dateTimeString
   }
-  dateDomOptionDom.onmousedown = function (evt) {
+  dateDomOptionDom.onmousedown = function(evt) {
     const li = evt.target as HTMLLIElement
     const dateFormat = li.dataset.format!
     dateDomOptionDom.classList.toggle('visible')
@@ -1128,7 +1192,7 @@ function initTool() {
   }
 
   const blockDom = document.querySelector<HTMLDivElement>('.menu-item__block')!
-  blockDom.onclick = function () {
+  blockDom.onclick = function() {
     console.log('block')
     new Dialog({
       title: '内容块',
@@ -1243,7 +1307,7 @@ function initTool() {
     }
   }
 
-  searchDom.onclick = function () {
+  searchDom.onclick = function() {
     console.log('search')
     searchCollapseDom.style.display = 'block'
     const bodyRect = document.body.getBoundingClientRect()
@@ -1258,25 +1322,25 @@ function initTool() {
     searchInputDom.focus()
   }
   searchCollapseDom.querySelector<HTMLSpanElement>('span')!.onclick =
-    function () {
+    function() {
       searchCollapseDom.style.display = 'none'
       searchInputDom.value = ''
       replaceInputDom.value = ''
       instance.command.executeSearch(null)
       setSearchResult()
     }
-  searchInputDom.oninput = function () {
+  searchInputDom.oninput = function() {
     instance.command.executeSearch(searchInputDom.value || null)
     setSearchResult()
   }
-  searchInputDom.onkeydown = function (evt) {
+  searchInputDom.onkeydown = function(evt) {
     if (evt.key === 'Enter') {
       instance.command.executeSearch(searchInputDom.value || null)
       setSearchResult()
     }
   }
   searchCollapseDom.querySelector<HTMLButtonElement>('button')!.onclick =
-    function () {
+    function() {
       const searchValue = searchInputDom.value
       const replaceValue = replaceInputDom.value
       if (searchValue && replaceValue && searchValue !== replaceValue) {
@@ -1284,19 +1348,19 @@ function initTool() {
       }
     }
   searchCollapseDom.querySelector<HTMLDivElement>('.arrow-left')!.onclick =
-    function () {
+    function() {
       instance.command.executeSearchNavigatePre()
       setSearchResult()
     }
   searchCollapseDom.querySelector<HTMLDivElement>('.arrow-right')!.onclick =
-    function () {
+    function() {
       instance.command.executeSearchNavigateNext()
       setSearchResult()
     }
 
   const printDom = document.querySelector<HTMLDivElement>('.menu-item__print')!
   printDom.title = `打印(${isApple ? '⌘' : 'Ctrl'}+P)`
-  printDom.onclick = function () {
+  printDom.onclick = function() {
     console.log('print')
     instance.command.executePrint()
   }
@@ -1321,7 +1385,7 @@ function initTool() {
   // 6. 目录显隐 | 页面模式 | 纸张缩放 | 纸张大小 | 纸张方向 | 页边距 | 全屏 | 设置
   const editorOptionDom =
     document.querySelector<HTMLDivElement>('.editor-option')!
-  editorOptionDom.onclick = function () {
+  editorOptionDom.onclick = function() {
     const options = instance.command.getOptions()
     new Dialog({
       title: '编辑器配置',
@@ -1413,7 +1477,7 @@ function initTool() {
   catalogHeaderCloseDom.onclick = switchCatalog
 
   // 6.3 控件目录显隐
-  controlCatalogModeDom.onclick = function () {
+  controlCatalogModeDom.onclick = function() {
     isShowControlCatalog = !isShowControlCatalog
     if (isShowControlCatalog) {
       controlCatalogDom.style.display = 'block'
@@ -1430,29 +1494,29 @@ function initTool() {
   const pageModeDom = document.querySelector<HTMLDivElement>('.page-mode')!
   const pageModeOptionsDom =
     pageModeDom.querySelector<HTMLDivElement>('.options')!
-  pageModeDom.onclick = function () {
+  pageModeDom.onclick = function() {
     pageModeOptionsDom.classList.toggle('visible')
   }
-  pageModeOptionsDom.onclick = function (evt) {
+  pageModeOptionsDom.onclick = function(evt) {
     const li = evt.target as HTMLLIElement
     instance.command.executePageMode(<PageMode>li.dataset.pageMode!)
   }
 
 
   document.querySelector<HTMLDivElement>('.page-scale-percentage')!.onclick =
-    function () {
+    function() {
       console.log('page-scale-recovery')
       instance.command.executePageScaleRecovery()
     }
 
   document.querySelector<HTMLDivElement>('.page-scale-minus')!.onclick =
-    function () {
+    function() {
       console.log('page-scale-minus')
       instance.command.executePageScaleMinus()
     }
 
   document.querySelector<HTMLDivElement>('.page-scale-add')!.onclick =
-    function () {
+    function() {
       console.log('page-scale-add')
       instance.command.executePageScaleAdd()
     }
@@ -1461,10 +1525,10 @@ function initTool() {
   const paperSizeDom = document.querySelector<HTMLDivElement>('.paper-size')!
   const paperSizeDomOptionsDom =
     paperSizeDom.querySelector<HTMLDivElement>('.options')!
-  paperSizeDom.onclick = function () {
+  paperSizeDom.onclick = function() {
     paperSizeDomOptionsDom.classList.toggle('visible')
   }
-  paperSizeDomOptionsDom.onclick = function (evt) {
+  paperSizeDomOptionsDom.onclick = function(evt) {
     const li = evt.target as HTMLLIElement
     const paperType = li.dataset.paperSize!
     const [width, height] = paperType.split('*').map(Number)
@@ -1481,10 +1545,10 @@ function initTool() {
     document.querySelector<HTMLDivElement>('.paper-direction')!
   const paperDirectionDomOptionsDom =
     paperDirectionDom.querySelector<HTMLDivElement>('.options')!
-  paperDirectionDom.onclick = function () {
+  paperDirectionDom.onclick = function() {
     paperDirectionDomOptionsDom.classList.toggle('visible')
   }
-  paperDirectionDomOptionsDom.onclick = function (evt) {
+  paperDirectionDomOptionsDom.onclick = function(evt) {
     const li = evt.target as HTMLLIElement
     const paperDirection = li.dataset.paperDirection!
     instance.command.executePaperDirection(<PaperDirection>paperDirection)
@@ -1498,7 +1562,7 @@ function initTool() {
   // 页面边距
   const paperMarginDom =
     document.querySelector<HTMLDivElement>('.paper-margin')!
-  paperMarginDom.onclick = function () {
+  paperMarginDom.onclick = function() {
     const [topMargin, rightMargin, bottomMargin, leftMargin] =
       instance.command.getPaperMargin()
     new Dialog({
@@ -1603,7 +1667,7 @@ function initTool() {
     }
   ]
   const modeElement = document.querySelector<HTMLDivElement>('.editor-mode')!
-  modeElement.onclick = function () {
+  modeElement.onclick = function() {
     // 模式选择循环
     modeIndex === modeList.length - 1 ? (modeIndex = 0) : modeIndex++
     // 设置模式
@@ -1679,7 +1743,7 @@ function initTool() {
   }
 
   // 8. 内部事件监听
-  instance.listener.rangeStyleChange = function (payload) {
+  instance.listener.rangeStyleChange = function(payload) {
     // 控件类型
     payload.type === ElementType.SUBSCRIPT
       ? subscriptDom.classList.add('active')
@@ -1848,30 +1912,30 @@ function initTool() {
     }
   }
 
-  instance.listener.visiblePageNoListChange = function (payload) {
+  instance.listener.visiblePageNoListChange = function(payload) {
     const text = payload.map(i => i + 1).join('、')
     document.querySelector<HTMLSpanElement>('.page-no-list')!.innerText = text
   }
 
-  instance.listener.pageSizeChange = function (payload) {
+  instance.listener.pageSizeChange = function(payload) {
     document.querySelector<HTMLSpanElement>(
       '.page-size'
     )!.innerText = `${payload}`
   }
 
-  instance.listener.intersectionPageNoChange = function (payload) {
+  instance.listener.intersectionPageNoChange = function(payload) {
     document.querySelector<HTMLSpanElement>('.page-no')!.innerText = `${
       payload + 1
     }`
   }
 
-  instance.listener.pageScaleChange = function (payload) {
+  instance.listener.pageScaleChange = function(payload) {
     document.querySelector<HTMLSpanElement>(
       '.page-scale-percentage'
     )!.innerText = `${Math.floor(payload * 10 * 10)}%`
   }
 
-  instance.listener.controlChange = function (payload) {
+  instance.listener.controlChange = function(payload) {
     const disableMenusInControlContext = [
       'table',
       'hyperlink',
@@ -1889,7 +1953,7 @@ function initTool() {
     })
   }
 
-  instance.listener.pageModeChange = function (payload) {
+  instance.listener.pageModeChange = function(payload) {
     const activeMode = pageModeOptionsDom.querySelector<HTMLLIElement>(
       `[data-page-mode='${payload}']`
     )!
@@ -1899,7 +1963,7 @@ function initTool() {
     activeMode.classList.add('active')
   }
 
-  const handleContentChange = async function () {
+  const handleContentChange = async function() {
     // 字数
     const wordCount = await instance.command.getWordCount()
     document.querySelector<HTMLSpanElement>('.word-count')!.innerText = `${
@@ -1919,7 +1983,7 @@ function initTool() {
   instance.listener.contentChange = debounce(handleContentChange, 200)
   handleContentChange()
 
-  instance.listener.saved = function (payload) {
+  instance.listener.saved = function(payload) {
     console.log('elementList: ', payload)
   }
 
@@ -2075,5 +2139,6 @@ const canvasEditorFun = {
 // @ts-ignore
 window.canvasEditorFun = canvasEditorFun
 export default canvasEditorFun
+// @ts-ignore
 initEditorByData()
 // initEditorByFile('')

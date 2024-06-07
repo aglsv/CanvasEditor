@@ -1006,9 +1006,6 @@ export class Draw {
   }
 
   public getValue(options: IGetValueOption = {}): IEditorResult {
-    // 配置
-    const { width, height, margins, watermark } = this.options
-    // 数据
     const { pageNo } = options
     let mainElementList = this.elementList
     if (
@@ -1027,11 +1024,8 @@ export class Draw {
     }
     return {
       version,
-      width,
-      height,
-      margins,
-      watermark: watermark.data ? watermark : undefined,
-      data
+      data,
+      options: deepClone(this.options)
     }
   }
 
@@ -1689,7 +1683,10 @@ export class Draw {
 
   private _computePageList(): IRow[][] {
     const pageRowList: IRow[][] = [[]]
-    const { pageMode } = this.options
+    const {
+      pageMode,
+      pageNumber: { maxPageNo }
+    } = this.options
     const height = this.getHeight()
     const marginHeight = this.getMainOuterHeight()
     let pageHeight = marginHeight
@@ -1717,6 +1714,10 @@ export class Draw {
           row.height + pageHeight > height ||
           this.rowList[i - 1]?.isPageBreak
         ) {
+          if (Number.isInteger(maxPageNo) && pageNo >= maxPageNo!) {
+            this.elementList = this.elementList.slice(0, row.startIndex)
+            break
+          }
           pageHeight = marginHeight + row.height
           pageRowList.push([row])
           pageNo++

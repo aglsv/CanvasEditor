@@ -387,13 +387,18 @@ elementList.push(
       value: '签署日期：'
     },
     {
+      type: ElementType.CONTROL,
       value: '',
-      valueList: [
-        {
-          value: `2022-08-10 17:30:01`
-        }
-      ],
-      type: ElementType.DATE
+      control: {
+        conceptId: '5',
+        type: ControlType.DATE,
+        value: [
+          {
+            value: `2022-08-10 17:30:01`
+          }
+        ],
+        placeholder: '签署日期'
+      }
     },
     {
       value: '\n'
@@ -514,169 +519,5 @@ export const formDialogData: IDialogData[] = [
   }
 ]
 
-// export const mockData:IEditorData | IElement[] = {
-//   'header': [],
-//   'main': [
-//     {
-//       'value': '',
-//       'type': ElementType.CONTROL,
-//       'control': {
-//         'type': ControlType.FORM,
-//         'value': [
-//           {
-//             'value': '123'
-//           }
-//         ],
-//         'placeholder': '请输入',
-//         'controlGroupId': 'd908323c-efe8-206b-04b9-99e4a1ca7a21'
-//       }
-//     },
-//     {
-//       'value': '',
-//       'type': ElementType.CONTROL,
-//       'control': {
-//         'type': ControlType.FORM,
-//         'value': [
-//           {
-//             'value': '213'
-//           }
-//         ],
-//         'placeholder': '请输入',
-//         'controlGroupId': 'd908323c-efe8-206b-04b9-99e4a1ca7a21'
-//       }
-//     },
-//     {
-//       'value': '',
-//       'type': ElementType.CONTROL,
-//       'control': {
-//         'type': ControlType.FORM,
-//         'value': [
-//           {
-//             'value': '',
-//             'type': ElementType.TABLE,
-//             'trList': [
-//               {
-//                 'rowIndex': 0,
-//                 'tdList': [
-//                   {
-//                     'colspan': 1,
-//                     'rowspan': 1,
-//                     'value': [
-//                       {
-//                         'value': '序号'
-//                       }
-//                     ]
-//                   },
-//                   {
-//                     'colspan': 1,
-//                     'rowspan': 1,
-//                     'value': [
-//                       {
-//                         'value': '标段名称'
-//                       }
-//                     ]
-//                   },
-//                   {
-//                     'colspan': 1,
-//                     'rowspan': 1,
-//                     'value': [
-//                       {
-//                         'value': '资格要求'
-//                       }
-//                     ]
-//                   }
-//                 ],
-//                 'height': 42,
-//                 'minHeight': 42
-//               },
-//               {
-//                 'rowIndex': 1,
-//                 'tdList': [
-//                   {
-//                     'colspan': 1,
-//                     'rowspan': 1,
-//                     'value': [
-//                       {
-//                         'value': '               '
-//                       }
-//                     ]
-//                   },
-//                   {
-//                     'colspan': 1,
-//                     'rowspan': 1,
-//                     'value': [
-//                       {
-//                         'value': ' '
-//                       }
-//                     ]
-//                   },
-//                   {
-//                     'colspan': 1,
-//                     'rowspan': 1,
-//                     'value': [
-//                       {
-//                         'value': '基本资格要求：\n            \n专项资格要求：111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111            '
-//                       }
-//                     ]
-//                   }
-//                 ],
-//                 'height': 285,
-//                 'minHeight': 42
-//               },
-//               {
-//                 'rowIndex': 2,
-//                 'tdList': [
-//                   {
-//                     'colspan': 1,
-//                     'rowspan': 1,
-//                     'value': [
-//                       {
-//                         'value': '               '
-//                       }
-//                     ]
-//                   },
-//                   {
-//                     'colspan': 1,
-//                     'rowspan': 1,
-//                     'value': [
-//                       {
-//                         'value': ' '
-//                       }
-//                     ]
-//                   },
-//                   {
-//                     'colspan': 1,
-//                     'rowspan': 1,
-//                     'value': [
-//                       {
-//                         'value': ' '
-//                       }
-//                     ]
-//                   }
-//                 ],
-//                 'height': 42,
-//                 'minHeight': 42
-//               }
-//             ],
-//             'width': 555,
-//             'height': 369,
-//             'colgroup': [
-//               {
-//                 'width': 185
-//               },
-//               {
-//                 'width': 185
-//               },
-//               {
-//                 'width': 185
-//               }
-//             ]
-//           }
-//         ],
-//         'controlGroupId': 'd908323c-efe8-206b-04b9-99e4a1ca7a21'
-//       }
-//     }
-//   ],
-//   'footer': []
-// }
-export const mockData = mockCEData
+// @ts-ignore
+export const mockData: IEditorData = mockCEData
